@@ -7,8 +7,10 @@ set('-e');
 set('-v');
 
 var branch = process.env.TRAVIS_BRANCH && process.env.TRAVIS_BRANCH.toLowerCase();
+console.log(branch)
 if (branch && branch !== 'gh-pages') {
   var branchPath = path.join('.tmp', 'preview', branch, '/');
+  console.log(branchPath)
   mkdir('-p', branchPath);
   exec('npm run swagger bundle -- -o ' + branchPath + 'swagger.json');
   cp('web/index.html', branchPath);
