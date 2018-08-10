@@ -17,6 +17,7 @@ console.log("================Just swaggering through");
 console.log(SWAGGER_UI_DIST);
 rm("-rf", "web_deploy/swagger-ui/");
 cp("-R", SWAGGER_UI_DIST, "web_deploy/swagger-ui/");
+console.log("=================aaarrrgghhh");
 sed(
   "-i",
   "http://petstore.swagger.io/v2/swagger.json",
