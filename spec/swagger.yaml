@@ -34,8 +34,14 @@ info:
 tags:
   - name: Echo
     description: Example echo operations
-  - name: User
-    description: Operations about user
+  - name: Employees
+    description: Operations about employees
+    
+security:
+  - BearerAuth: []
+  - OAuth2:
+    - read
+    - write
 
 paths:
   /employees/:
@@ -45,7 +51,7 @@ paths:
       summary: Get a list of all employees
       responses:
         '200':
-          description: Successfully retrieved list
+          description: Successfully retrieved a list of all employees
           content:
             application/json:
               schema:
@@ -66,7 +72,7 @@ paths:
                 $ref: '#/components/schemas/employee'
       responses:
         '201':
-          description: Successfull creation of supplied employees
+          description: Successful creation of supplied employees
           content:
             application/json:
               schema:
@@ -113,16 +119,218 @@ paths:
       responses:
         '200':
           description: Successfully updated employee details
+          
+  /jobs/:
+    get:
+      tags:
+        - Jobs
+      summary: Get a list of all jobs
+      responses:
+        '200':
+          description: Successfully retrieved a list of all jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/job'
+    post:
+      tags:
+        - Jobs
+      summary: Create one or more jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/job'
+      responses:
+        '201':
+          description: Successful creation of jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+                  example: 'baf47dc1-ec02-4782-a855-de3c48ff4123'
+  /jobs/{id}/:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The job id
+        example: 'baf47dc1-ec02-4782-a855-de3c48ff4123'
+    get:
+      tags:
+        - Jobs
+      summary: Get an individual job details
+      responses:
+        '200':
+          description: Successfully got the job's details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/job'
+        '404':
+          description: That job was not found
+        '5XX':
+          description: Unexpected Error
+    put:
+      tags:
+        - Jobs
+      summary: Update a job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/job'
+      responses:
+        '200':
+          description: Successfully update job details
+          
+  /locations/:
+    get:
+      tags:
+        - Locations
+      summary: Get a list of all locations
+      responses:
+        '200':
+          description: Successfully retrieved a list of all locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/location'
+    post:
+      tags:
+        - Locations
+      summary: Create one or more locations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/location'
+      responses:
+        '201':
+          description: Successful creation of locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+                  example: '552334aa-88aa-41fa-a54f-4f6fddd3a35d'
+  /locations/{id}/:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The location id
+        example: '552334aa-88aa-41fa-a54f-4f6fddd3a35d'
+    get:
+      tags:
+        - Locations
+      summary: Get an individual location
+      responses:
+        '200':
+          description: Successfully got the location's details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location'
+        '404':
+          description: That location was not found
+        '5XX':
+          description: Unexpected Error
+    put:
+      tags:
+        - Locations
+      summary: Update a location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location'
+      responses:
+        '200':
+          description: Successfully updated the location
+  /locations/{id}/scheduled/:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The location id
+        example: '552334aa-88aa-41fa-a54f-4f6fddd3a35d'
+    get:
+      tags:
+        - Scheduled Shifts
+      summary: Get scheduled shifts
+      parameters:
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: finish
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successfully retrieved a list of all the scheduled shifts for the period
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/shift'
+          
                 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://go.zuusworkforce.com/auth/application
+          tokenUrl: https://go.zuusworkforce.com/auth/token
+          scopes:
+            read: Grant read access
+            write: Grant write access
   schemas:
-    timeperiod:
+    dateperiod:
       type: object
       properties:
         start:
+          description: ISO 8601 Date
           type: string
           format: date
         finish:
+          description: ISO 8601 Date
           type: string
           format: date
       required:
@@ -135,9 +343,11 @@ components:
           type: string
           format: uuid
         start:
+          description: ISO 8601 Date
           type: string
           format: date
         finish:
+          description: ISO 8601 Date
           type: string
           format: date
       required:
@@ -163,7 +373,7 @@ components:
         pin:
           type: string
         employment:
-          $ref: '#/components/schemas/timeperiod'
+          $ref: '#/components/schemas/dateperiod'
         jobs:
           type: array
           items:
@@ -172,3 +382,99 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/entityperiod'
+            
+    job:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Coffee drinker
+        color:
+          type: string
+          example: #8CC63E
+          description: HEX representation of color
+          
+    location:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: The coffee bar
+        timezone:
+          type: string
+          example: 'America/New_York'
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/entityperiod'
+            
+    datetime:
+      type: string
+      format: datetime
+      description: ISO 8601 Date time with timezone
+      example: 2018-08-10 16:45+9:30
+            
+    break:
+      type: object
+      properties:
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        paid:
+          type: boolean
+          default: true
+      required:
+        - start
+        
+    segment:
+      type: object
+      properties:
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        job:
+          type: string
+          format: uuid
+        notes:
+          type: string
+      required:
+        - start
+        
+    shift:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        employee:
+          type: string
+          format: uuid
+        location:
+          type: string
+          format: uuid
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        breaks:
+          type: array
+          items:
+            $ref: '#/components/schemas/break'
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/segment'
+        notes:
+          type: string
+      required:
+        - employee
+        - location
+        - start
