@@ -12,16 +12,12 @@ servers:
         description: Account Id assigned by ZUUS
 
 info:
-  title: ZUUS
+  title: ZUUS (draft)
   description: >
     Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use
     this API to access information about employees, locations, jobs and shifts
     (scheduled, timesheets and actual). Additionally you can send in 'Point of
     Sales' information.
-
-
-    # Introduction
-
 
   version: 1.0.0
 
@@ -32,10 +28,20 @@ info:
     url: logo.png
 
 tags:
-  - name: Echo
-    description: Example echo operations
   - name: Employees
     description: Operations about employees
+  - name: Jobs
+    description: Operations on jobs
+  - name: Locations
+    description: Locations are physical areas that require staff to be stationed.
+  - name: Scheduled Shifts
+    description: These are the times that are planned for staff to be at a location
+  - name: Timesheet Shifts
+    description: These are the recorded times that staff occupied a location.
+  - name: Actual Shifts
+    description: These are the times that have been approved and will be used in payroll.
+  - name: POS
+    description: Sending Point of Sales data
     
 security:
   - BearerAuth: []
@@ -440,8 +446,18 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/actual'  
-                    
+                  $ref: '#/components/schemas/actual'
+  /locations/{loc id}/pos/:
+    parameters:
+      - in: path
+        name: loc id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The location id
+        example: '552334aa-88aa-41fa-a54f-4f6fddd3a35d'
+        
 components:
   securitySchemes:
     OAuth2:
@@ -641,3 +657,9 @@ components:
               format: uuid
             approvedAt:
               $ref: '#/components/schemas/datetime'
+              
+    pos:
+      type: object
+      properties:
+        start:
+          $ref: '#/components/schemas/datetime'
