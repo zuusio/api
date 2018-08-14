@@ -40,11 +40,10 @@ tags:
     description: These are the recorded times that staff occupied a location.
   - name: Actual Shifts
     description: These are the times that have been approved and will be used in payroll.
-  - name: POS
-    description: Sending Point of Sales data
+  - name: Sales Data
+    description: Sales data to assist with accurate scheduling
     
 security:
-  - BearerAuth: []
   - OAuth2:
     - read
     - write
@@ -87,10 +86,10 @@ paths:
                   type: string
                   format: uuid
                   example: '566166db-6402-4d0f-88ed-259784aaf7dd'
-  /employees/{emp id}/:
+  /employees/{emp_id}/:
     parameters:
       - in: path
-        name: emp id
+        name: emp_id
         required: true
         schema:
           type: string
@@ -163,10 +162,10 @@ paths:
                   type: string
                   format: uuid
                   example: 'baf47dc1-ec02-4782-a855-de3c48ff4123'
-  /jobs/{job id}/:
+  /jobs/{job_id}/:
     parameters:
       - in: path
-        name: job id
+        name: job_id
         required: true
         schema:
           type: string
@@ -239,10 +238,10 @@ paths:
                   type: string
                   format: uuid
                   example: '552334aa-88aa-41fa-a54f-4f6fddd3a35d'
-  /locations/{loc id}/:
+  /locations/{loc_id}/:
     parameters:
       - in: path
-        name: loc id
+        name: loc_id
         required: true
         schema:
           type: string
@@ -277,10 +276,10 @@ paths:
       responses:
         '200':
           description: Successfully updated the location
-  /locations/{loc id}/scheduled/:
+  /locations/{loc_id}/scheduled/:
     parameters:
       - in: path
-        name: loc id
+        name: loc_id
         required: true
         schema:
           type: string
@@ -311,10 +310,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/shift'
-  /locations/{loc id}/timesheets/:   
+  /locations/{loc_id}/timesheets/:   
     parameters:
       - in: path
-        name: loc id
+        name: loc_id
         required: true
         schema:
           type: string
@@ -367,10 +366,10 @@ paths:
                 example: 'e4a33c11-31e6-4668-ab31-83551dae7cb7'
         '409':
           description: Conflict
-  /locations/{loc id}/timesheets/{tm id}/:
+  /locations/{loc_id}/timesheets/{tm_id}/:
     parameters:
       - in: path
-        name: loc id
+        name: loc_id
         required: true
         schema:
           type: string
@@ -378,7 +377,7 @@ paths:
         description: The location id
         example: '552334aa-88aa-41fa-a54f-4f6fddd3a35d'
       - in: path
-        name: tm id
+        name: tm_id
         required: true
         schema:
           type: string
@@ -413,10 +412,10 @@ paths:
       responses:
         '200':
           description: Successfully updated the timesheet
-  /locations/{loc id}/actuals/:
+  /locations/{loc_id}/actuals/:
     parameters:
       - in: path
-        name: loc id
+        name: loc_id
         required: true
         schema:
           type: string
@@ -447,17 +446,73 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/actual'
-  /locations/{loc id}/pos/:
+
+  /locations/{loc_id}/salesdata/{data_type}/type/{stat_type}/:
     parameters:
       - in: path
-        name: loc id
+        name: loc_id
         required: true
         schema:
           type: string
           format: uuid
         description: The location id
         example: '552334aa-88aa-41fa-a54f-4f6fddd3a35d'
-        
+      - in: path
+        name: data_type
+        required: true
+        schema:
+          type: string
+          enum:
+            - predicted
+            - actual
+        description: Is this data predicted or what actually occured?
+      - in: path
+        name: stat_type
+        required: true
+        schema:
+          type: string
+          enum:
+            - sales
+            - units
+        description: Either a monetary amount (sales) or a count of some item
+    get:
+      tags:
+        - Sales Data
+      summary: Get actual (or predicted) sales (or units) for a location for the period
+      parameters:
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: finish
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successfully to the sales data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/salesdata'
+    post:
+      tags:
+        - Sales Data
+      summary: Create actual (or predicted) sales (or units) for a location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/salesdata'
+      responses:
+        '201':
+          description: Successful creation of sales data
+            
 components:
   securitySchemes:
     OAuth2:
@@ -658,8 +713,13 @@ components:
             approvedAt:
               $ref: '#/components/schemas/datetime'
               
-    pos:
+    salesdata:
       type: object
       properties:
         start:
           $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        value:
+          type: number
+          
