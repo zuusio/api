@@ -1,0 +1,11 @@
+type: object
+properties:
+  start:
+    $ref: '#/components/schemas/datetime'
+  finish:
+    $ref: '#/components/schemas/datetime'
+  paid:
+    type: boolean
+    default: true
+required:
+  - start

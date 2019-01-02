@@ -1,0 +1,28 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  first_name:
+    type: string
+  last_name:
+    type: string
+  manager:
+    type: boolean
+  email:
+    type: string
+  dob:
+    type: string
+    format: date
+  pin:
+    type: string
+  employment:
+    $ref: '#/components/schemas/dateperiod'
+  jobs:
+    type: array
+    items:
+      $ref: '#/components/schemas/entityperiod'
+  locations:
+    type: array
+    items:
+      $ref: '#/components/schemas/entityperiod'

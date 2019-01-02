@@ -1,0 +1,12 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  name:
+    type: string
+    example: Coffee drinker
+  color:
+    type: string
+    example: null
+    description: HEX representation of color

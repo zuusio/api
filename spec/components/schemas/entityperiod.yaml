@@ -1,0 +1,15 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  start:
+    description: ISO 8601 Date
+    type: string
+    format: date
+  finish:
+    description: ISO 8601 Date
+    type: string
+    format: date
+required:
+  - id

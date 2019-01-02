@@ -1,0 +1,8 @@
+specFileName: /home/jake/Documents/dev/api/swagger.yaml
+apiTitle: ZUUS (draft)
+splitSpec: true
+codeSamples: true
+swaggerUI: true
+travis: true
+repo: zuusio/api
+oasVersion: 3.0.0

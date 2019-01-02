@@ -1,0 +1,29 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  employee:
+    type: string
+    format: uuid
+  location:
+    type: string
+    format: uuid
+  start:
+    $ref: '#/components/schemas/datetime'
+  finish:
+    $ref: '#/components/schemas/datetime'
+  breaks:
+    type: array
+    items:
+      $ref: '#/components/schemas/break'
+  segments:
+    type: array
+    items:
+      $ref: '#/components/schemas/segment'
+  notes:
+    type: string
+required:
+  - employee
+  - location
+  - start

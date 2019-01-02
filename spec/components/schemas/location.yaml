@@ -1,0 +1,15 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  name:
+    type: string
+    example: The coffee bar
+  timezone:
+    type: string
+    example: America/New_York
+  jobs:
+    type: array
+    items:
+      $ref: '#/components/schemas/entityperiod'

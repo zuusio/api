@@ -1,0 +1,8 @@
+type: oauth2
+flows:
+  authorizationCode:
+    authorizationUrl: 'https://go.zuusworkforce.com/auth/application'
+    tokenUrl: 'https://go.zuusworkforce.com/auth/token'
+    scopes:
+      read: Grant read access
+      write: Grant write access

@@ -1,0 +1,64 @@
+parameters:
+  - in: path
+    name: loc_id
+    required: true
+    schema:
+      type: string
+      format: uuid
+    description: The location id
+    example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+  - in: path
+    name: data_type
+    required: true
+    schema:
+      type: string
+      enum:
+        - predicted
+        - actual
+    description: Is this data predicted or what actually occured?
+  - in: path
+    name: stat_type
+    required: true
+    schema:
+      type: string
+      enum:
+        - sales
+        - units
+    description: Either a monetary amount (sales) or a count of some item
+get:
+  tags:
+    - Sales Data
+  summary: Get actual (or predicted) sales (or units) for a location for the period
+  parameters:
+    - in: query
+      name: start
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: finish
+      schema:
+        type: string
+        format: date
+  responses:
+    '200':
+      description: Successfully to the sales data
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/salesdata'
+post:
+  tags:
+    - Sales Data
+  summary: Create actual (or predicted) sales (or units) for a location
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/salesdata'
+  responses:
+    '201':
+      description: Successful creation of sales data
