@@ -22,4 +22,16 @@ get:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/approvedhourslist"
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                example: "https://api.zuus.io/location/payroll/?page=3"
+              previous:
+                type: string
+                example: "https://api.zuus.io/location/payroll/?page=1"
+              results:
+                type: array
+                $ref: "#/components/schemas/approvedhours"

@@ -20,7 +20,7 @@ get:
               previous:
                 type: string
                 example: "https://api.zuus.io/job/?page=1"
-              results
+              results:
                 type: array
                 items:
                   $ref: "#/components/schemas/job"

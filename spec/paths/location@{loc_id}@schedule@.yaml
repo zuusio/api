@@ -22,4 +22,17 @@ get:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/shiftlist"
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                example: "https://api.zuus.io/location/schedule/?page=3"
+              previous:
+                type: string
+                example: "https://api.zuus.io/location/schedule/?page=1"
+              results:
+                type: array
+                items:
+                  $ref: "#/components/schemas/shift"

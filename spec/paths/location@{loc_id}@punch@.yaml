@@ -22,7 +22,19 @@ get:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/punchlist"
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                example: "https://api.zuus.io/location/punch/?page=3"
+              previous:
+                type: string
+                example: "https://api.zuus.io/location/punch/?page=1"
+              results:
+                type: array
+                $ref: "#/components/schemas/punch"
 post:
   tags:
     - Punches
