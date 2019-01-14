@@ -1,0 +1,1625 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://{region}.api.zuus.io/{accountId}/",
+      "variables": {
+        "region": {
+          "default": "au",
+          "enum": [
+            "au",
+            "us"
+          ]
+        },
+        "accountId": {
+          "default": "01b9e817b6024de2950148bdab6a63c9",
+          "description": "Account Id assigned by ZUUS"
+        }
+      }
+    }
+  ],
+  "info": {
+    "title": "ZUUS (draft)",
+    "description": "Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, punches and approved hours). Additionally you can send in 'Point of Sales' information.\n",
+    "version": "1.0.0",
+    "contact": {
+      "email": "api@zuusworkforce.com"
+    },
+    "x-logo": {
+      "url": "logo.png"
+    }
+  },
+  "tags": [
+    {
+      "name": "Staff",
+      "description": "Operations about staff"
+    },
+    {
+      "name": "Jobs",
+      "description": "Operations on jobs"
+    },
+    {
+      "name": "Locations",
+      "description": "Locations are physical areas that require staff to be stationed."
+    },
+    {
+      "name": "Scheduled Shifts",
+      "description": "These are the times that are planned for staff to be at a location"
+    },
+    {
+      "name": "Punches",
+      "description": "These are the recorded times that staff occupied a location."
+    },
+    {
+      "name": "Approved Hours",
+      "description": "These are the times that have been approved and will be used in payroll."
+    },
+    {
+      "name": "Stats",
+      "description": "Location statistics to assist with accurate scheduling"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "read",
+        "write"
+      ]
+    }
+  ],
+  "paths": {
+    "/job/": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Get a list of all jobs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of all jobs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/job/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/job/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/job"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Create one or more jobs",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/job"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation of jobs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "list"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "baf47dc1-ec02-4782-a855-de3c48ff4123"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "job_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The job id",
+          "example": "baf47dc1-ec02-4782-a855-de3c48ff4123"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Get an individual job details",
+        "responses": {
+          "200": {
+            "description": "Successfully got the job's details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/job"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "That job was not found"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Update a job",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/job"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully update job details"
+          }
+        }
+      }
+    },
+    "/location/": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "Get a list of all locations",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of all locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/location"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "Create one or more locations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/location"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation of locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "list"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/location/{loc_id}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "Get an individual location",
+        "responses": {
+          "200": {
+            "description": "Successfully got the location's details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/location"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "That location was not found"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "Update a location",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/location"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the location"
+          }
+        }
+      }
+    },
+    "/location/{loc_id}/payroll/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Approved Hours"
+        ],
+        "summary": "Get approved hours for a location",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of all the approved hours for the period",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/payroll/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/payroll/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "$ref": "#/components/schemas/approvedhours"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/location/{loc_id}/punch/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Punches"
+        ],
+        "summary": "Get location punches",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of all the punches for the period",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/punch/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/punch/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "$ref": "#/components/schemas/punch"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Punches"
+        ],
+        "summary": "Create a punch",
+        "description": "Once a punch attribute has been added (start, break, segment) it cannot be modified",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/punch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation of a punch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "e4a33c11-31e6-4668-ab31-83551dae7cb7"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/location/{loc_id}/punch/{punch_id}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        },
+        {
+          "in": "path",
+          "name": "punch_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The punch id",
+          "example": "e4a33c11-31e6-4668-ab31-83551dae7cb7"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Punches"
+        ],
+        "summary": "Get a punch",
+        "responses": {
+          "200": {
+            "description": "Successfully got the punch details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/punch"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "That punch was not found"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Punches"
+        ],
+        "summary": "Update a punch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/punch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the punch"
+          }
+        }
+      }
+    },
+    "/location/{loc_id}/schedule/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Scheduled Shifts"
+        ],
+        "summary": "Get scheduled shifts for a location",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of all the scheduled shifts for the period",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/schedule/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/location/schedule/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/shift"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/location/{loc_id}/stats/{data_type}/type/{stat_type}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        },
+        {
+          "in": "path",
+          "name": "data_type",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "predicted",
+              "actual"
+            ]
+          },
+          "description": "Is this data predicted or what actually occured?"
+        },
+        {
+          "in": "path",
+          "name": "stat_type",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "sales",
+              "units"
+            ]
+          },
+          "description": "Either a monetary amount (sales) or a count of some item"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Get actual (or predicted) sales (or units) for a location for the period",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "list"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/stat"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Create actual (or predicted) sales (or units) for a location",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/stat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation of statistic"
+          }
+        }
+      }
+    },
+    "/location/group/": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "Get a list of location groups",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of all location groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "list"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/locationgroup"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payroll/": {
+      "get": {
+        "tags": [
+          "Approved Hours"
+        ],
+        "summary": "List all the payroll hours",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/locationgroup"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of all approved hours ready for payroll",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/payroll/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/payroll/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "$ref": "#/components/schemas/approvedhours"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/punch/": {
+      "get": {
+        "tags": [
+          "Punches"
+        ],
+        "summary": "List all collected time and attendance shifts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of all published scheduled shifts within the filter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/punch/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/punch/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "$ref": "#/components/schemas/punch"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schedule/": {
+      "get": {
+        "tags": [
+          "Scheduled Shifts"
+        ],
+        "summary": "List all scheduled shifts going back up to 30 days",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/locationgroup"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of all published scheduled shifts within the filter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/schedule/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/schedule/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/shift"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Get a list of all staff",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of all staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/staff/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/staff/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/staff"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Create staff",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/staff"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation of supplied staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staff/{staff_id}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "staff_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The staff id",
+          "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Get an individual staff member's details",
+        "responses": {
+          "200": {
+            "description": "Successfully got staff details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/staff"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "That staff member was not found"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Update an individual staff member",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/staff"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated staff member's details"
+          },
+          "403": {
+            "description": "Not allowed to update that staff member"
+          },
+          "409": {
+            "description": "Conflict, unable to update"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "approvedhours": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "approvedHrs"
+            ]
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "hours": {
+            "type": "number"
+          }
+        }
+      },
+      "break": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "paid": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "start"
+        ]
+      },
+      "dateperiod": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "description": "ISO 8601 Date",
+            "type": "string",
+            "format": "date"
+          },
+          "finish": {
+            "description": "ISO 8601 Date",
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "start"
+        ]
+      },
+      "datetime": {
+        "type": "string",
+        "format": "datetime",
+        "description": "ISO 8601 Date time with timezone",
+        "example": "2018-08-10 16:45+9:30"
+      },
+      "entityperiod": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "entityperiod"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "start": {
+            "description": "ISO 8601 Date",
+            "type": "string",
+            "format": "date"
+          },
+          "finish": {
+            "description": "ISO 8601 Date",
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "job": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "job"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "Coffee drinker"
+          },
+          "color": {
+            "type": "string",
+            "example": null,
+            "description": "HEX representation of color"
+          }
+        }
+      },
+      "location": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "The coffee bar"
+          },
+          "timezone": {
+            "type": "string",
+            "example": "America/New_York"
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/entityperiod"
+            }
+          },
+          "object": {
+            "type": "string",
+            "enum": [
+              "location"
+            ]
+          }
+        }
+      },
+      "locationgroup": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "locationGrp"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "category": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "punch": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/shift"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "object": {
+                "type": "string",
+                "enum": [
+                  "punch"
+                ]
+              },
+              "source": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/punchsource"
+                }
+              },
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "exception"
+                      ]
+                    },
+                    "manager": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "approvedAt": {
+                      "$ref": "#/components/schemas/datetime"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "punchsource": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "punchSource"
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "Server",
+              "Mobile server",
+              "Zuus Time",
+              "Zuus Web",
+              "Asher",
+              "myZUUS",
+              "Advanced manufacturing"
+            ]
+          },
+          "geo": {
+            "type": "boolean"
+          },
+          "long": {
+            "type": "number"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "event": {
+            "type": "string",
+            "enum": [
+              "Shift start",
+              "Shift finish",
+              "Break start",
+              "Break finish",
+              "Job change"
+            ]
+          }
+        }
+      },
+      "segment": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "segment"
+            ]
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "job": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "break": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "paid",
+              "unpaid"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "start"
+        ]
+      },
+      "shift": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "shift"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "location": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/segment"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "staff",
+          "location",
+          "start"
+        ]
+      },
+      "staff": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "staff"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "manager": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "pin": {
+            "type": "string"
+          },
+          "employment": {
+            "$ref": "#/components/schemas/dateperiod"
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/entityperiod"
+            }
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/entityperiod"
+            }
+          }
+        }
+      },
+      "stat": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "stat"
+            ]
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "greaterThan": {
+        "in": "query",
+        "name": "gt",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is greater than this value."
+      },
+      "greaterThanOrEqual": {
+        "in": "query",
+        "name": "gte",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is greater than or equal this value."
+      },
+      "lessThan": {
+        "in": "query",
+        "name": "lt",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is less than this value."
+      },
+      "lessThanOrEqual": {
+        "in": "query",
+        "name": "lte",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is less than or equal this value."
+      },
+      "locationgroup": {
+        "in": "query",
+        "name": "loc_group",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "Return results that belong to this location group"
+      },
+      "page": {
+        "in": "query",
+        "name": "page",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "payrollgroup": {
+        "in": "query",
+        "name": "group_by",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "staff",
+            "condition"
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://go.zuusworkforce.com/auth/application",
+            "tokenUrl": "https://go.zuusworkforce.com/auth/token",
+            "scopes": {
+              "read": "Grant read access",
+              "write": "Grant write access"
+            }
+          }
+        }
+      }
+    }
+  }
+}
