@@ -12,4 +12,7 @@ properties:
   jobs:
     type: array
     items:
-      $ref: '#/components/schemas/entityperiod'
+      $ref: "#/components/schemas/entityperiod"
+  object:
+    type: string
+    enum: ["location"]

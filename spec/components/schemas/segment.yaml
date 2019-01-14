@@ -1,12 +1,19 @@
 type: object
 properties:
+  object:
+    type: string
+    enum: ["segment"]
   start:
-    $ref: '#/components/schemas/datetime'
+    $ref: "#/components/schemas/datetime"
   finish:
-    $ref: '#/components/schemas/datetime'
+    $ref: "#/components/schemas/datetime"
   job:
     type: string
     format: uuid
+  break:
+    type: string
+    nullable: true
+    enum: ["paid", "unpaid"]
   notes:
     type: string
 required:

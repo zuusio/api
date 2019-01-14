@@ -1,8 +1,0 @@
-type: object
-properties:
-  start:
-    $ref: '#/components/schemas/datetime'
-  finish:
-    $ref: '#/components/schemas/datetime'
-  value:
-    type: number

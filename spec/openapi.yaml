@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: 'https://{region}.api.zuus.io/{accountId}/'
+  - url: "https://{region}.api.zuus.io/{accountId}/"
     variables:
       region:
         default: au
@@ -14,8 +14,8 @@ info:
   title: ZUUS (draft)
   description: >
     Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use
-    this API to access information about employees, locations, jobs and shifts
-    (scheduled, timesheets and actual). Additionally you can send in 'Point of
+    this API to access information about staff, locations, jobs and shifts
+    (scheduled, punches and approved hours). Additionally you can send in 'Point of
     Sales' information.
   version: 1.0.0
   contact:
@@ -23,20 +23,20 @@ info:
   x-logo:
     url: logo.png
 tags:
-  - name: Employees
-    description: Operations about employees
+  - name: Staff
+    description: Operations about staff
   - name: Jobs
     description: Operations on jobs
   - name: Locations
     description: Locations are physical areas that require staff to be stationed.
   - name: Scheduled Shifts
     description: These are the times that are planned for staff to be at a location
-  - name: Timesheet Shifts
+  - name: Punches
     description: These are the recorded times that staff occupied a location.
-  - name: Actual Shifts
+  - name: Approved Hours
     description: These are the times that have been approved and will be used in payroll.
-  - name: Sales Data
-    description: Sales data to assist with accurate scheduling
+  - name: Stats
+    description: Location statistics to assist with accurate scheduling
 security:
   - OAuth2:
       - read

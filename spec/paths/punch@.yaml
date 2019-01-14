@@ -1,0 +1,28 @@
+get:
+  tags:
+    - Punches
+  summary: List all collected time and attendance shifts
+  parameters:
+    - $ref: "#/components/parameters/greaterThan"
+    - $ref: "#/components/parameters/greaterThanOrEqual"
+    - $ref: "#/components/parameters/lessThan"
+    - $ref: "#/components/parameters/lessThanOrEqual"
+  responses:
+    "200":
+      description: A list of all published scheduled shifts within the filter
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                example: "https://api.zuus.io/punch/?page=3"
+              previous:
+                type: string
+                example: "https://api.zuus.io/punch/?page=1"
+              results:
+                type: array
+                $ref: "#/components/schemas/punch"

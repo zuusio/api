@@ -1,0 +1,36 @@
+type: object
+properties:
+  object:
+    type: string
+    enum: ["punchSource"]
+  timestamp:
+    type: string
+    format: date
+  source:
+    type: string
+    enum:
+      [
+        "Server",
+        "Mobile server",
+        "Zuus Time",
+        "Zuus Web",
+        "Asher",
+        "myZUUS",
+        "Advanced manufacturing",
+      ]
+  geo:
+    type: boolean
+  long:
+    type: number
+  lat:
+    type: number
+  event:
+    type: string
+    enum:
+      [
+        "Shift start",
+        "Shift finish",
+        "Break start",
+        "Break finish",
+        "Job change",
+      ]

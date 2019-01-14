@@ -1,0 +1,16 @@
+type: object
+properties:
+  object:
+    type: string
+    enum: ["approvedHrs"]
+  staff:
+    type: string
+    format: uuid
+  condition:
+    type: string
+  rate:
+    type: number
+  amount:
+    type: number
+  hours:
+    type: number

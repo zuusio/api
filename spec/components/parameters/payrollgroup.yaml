@@ -1,0 +1,6 @@
+in: query
+name: group_by
+required: false
+schema:
+  type: string
+  enum: ["staff", "condition"]

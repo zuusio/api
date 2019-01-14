@@ -2,14 +2,11 @@ type: object
 properties:
   object:
     type: string
-    enum: ["job"]
+    enum: ["locationGrp"]
   id:
     type: string
     format: uuid
+  category:
+    type: string
   name:
     type: string
-    example: Coffee drinker
-  color:
-    type: string
-    example: null
-    description: HEX representation of color

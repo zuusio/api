@@ -1,0 +1,41 @@
+parameters:
+  - in: path
+    name: staff_id
+    required: true
+    schema:
+      type: string
+      format: uuid
+    description: The staff id
+    example: 566166db-6402-4d0f-88ed-259784aaf7dd
+get:
+  tags:
+    - Staff
+  summary: Get an individual staff member's details
+  responses:
+    "200":
+      description: Successfully got staff details
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/staff"
+    "404":
+      description: That staff member was not found
+    5XX:
+      description: Unexpected Error
+put:
+  tags:
+    - Staff
+  summary: Update an individual staff member
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/staff"
+  responses:
+    "200":
+      description: Successfully updated staff member's details
+    "403":
+      description: Not allowed to update that staff member
+    "409":
+      description: Conflict, unable to update

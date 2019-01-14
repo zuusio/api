@@ -27,38 +27,38 @@ parameters:
     description: Either a monetary amount (sales) or a count of some item
 get:
   tags:
-    - Sales Data
+    - Stats
   summary: Get actual (or predicted) sales (or units) for a location for the period
   parameters:
-    - in: query
-      name: start
-      schema:
-        type: string
-        format: date
-    - in: query
-      name: finish
-      schema:
-        type: string
-        format: date
+    - $ref: "#/components/parameters/greaterThan"
+    - $ref: "#/components/parameters/greaterThanOrEqual"
+    - $ref: "#/components/parameters/lessThan"
+    - $ref: "#/components/parameters/lessThanOrEqual"
   responses:
-    '200':
-      description: Successfully to the sales data
+    "200":
+      description: A list of statistics
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/salesdata'
+            type: object
+            properties:
+              object:
+                type: string
+                enum: ["list"]
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/stat"
 post:
   tags:
-    - Sales Data
+    - Stats
   summary: Create actual (or predicted) sales (or units) for a location
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/salesdata'
+          $ref: "#/components/schemas/stat"
   responses:
-    '201':
-      description: Successful creation of sales data
+    "201":
+      description: Successful creation of statistic

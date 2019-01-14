@@ -1,0 +1,7 @@
+in: query
+name: lte
+required: false
+schema:
+  type: string
+  format: date
+description: Return results where the 'start' field is less than or equal this value.

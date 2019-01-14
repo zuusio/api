@@ -1,5 +1,8 @@
 type: object
 properties:
+  object:
+    type: string
+    enum: ["staff"]
   id:
     type: string
     format: uuid
@@ -17,12 +20,12 @@ properties:
   pin:
     type: string
   employment:
-    $ref: '#/components/schemas/dateperiod'
+    $ref: "#/components/schemas/dateperiod"
   jobs:
     type: array
     items:
-      $ref: '#/components/schemas/entityperiod'
+      $ref: "#/components/schemas/entityperiod"
   locations:
     type: array
     items:
-      $ref: '#/components/schemas/entityperiod'
+      $ref: "#/components/schemas/entityperiod"

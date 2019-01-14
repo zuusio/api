@@ -8,38 +8,38 @@ parameters:
     description: The location id
     example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
   - in: path
-    name: tm_id
+    name: punch_id
     required: true
     schema:
       type: string
       format: uuid
-    description: The timesheet id
+    description: The punch id
     example: e4a33c11-31e6-4668-ab31-83551dae7cb7
 get:
   tags:
-    - Timesheet Shifts
-  summary: Get an individual timesheet
+    - Punches
+  summary: Get a punch
   responses:
-    '200':
-      description: Successfully got the timesheet details
+    "200":
+      description: Successfully got the punch details
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/timesheet'
-    '404':
-      description: That timeshett was not found
+            $ref: "#/components/schemas/punch"
+    "404":
+      description: That punch was not found
     5XX:
       description: Unexpected Error
 put:
   tags:
-    - Timesheet Shifts
-  summary: Update a timesheet
+    - Punches
+  summary: Update a punch
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/timesheet'
+          $ref: "#/components/schemas/punch"
   responses:
-    '200':
-      description: Successfully updated the timesheet
+    "200":
+      description: Successfully updated the punch

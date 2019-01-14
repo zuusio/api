@@ -1,0 +1,49 @@
+parameters:
+  - in: path
+    name: loc_id
+    required: true
+    schema:
+      type: string
+      format: uuid
+    description: The location id
+    example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+get:
+  tags:
+    - Punches
+  summary: Get location punches
+  parameters:
+    - $ref: "#/components/parameters/greaterThan"
+    - $ref: "#/components/parameters/greaterThanOrEqual"
+    - $ref: "#/components/parameters/lessThan"
+    - $ref: "#/components/parameters/lessThanOrEqual"
+  responses:
+    "200":
+      description: Successfully retrieved a list of all the punches for the period
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/punchlist"
+post:
+  tags:
+    - Punches
+  summary: Create a punch
+  description: >-
+    Once a punch attribute has been added (start, break, segment) it cannot
+    be modified
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/punch"
+  responses:
+    "201":
+      description: Successful creation of a punch
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uuid
+            example: e4a33c11-31e6-4668-ab31-83551dae7cb7
+    "409":
+      description: Conflict

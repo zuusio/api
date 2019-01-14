@@ -1,5 +1,8 @@
 type: object
 properties:
+  object:
+    type: string
+    enum: ["entityperiod"]
   id:
     type: string
     format: uuid

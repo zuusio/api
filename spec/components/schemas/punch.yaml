@@ -1,0 +1,26 @@
+allOf:
+  - $ref: "#/components/schemas/shift"
+  - type: object
+    properties:
+      object:
+        type: string
+        enum: ["punch"]
+      source:
+        type: array
+        items:
+          $ref: "#/components/schemas/punchsource"
+      exceptions:
+        type: array
+        items:
+          type: object
+          properties:
+            object:
+              type: string
+              enum: ["exception"]
+            manager:
+              type: string
+              format: uuid
+            reason:
+              type: string
+            approvedAt:
+              $ref: "#/components/schemas/datetime"

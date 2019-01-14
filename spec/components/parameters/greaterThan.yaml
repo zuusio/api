@@ -1,0 +1,7 @@
+in: query
+name: gt
+required: false
+schema:
+  type: string
+  format: date
+description: Return results where the 'start' field is greater than this value.

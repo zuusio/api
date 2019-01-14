@@ -1,29 +1,28 @@
 type: object
 properties:
+  object:
+    type: string
+    enum: ["shift"]
   id:
     type: string
     format: uuid
-  employee:
+  staff:
     type: string
     format: uuid
   location:
     type: string
     format: uuid
   start:
-    $ref: '#/components/schemas/datetime'
+    $ref: "#/components/schemas/datetime"
   finish:
-    $ref: '#/components/schemas/datetime'
-  breaks:
-    type: array
-    items:
-      $ref: '#/components/schemas/break'
+    $ref: "#/components/schemas/datetime"
   segments:
     type: array
     items:
-      $ref: '#/components/schemas/segment'
+      $ref: "#/components/schemas/segment"
   notes:
     type: string
 required:
-  - employee
+  - staff
   - location
   - start

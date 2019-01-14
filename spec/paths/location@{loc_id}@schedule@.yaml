@@ -12,22 +12,14 @@ get:
     - Scheduled Shifts
   summary: Get scheduled shifts for a location
   parameters:
-    - in: query
-      name: start
-      schema:
-        type: string
-        format: date
-    - in: query
-      name: finish
-      schema:
-        type: string
-        format: date
+    - $ref: "#/components/parameters/greaterThan"
+    - $ref: "#/components/parameters/greaterThanOrEqual"
+    - $ref: "#/components/parameters/lessThan"
+    - $ref: "#/components/parameters/lessThanOrEqual"
   responses:
-    '200':
+    "200":
       description: Successfully retrieved a list of all the scheduled shifts for the period
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/shift'
+            $ref: "#/components/schemas/shiftlist"

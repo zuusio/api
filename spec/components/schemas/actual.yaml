@@ -1,9 +1,0 @@
-allOf:
-  - $ref: '#/components/schemas/shift'
-  - type: object
-    properties:
-      approvedBy:
-        type: string
-        format: uuid
-      approvedAt:
-        $ref: '#/components/schemas/datetime'

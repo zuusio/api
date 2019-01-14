@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Locations
+  summary: Get a list of location groups
+  responses:
+    "200":
+      description: Successfully retrieved a list of all location groups
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              object:
+                type: string
+                enum: ["list"]
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/locationgroup"

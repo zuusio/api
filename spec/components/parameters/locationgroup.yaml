@@ -1,0 +1,7 @@
+in: query
+name: loc_group
+required: false
+schema:
+  type: string
+  format: uuid
+description: Return results that belong to this location group
