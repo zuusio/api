@@ -313,7 +313,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/punch'
+              $ref: '#/components/schemas/createpunch'
       responses:
         '201':
           description: Successful creation of a punch
@@ -410,16 +410,45 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/shift'
-  '/location/{loc_id}/stats/{data_type}/type/{stat_type}/':
+  '/location/{loc_id}/stats/{data_type}/type/':
     parameters:
+      - $ref: '#/components/parameters/location'
       - in: path
-        name: loc_id
+        name: data_type
         required: true
         schema:
           type: string
-          format: uuid
-        description: The location id
-        example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+          enum:
+            - predicted
+            - actual
+        description: Is this data predicted or what actually occured?
+    get:
+      tags:
+        - Stats
+      summary: Get the available stats types
+      responses:
+        '200':
+          description: A list of stats types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    example: 'https://api.zuus.io/location/stats/type/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://api.zuus.io/location/stats/type/?page=1'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/stattype'
+  '/location/{loc_id}/stats/{data_type}/type/{stat_type}/':
+    parameters:
+      - $ref: '#/components/parameters/location'
       - in: path
         name: data_type
         required: true
@@ -455,11 +484,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  object:
+                  count:
+                    type: integer
+                  next:
                     type: string
-                    enum:
-                      - list
-                  data:
+                    example: 'https://api.zuus.io/location/stats/type/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://api.zuus.io/location/stats/type/?page=1'
+                  results:
                     type: array
                     items:
                       $ref: '#/components/schemas/stat'
@@ -472,7 +505,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/stat'
+              type: array
+              items:
+                $ref: '#/components/schemas/stat'
       responses:
         '201':
           description: Successful creation of statistic
@@ -714,6 +749,61 @@ components:
           default: true
       required:
         - start
+    createpunch:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - shift
+        id:
+          type: string
+          format: uuid
+        staff:
+          type: string
+          format: uuid
+        location:
+          type: string
+          format: uuid
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/createsegment'
+        notes:
+          type: string
+      required:
+        - staff
+        - location
+        - start
+    createsegment:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - segment
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        job:
+          type: string
+          nullable: true
+          format: uuid
+        break:
+          type: string
+          nullable: true
+          enum:
+            - paid
+            - unpaid
+        notes:
+          type: string
+      required:
+        - start
     dateperiod:
       type: object
       properties:
@@ -812,6 +902,10 @@ components:
               type: string
               enum:
                 - punch
+            segments:
+              type: array
+              items:
+                $ref: '#/components/schemas/createsegment'
             source:
               type: array
               items:
@@ -879,6 +973,7 @@ components:
           $ref: '#/components/schemas/datetime'
         job:
           type: string
+          nullable: true
           format: uuid
         break:
           type: string
@@ -888,8 +983,6 @@ components:
             - unpaid
         notes:
           type: string
-      required:
-        - start
     shift:
       type: object
       properties:
@@ -916,10 +1009,6 @@ components:
             $ref: '#/components/schemas/segment'
         notes:
           type: string
-      required:
-        - staff
-        - location
-        - start
     staff:
       type: object
       properties:
@@ -966,6 +1055,18 @@ components:
           $ref: '#/components/schemas/datetime'
         value:
           type: number
+    stattype:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - stattype
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
   parameters:
     greaterThan:
       in: query
@@ -999,6 +1100,15 @@ components:
         type: string
         format: date
       description: Return results where the 'start' field is less than or equal this value.
+    location:
+      in: path
+      name: loc_id
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The location id
+      example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
     locationgroup:
       in: query
       name: loc_group
