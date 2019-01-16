@@ -5,6 +5,10 @@ allOf:
       object:
         type: string
         enum: ["punch"]
+      segments:
+        type: array
+        items:
+          $ref: "#/components/schemas/createsegment"
       source:
         type: array
         items:

@@ -19,6 +19,10 @@ properties:
   segments:
     type: array
     items:
-      $ref: "#/components/schemas/segment"
+      $ref: "#/components/schemas/createsegment"
   notes:
     type: string
+required:
+  - staff
+  - location
+  - start

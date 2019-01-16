@@ -17,3 +17,5 @@ properties:
     enum: ["paid", "unpaid"]
   notes:
     type: string
+required:
+  - start

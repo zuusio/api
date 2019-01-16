@@ -1,12 +1,5 @@
 parameters:
-  - in: path
-    name: loc_id
-    required: true
-    schema:
-      type: string
-      format: uuid
-    description: The location id
-    example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+  - $ref: "#/components/parameters/location"
   - in: path
     name: data_type
     required: true
@@ -42,10 +35,15 @@ get:
           schema:
             type: object
             properties:
-              object:
+              count:
+                type: integer
+              next:
                 type: string
-                enum: ["list"]
-              data:
+                example: "https://api.zuus.io/location/stats/type/?page=3"
+              previous:
+                type: string
+                example: "https://api.zuus.io/location/stats/type/?page=1"
+              results:
                 type: array
                 items:
                   $ref: "#/components/schemas/stat"
@@ -58,7 +56,9 @@ post:
     content:
       application/json:
         schema:
-          $ref: "#/components/schemas/stat"
+          type: array
+          items:
+            $ref: "#/components/schemas/stat"
   responses:
     "201":
       description: Successful creation of statistic
