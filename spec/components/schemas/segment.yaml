@@ -1,19 +1,23 @@
 type: object
 properties:
-  object:
-    type: string
-    enum: ["segment"]
-  start:
-    $ref: "#/components/schemas/datetime"
-  finish:
-    $ref: "#/components/schemas/datetime"
-  job:
-    type: string
-    nullable: true
-    format: uuid
-  break:
-    type: string
-    nullable: true
-    enum: ["paid", "unpaid"]
-  notes:
-    type: string
+    object:
+        type: string
+        enum: ["segment"]
+    start:
+        $ref: "#/components/schemas/datetime"
+    finish:
+        $ref: "#/components/schemas/datetime"
+    job:
+        type: string
+        nullable: true
+        format: uuid
+    break:
+        type: string
+        nullable: true
+        enum: ["paid", "unpaid"]
+    cost:
+        type: array
+        items:
+            $ref: "#/components/schemas/cost"
+    notes:
+        type: string
