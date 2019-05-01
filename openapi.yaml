@@ -39,6 +39,37 @@ security:
       - read
       - write
 paths:
+  /approvedhours/:
+    get:
+      tags:
+        - Approved Hours
+      summary: List all the approved hours
+      parameters:
+        - $ref: '#/components/parameters/greaterThan'
+        - $ref: '#/components/parameters/greaterThanOrEqual'
+        - $ref: '#/components/parameters/lessThan'
+        - $ref: '#/components/parameters/lessThanOrEqual'
+        - $ref: '#/components/parameters/locationgroup'
+      responses:
+        '200':
+          description: A list of all approved hours ready for payroll
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    example: 'https://api.zuus.io/approvedhours/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://api.zuus.io/approvedhours/?page=1'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/approvedhours'
   /job/:
     get:
       tags:
@@ -227,7 +258,7 @@ paths:
       responses:
         '200':
           description: Successfully updated the location
-  '/location/{loc_id}/payroll/':
+  '/location/{loc_id}/approvedhours/':
     parameters:
       - in: path
         name: loc_id
@@ -258,13 +289,14 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/payroll/?page=3'
+                    example: 'https://api.zuus.io/location/approvedhours/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/payroll/?page=1'
+                    example: 'https://api.zuus.io/location/approvedhours/?page=1'
                   results:
                     type: array
-                    $ref: '#/components/schemas/approvedhours'
+                    items:
+                      $ref: '#/components/schemas/approvedhours'
   '/location/{loc_id}/punch/':
     parameters:
       - in: path
@@ -302,7 +334,8 @@ paths:
                     example: 'https://api.zuus.io/location/punch/?page=1'
                   results:
                     type: array
-                    $ref: '#/components/schemas/punch'
+                    items:
+                      $ref: '#/components/schemas/punch'
     post:
       tags:
         - Punches
@@ -524,44 +557,18 @@ paths:
               schema:
                 type: object
                 properties:
-                  object:
-                    type: string
-                    enum:
-                      - list
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/locationgroup'
-  /payroll/:
-    get:
-      tags:
-        - Approved Hours
-      summary: List all the payroll hours
-      parameters:
-        - $ref: '#/components/parameters/greaterThan'
-        - $ref: '#/components/parameters/greaterThanOrEqual'
-        - $ref: '#/components/parameters/lessThan'
-        - $ref: '#/components/parameters/lessThanOrEqual'
-        - $ref: '#/components/parameters/locationgroup'
-      responses:
-        '200':
-          description: A list of all approved hours ready for payroll
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
                   count:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/payroll/?page=3'
+                    example: 'https://api.zuus.io/location/group/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/payroll/?page=1'
+                    example: 'https://api.zuus.io/location/group/?page=1'
                   results:
                     type: array
-                    $ref: '#/components/schemas/approvedhours'
+                    items:
+                      $ref: '#/components/schemas/locationgroup'
   /punch/:
     get:
       tags:
@@ -572,9 +579,10 @@ paths:
         - $ref: '#/components/parameters/greaterThanOrEqual'
         - $ref: '#/components/parameters/lessThan'
         - $ref: '#/components/parameters/lessThanOrEqual'
+        - $ref: '#/components/parameters/locationgroup'
       responses:
         '200':
-          description: A list of all published scheduled shifts within the filter
+          description: A list of all time and attendance shifts within the filter
           content:
             application/json:
               schema:
@@ -590,7 +598,8 @@ paths:
                     example: 'https://api.zuus.io/punch/?page=1'
                   results:
                     type: array
-                    $ref: '#/components/schemas/punch'
+                    items:
+                      $ref: '#/components/schemas/punch'
   /schedule/:
     get:
       tags:
@@ -719,6 +728,20 @@ paths:
           description: 'Conflict, unable to update'
 components:
   schemas:
+    allowance:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - allowance
+        name:
+          type: string
+        value:
+          type: number
+      required:
+        - name
+        - value
     approvedhours:
       type: object
       properties:
@@ -749,6 +772,26 @@ components:
           default: true
       required:
         - start
+    cost:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - cost
+        type:
+          type: string
+          enum:
+            - condition
+            - penalty
+        name:
+          type: string
+        value:
+          type: number
+      required:
+        - type
+        - name
+        - value
     createpunch:
       type: object
       properties:
@@ -981,6 +1024,10 @@ components:
           enum:
             - paid
             - unpaid
+        cost:
+          type: array
+          items:
+            $ref: '#/components/schemas/cost'
         notes:
           type: string
     shift:
@@ -1007,6 +1054,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/segment'
+        allowance:
+          type: array
+          items:
+            $ref: '#/components/schemas/allowance'
         notes:
           type: string
     staff:

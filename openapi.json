@@ -68,6 +68,62 @@
     }
   ],
   "paths": {
+    "/approvedhours/": {
+      "get": {
+        "tags": [
+          "Approved Hours"
+        ],
+        "summary": "List all the approved hours",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/locationgroup"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of all approved hours ready for payroll",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/approvedhours/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://api.zuus.io/approvedhours/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/approvedhours"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/job/": {
       "get": {
         "tags": [
@@ -365,7 +421,7 @@
         }
       }
     },
-    "/location/{loc_id}/payroll/": {
+    "/location/{loc_id}/approvedhours/": {
       "parameters": [
         {
           "in": "path",
@@ -411,15 +467,17 @@
                     },
                     "next": {
                       "type": "string",
-                      "example": "https://api.zuus.io/location/payroll/?page=3"
+                      "example": "https://api.zuus.io/location/approvedhours/?page=3"
                     },
                     "previous": {
                       "type": "string",
-                      "example": "https://api.zuus.io/location/payroll/?page=1"
+                      "example": "https://api.zuus.io/location/approvedhours/?page=1"
                     },
                     "results": {
                       "type": "array",
-                      "$ref": "#/components/schemas/approvedhours"
+                      "items": {
+                        "$ref": "#/components/schemas/approvedhours"
+                      }
                     }
                   }
                 }
@@ -483,7 +541,9 @@
                     },
                     "results": {
                       "type": "array",
-                      "$ref": "#/components/schemas/punch"
+                      "items": {
+                        "$ref": "#/components/schemas/punch"
+                      }
                     }
                   }
                 }
@@ -843,71 +903,22 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "object": {
-                      "type": "string",
-                      "enum": [
-                        "list"
-                      ]
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/locationgroup"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/payroll/": {
-      "get": {
-        "tags": [
-          "Approved Hours"
-        ],
-        "summary": "List all the payroll hours",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/greaterThan"
-          },
-          {
-            "$ref": "#/components/parameters/greaterThanOrEqual"
-          },
-          {
-            "$ref": "#/components/parameters/lessThan"
-          },
-          {
-            "$ref": "#/components/parameters/lessThanOrEqual"
-          },
-          {
-            "$ref": "#/components/parameters/locationgroup"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of all approved hours ready for payroll",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
                     "count": {
                       "type": "integer"
                     },
                     "next": {
                       "type": "string",
-                      "example": "https://api.zuus.io/payroll/?page=3"
+                      "example": "https://api.zuus.io/location/group/?page=3"
                     },
                     "previous": {
                       "type": "string",
-                      "example": "https://api.zuus.io/payroll/?page=1"
+                      "example": "https://api.zuus.io/location/group/?page=1"
                     },
                     "results": {
                       "type": "array",
-                      "$ref": "#/components/schemas/approvedhours"
+                      "items": {
+                        "$ref": "#/components/schemas/locationgroup"
+                      }
                     }
                   }
                 }
@@ -935,11 +946,14 @@
           },
           {
             "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/locationgroup"
           }
         ],
         "responses": {
           "200": {
-            "description": "A list of all published scheduled shifts within the filter",
+            "description": "A list of all time and attendance shifts within the filter",
             "content": {
               "application/json": {
                 "schema": {
@@ -958,7 +972,9 @@
                     },
                     "results": {
                       "type": "array",
-                      "$ref": "#/components/schemas/punch"
+                      "items": {
+                        "$ref": "#/components/schemas/punch"
+                      }
                     }
                   }
                 }
@@ -1178,6 +1194,27 @@
   },
   "components": {
     "schemas": {
+      "allowance": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "allowance"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      },
       "approvedhours": {
         "type": "object",
         "properties": {
@@ -1221,6 +1258,35 @@
         },
         "required": [
           "start"
+        ]
+      },
+      "cost": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "cost"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "condition",
+              "penalty"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "value"
         ]
       },
       "createpunch": {
@@ -1556,6 +1622,12 @@
               "unpaid"
             ]
           },
+          "cost": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/cost"
+            }
+          },
           "notes": {
             "type": "string"
           }
@@ -1592,6 +1664,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/segment"
+            }
+          },
+          "allowance": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/allowance"
             }
           },
           "notes": {
