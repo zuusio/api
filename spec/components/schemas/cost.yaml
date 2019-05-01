@@ -1,0 +1,16 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["cost"]
+    type:
+        type: string
+        enum: ["condition", "penalty"]
+    name:
+        type: string
+    value:
+        type: number
+required:
+    - type
+    - name
+    - value

@@ -1,0 +1,12 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["allowance"]
+    name:
+        type: string
+    value:
+        type: number
+required:
+    - name
+    - value
