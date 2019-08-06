@@ -30,7 +30,7 @@ tags:
     description: These are the times that are planned for staff to be at a location
   - name: Punches
     description: These are the recorded times that staff occupied a location.
-  - name: Approved Hours
+  - name: Approved Shifts
     description: These are the times that have been approved and will be used in payroll.
   - name: Stats
     description: Location statistics to assist with accurate scheduling
@@ -39,11 +39,11 @@ security:
       - read
       - write
 paths:
-  /approvedhours/:
+  /approved/:
     get:
       tags:
-        - Approved Hours
-      summary: List all the approved hours
+        - Approved Shifts
+      summary: List all approved shifts going back up to 30 days
       parameters:
         - $ref: '#/components/parameters/greaterThan'
         - $ref: '#/components/parameters/greaterThanOrEqual'
@@ -52,7 +52,7 @@ paths:
         - $ref: '#/components/parameters/locationgroup'
       responses:
         '200':
-          description: A list of all approved hours ready for payroll
+          description: A list of all approved shifts within the filter
           content:
             application/json:
               schema:
@@ -62,14 +62,14 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/approvedhours/?page=3'
+                    example: 'https://api.zuus.io/approved/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/approvedhours/?page=1'
+                    example: 'https://api.zuus.io/approved/?page=1'
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/approvedhours'
+                      $ref: '#/components/schemas/approved'
   /job/:
     get:
       tags:
@@ -258,7 +258,7 @@ paths:
       responses:
         '200':
           description: Successfully updated the location
-  '/location/{loc_id}/approvedhours/':
+  '/location/{loc_id}/approved/':
     parameters:
       - in: path
         name: loc_id
@@ -270,8 +270,8 @@ paths:
         example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
     get:
       tags:
-        - Approved Hours
-      summary: Get approved hours for a location
+        - Approved Shifts
+      summary: Get approved shifts for a location
       parameters:
         - $ref: '#/components/parameters/greaterThan'
         - $ref: '#/components/parameters/greaterThanOrEqual'
@@ -279,7 +279,7 @@ paths:
         - $ref: '#/components/parameters/lessThanOrEqual'
       responses:
         '200':
-          description: Successfully retrieved a list of all the approved hours for the period
+          description: Successfully retrieved a list of all the approved shifts for the period
           content:
             application/json:
               schema:
@@ -289,14 +289,14 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/approvedhours/?page=3'
+                    example: 'https://api.zuus.io/location/approved/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/approvedhours/?page=1'
+                    example: 'https://api.zuus.io/location/approved/?page=1'
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/approvedhours'
+                      $ref: '#/components/schemas/approved'
   '/location/{loc_id}/punch/':
     parameters:
       - in: path
@@ -458,7 +458,7 @@ paths:
     get:
       tags:
         - Stats
-      summary: Get the available stats types
+      summary: List the types of stats that are available
       responses:
         '200':
           description: A list of stats types
@@ -726,6 +726,23 @@ paths:
           description: Not allowed to update that staff member
         '409':
           description: 'Conflict, unable to update'
+    patch:
+      tags:
+        - Staff
+      summary: Update particular parts of an individual staff member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/staff'
+      responses:
+        '200':
+          description: Successfully updated staff member's details
+        '403':
+          description: Not allowed to update that staff member
+        '409':
+          description: 'Conflict, unable to update'
 components:
   schemas:
     allowance:
@@ -742,7 +759,7 @@ components:
       required:
         - name
         - value
-    approvedhours:
+    approved:
       type: object
       properties:
         object:
