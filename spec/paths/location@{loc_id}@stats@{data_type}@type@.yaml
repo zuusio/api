@@ -1,35 +1,35 @@
 parameters:
-  - $ref: "#/components/parameters/location"
-  - in: path
-    name: data_type
-    required: true
-    schema:
-      type: string
-      enum:
-        - predicted
-        - actual
-    description: Is this data predicted or what actually occured?
+    - $ref: "#/components/parameters/location"
+    - in: path
+      name: data_type
+      required: true
+      schema:
+          type: string
+          enum:
+              - predicted
+              - actual
+      description: Is this data predicted or what actually occured?
 get:
-  tags:
-    - Stats
-  summary: Get the available stats types
-  responses:
-    "200":
-      description: A list of stats types
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              count:
-                type: integer
-              next:
-                type: string
-                example: "https://api.zuus.io/location/stats/type/?page=3"
-              previous:
-                type: string
-                example: "https://api.zuus.io/location/stats/type/?page=1"
-              results:
-                type: array
-                items:
-                  $ref: "#/components/schemas/stattype"
+    tags:
+        - Stats
+    summary: List the types of stats that are available
+    responses:
+        "200":
+            description: A list of stats types
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://api.zuus.io/location/stats/type/?page=3"
+                            previous:
+                                type: string
+                                example: "https://api.zuus.io/location/stats/type/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/stattype"
