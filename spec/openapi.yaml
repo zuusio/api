@@ -1,43 +1,43 @@
 openapi: 3.0.0
 servers:
-  - url: "https://{region}.api.zuus.io/{accountId}/"
-    variables:
-      region:
-        default: au
-        enum:
-          - au
-          - us
-      accountId:
-        default: 01b9e817b6024de2950148bdab6a63c9
-        description: Account Id assigned by ZUUS
+    - url: "https://{region}.api.zuus.io/{accountId}/"
+      variables:
+          region:
+              default: au
+              enum:
+                  - au
+                  - us
+          accountId:
+              default: 01b9e817b6024de2950148bdab6a63c9
+              description: Account Id assigned by ZUUS
 info:
-  title: ZUUS (draft)
-  description: >
-    Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use
-    this API to access information about staff, locations, jobs and shifts
-    (scheduled, punches and approved hours). Additionally you can send in 'Point of
-    Sales' information.
-  version: 1.0.0
-  contact:
-    email: api@zuusworkforce.com
-  x-logo:
-    url: logo.png
+    title: ZUUS (draft)
+    description: >
+        Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use
+        this API to access information about staff, locations, jobs and shifts
+        (scheduled, punches and approved hours). Additionally you can send in 'Point of
+        Sales' information.
+    version: 1.0.0
+    contact:
+        email: api@zuusworkforce.com
+    x-logo:
+        url: logo.png
 tags:
-  - name: Staff
-    description: Operations about staff
-  - name: Jobs
-    description: Operations on jobs
-  - name: Locations
-    description: Locations are physical areas that require staff to be stationed.
-  - name: Scheduled Shifts
-    description: These are the times that are planned for staff to be at a location
-  - name: Punches
-    description: These are the recorded times that staff occupied a location.
-  - name: Approved Hours
-    description: These are the times that have been approved and will be used in payroll.
-  - name: Stats
-    description: Location statistics to assist with accurate scheduling
+    - name: Staff
+      description: Operations about staff
+    - name: Jobs
+      description: Operations on jobs
+    - name: Locations
+      description: Locations are physical areas that require staff to be stationed.
+    - name: Scheduled Shifts
+      description: These are the times that are planned for staff to be at a location
+    - name: Punches
+      description: These are the recorded times that staff occupied a location.
+    - name: Approved Shifts
+      description: These are the times that have been approved and will be used in payroll.
+    - name: Stats
+      description: Location statistics to assist with accurate scheduling
 security:
-  - OAuth2:
-      - read
-      - write
+    - OAuth2:
+          - read
+          - write

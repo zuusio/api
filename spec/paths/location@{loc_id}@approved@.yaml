@@ -9,8 +9,8 @@ parameters:
       example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
 get:
     tags:
-        - Approved Hours
-    summary: Get approved hours for a location
+        - Approved Shifts
+    summary: Get approved shifts for a location
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
@@ -18,7 +18,7 @@ get:
         - $ref: "#/components/parameters/lessThanOrEqual"
     responses:
         "200":
-            description: Successfully retrieved a list of all the approved hours for the period
+            description: Successfully retrieved a list of all the approved shifts for the period
             content:
                 application/json:
                     schema:
@@ -28,11 +28,11 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/location/approvedhours/?page=3"
+                                example: "https://api.zuus.io/location/approved/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/location/approvedhours/?page=1"
+                                example: "https://api.zuus.io/location/approved/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/approvedhours"
+                                    $ref: "#/components/schemas/approved"

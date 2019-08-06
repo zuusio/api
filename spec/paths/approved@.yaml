@@ -1,7 +1,7 @@
 get:
     tags:
-        - Approved Hours
-    summary: List all the approved hours
+        - Approved Shifts
+    summary: List all approved shifts going back up to 30 days
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
@@ -10,7 +10,7 @@ get:
         - $ref: "#/components/parameters/locationgroup"
     responses:
         "200":
-            description: A list of all approved hours ready for payroll
+            description: A list of all approved shifts within the filter
             content:
                 application/json:
                     schema:
@@ -20,11 +20,11 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/approvedhours/?page=3"
+                                example: "https://api.zuus.io/approved/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/approvedhours/?page=1"
+                                example: "https://api.zuus.io/approved/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/approvedhours"
+                                    $ref: "#/components/schemas/approved"
