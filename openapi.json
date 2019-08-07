@@ -1357,6 +1357,85 @@
           }
         }
       }
+    },
+    "/staff/{staff_id}/location/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Add a location that this staff member can work at.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "primary": {
+                    "type": "object",
+                    "properties": {
+                      "effective_from": {
+                        "description": "ISO 8601 date",
+                        "type": "string",
+                        "format": "date"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The location has been successfully added to this staff member"
+          }
+        }
+      }
+    },
+    "/staff/{staff_id}/location/{loc_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        },
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "0a3a4cfa-6e8f-409a-9093-00f28243130a"
+        }
+      ],
+      "delete": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Remove a location that a staff member can work at",
+        "responses": {
+          "200": {
+            "description": "The location has been removed"
+          },
+          "403": {
+            "description": "Not allowed to modify that staff member"
+          },
+          "409": {
+            "description": "That job is already removed"
+          }
+        }
+      }
     }
   },
   "components": {
