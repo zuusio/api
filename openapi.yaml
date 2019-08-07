@@ -635,9 +635,10 @@ paths:
     get:
       tags:
         - Staff
-      summary: Get a list of all staff
+      summary: Get a list of all employed (active) staff
       parameters:
         - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/employment_status'
       responses:
         '200':
           description: Successfully retrieved a list of all staff
@@ -686,14 +687,7 @@ paths:
                       example: 566166db-6402-4d0f-88ed-259784aaf7dd
   '/staff/{staff_id}/':
     parameters:
-      - in: path
-        name: staff_id
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The staff id
-        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+      - $ref: '#/components/parameters/staff'
     get:
       tags:
         - Staff
@@ -743,37 +737,96 @@ paths:
           description: Not allowed to update that staff member
         '409':
           description: 'Conflict, unable to update'
-  '/staff/{staff_id}/employment/terminate/':
+  '/staff/{staff_id}/employment/':
     parameters:
-      - in: path
-        name: staff_id
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The staff id
-        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+      - $ref: '#/components/parameters/staff'
     post:
       tags:
         - Staff
-      summary: 'Terminate a staff member''s employment. If a date is provided, it will be used as the date of termination otherwise the current date will be used'
+      summary: 'Alter a staff member''s employment. Either re-employ or terminate. If a date is provided, it will  be used as the date of termination otherwise the current date will be  used'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
+                terminate:
+                  type: boolean
+                reason:
+                  description: 'When terminating a staff member, record why'
+                  type: string
+                date:
+                  description: ISO 8601 date
+                  type: string
+                  format: date
+      responses:
+        '201':
+          description: The staff member has had their employment status created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    enum:
+                      - list
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/dateperiod'
+  '/staff/{staff_id}/job/':
+    parameters:
+      - $ref: '#/components/parameters/staff'
+    put:
+      tags:
+        - Staff
+      summary: 'Add a job that this staff member can perform. If a date is provided, it will be used as the date that this job becomes active for this staff member, otherwise the current date will be used'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
                 date:
                   description: ISO 8601 date
                   type: string
                   format: date
       responses:
         '200':
-          description: The staff member has been marked as terminated
+          description: The job has been successfully added to this staff member
+  '/staff/{staff_id}/job/{job_id}/':
+    parameters:
+      - $ref: '#/components/parameters/staff'
+      - in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The job id
+        example: 0a3a4cfa-6e8f-409a-9093-00f28243130a
+      - in: query
+        name: date
+        schema:
+          description: ISO 8601 date
+          type: string
+          format: date
+    delete:
+      tags:
+        - Staff
+      summary: 'Remove a job that this staff member can perform. If a date is provided,  it will be used as the date that this job becomes inactive for this  staff member, otherwise the current date will be used'
+      responses:
+        '200':
+          description: The job has been marked as inactive
         '403':
-          description: Not allowed to terminate that staff member
+          description: Not allowed to modify that staff member
         '409':
-          description: That staff member is already terminated
+          description: That job is already inactive
 components:
   schemas:
     allowance:
@@ -1133,7 +1186,9 @@ components:
         pin:
           type: string
         employment:
-          $ref: '#/components/schemas/dateperiod'
+          type: array
+          items:
+            $ref: '#/components/schemas/dateperiod'
         jobs:
           type: array
           items:
@@ -1182,6 +1237,16 @@ components:
         name:
           type: string
   parameters:
+    employment_status:
+      in: query
+      name: employment_status
+      description: Filter staff by those that have been terminated or all staff that have ever been employed
+      required: false
+      schema:
+        type: string
+        enum:
+          - terminated
+          - all
     greaterThan:
       in: query
       name: gt
@@ -1246,6 +1311,15 @@ components:
         enum:
           - staff
           - condition
+    staff:
+      in: path
+      name: staff_id
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The staff id
+      example: 566166db-6402-4d0f-88ed-259784aaf7dd
   securitySchemes:
     OAuth2:
       type: oauth2
