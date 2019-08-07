@@ -1,0 +1,30 @@
+parameters:
+    - $ref: "#/components/parameters/staff"
+    - in: path
+      name: job_id
+      required: true
+      schema:
+          type: string
+          format: uuid
+      description: The job id
+      example: 0a3a4cfa-6e8f-409a-9093-00f28243130a
+    - in: query
+      name: date
+      schema:
+          description: ISO 8601 date
+          type: string
+          format: date
+delete:
+    tags:
+        - Staff
+    summary: >-
+        Remove a job that this staff member can perform. If a date is provided, 
+        it will be used as the date that this job becomes inactive for this 
+        staff member, otherwise the current date will be used
+    responses:
+        "200":
+            description: The job has been marked as inactive
+        "403":
+            description: Not allowed to modify that staff member
+        "409":
+            description: That job is already inactive
