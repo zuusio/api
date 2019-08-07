@@ -41,6 +41,6 @@ properties:
     locations:
         type: array
         items:
-            id:
-                type: string
-                format: uuid
+            description: The UUID of locations that this staff member is available to work at
+            type: string
+            format: uuid
