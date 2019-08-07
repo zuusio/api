@@ -1,0 +1,30 @@
+parameters:
+    - in: path
+      name: staff_id
+      required: true
+      schema:
+          type: string
+          format: uuid
+      description: The staff id
+      example: 566166db-6402-4d0f-88ed-259784aaf7dd
+post:
+    tags:
+        - Staff
+    summary: Terminate a staff member's employment. If a date is provided, it will be used as the date of termination otherwise the current date will be used
+    requestBody:
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        date:
+                            description: ISO 8601 date
+                            type: string
+                            format: date
+    responses:
+        "200":
+            description: The staff member has been marked as terminated
+        "403":
+            description: Not allowed to terminate that staff member
+        "409":
+            description: That staff member is already terminated
