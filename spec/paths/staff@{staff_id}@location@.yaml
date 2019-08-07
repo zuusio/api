@@ -1,0 +1,26 @@
+parameters:
+    - $ref: "#/components/parameters/staff"
+put:
+    tags:
+        - Staff
+    summary: Add a location that this staff member can work at.
+    requestBody:
+        required: true
+        content:
+            application/json:
+                schema:
+                    type: object
+                    properties:
+                        id:
+                            type: string
+                            format: uuid
+                        primary:
+                            type: object
+                            properties:
+                                effective_from:
+                                    description: ISO 8601 date
+                                    type: string
+                                    format: date
+    responses:
+        "200":
+            description: The location has been successfully added to this staff member
