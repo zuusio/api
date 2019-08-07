@@ -17,6 +17,10 @@ post:
                 schema:
                     type: object
                     properties:
+                        reason:
+                            description: Why is this staff member ceasing employment
+                            type: string
+                            required: true
                         date:
                             description: ISO 8601 date
                             type: string
