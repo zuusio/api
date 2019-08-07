@@ -1,34 +1,39 @@
 parameters:
-    - in: path
-      name: staff_id
-      required: true
-      schema:
-          type: string
-          format: uuid
-      description: The staff id
-      example: 566166db-6402-4d0f-88ed-259784aaf7dd
-delete:
+    - $ref: "#/components/parameters/staff"
+post:
     tags:
         - Staff
-    summary: Terminate a staff member's employment. If a date is provided, it will be used as the date of termination otherwise the current date will be used
+    summary: >-
+        Alter a staff member's employment. Either re-employ or terminate. If a date is provided, it will 
+        be used as the date of termination otherwise the current date will be 
+        used
     requestBody:
         content:
             application/json:
                 schema:
                     type: object
                     properties:
+                        terminate:
+                            type: boolean
                         reason:
-                            description: Why is this staff member ceasing employment
+                            description: When terminating a staff member, record why
                             type: string
-                            required: true
                         date:
                             description: ISO 8601 date
                             type: string
                             format: date
     responses:
-        "200":
-            description: The staff member has been marked as terminated
-        "403":
-            description: Not allowed to terminate that staff member
-        "409":
-            description: That staff member is already terminated
+        "201":
+            description: The staff member has had their employment status created
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            object:
+                                type: string
+                                enum: ["list"]
+                            data:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/dateperiod"
