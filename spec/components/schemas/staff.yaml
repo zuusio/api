@@ -15,7 +15,7 @@ properties:
     email:
         type: string
     dob:
-        description: ISO 8601 Date
+        description: ISO 8601 date
         type: string
         format: date
     pin:
