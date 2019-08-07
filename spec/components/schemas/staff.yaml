@@ -21,7 +21,9 @@ properties:
     pin:
         type: string
     employment:
-        $ref: "#/components/schemas/dateperiod"
+        type: array
+        items:
+            $ref: "#/components/schemas/dateperiod"
     jobs:
         type: array
         items:
