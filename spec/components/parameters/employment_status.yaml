@@ -1,0 +1,7 @@
+in: query
+name: employment_status
+description: Filter staff by those that have been terminated or all staff that have ever been employed
+required: false
+schema:
+    type: string
+    enum: ["terminated", "all"]

@@ -1,52 +1,53 @@
 get:
-  tags:
-    - Staff
-  summary: Get a list of all staff
-  parameters:
-    - $ref: "#/components/parameters/page"
-  responses:
-    "200":
-      description: Successfully retrieved a list of all staff
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              count:
-                type: integer
-              next:
-                type: string
-                example: "https://api.zuus.io/staff/?page=3"
-              previous:
-                type: string
-                example: "https://api.zuus.io/staff/?page=1"
-              results:
-                type: array
-                items:
-                  $ref: "#/components/schemas/staff"
+    tags:
+        - Staff
+    summary: Get a list of all employed (active) staff
+    parameters:
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/employment_status"
+    responses:
+        "200":
+            description: Successfully retrieved a list of all staff
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://api.zuus.io/staff/?page=3"
+                            previous:
+                                type: string
+                                example: "https://api.zuus.io/staff/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/staff"
 post:
-  tags:
-    - Staff
-  summary: Create staff
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          type: array
-          items:
-            $ref: "#/components/schemas/staff"
-  responses:
-    "201":
-      description: Successful creation of supplied staff
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              results:
-                type: array
-                items:
-                  type: string
-                  format: uuid
-                  example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    tags:
+        - Staff
+    summary: Create staff
+    requestBody:
+        required: true
+        content:
+            application/json:
+                schema:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/staff"
+    responses:
+        "201":
+            description: Successful creation of supplied staff
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            results:
+                                type: array
+                                items:
+                                    type: string
+                                    format: uuid
+                                    example: 566166db-6402-4d0f-88ed-259784aaf7dd
