@@ -1730,6 +1730,7 @@
             "type": "string"
           },
           "dob": {
+            "description": "ISO 8601 Date",
             "type": "string",
             "format": "date"
           },
@@ -1745,10 +1746,29 @@
               "$ref": "#/components/schemas/entityperiod"
             }
           },
+          "primary_location": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "effective_from": {
+                  "description": "ISO 8601 Date",
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          },
           "locations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/entityperiod"
+              "description": "The UUID of locations that this staff member is available to work at",
+              "type": "string",
+              "format": "uuid"
             }
           }
         }
