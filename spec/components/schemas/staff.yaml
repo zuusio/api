@@ -10,8 +10,6 @@ properties:
         type: string
     last_name:
         type: string
-    manager:
-        type: boolean
     email:
         type: string
     dob:
