@@ -27,4 +27,4 @@ allOf:
             reason:
               type: string
             approvedAt:
-              $ref: "#/components/schemas/datetime"
+              $ref: "#/components/schemas/datetime_timezone"

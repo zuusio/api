@@ -3,7 +3,7 @@ properties:
     object:
         type: string
         enum: ["shift"]
-    id:
+    uuid:
         type: string
         format: uuid
     staff:
@@ -13,9 +13,9 @@ properties:
         type: string
         format: uuid
     start:
-        $ref: "#/components/schemas/datetime"
+        $ref: "#/components/schemas/datetime_timezone"
     finish:
-        $ref: "#/components/schemas/datetime"
+        $ref: "#/components/schemas/datetime_timezone"
     segments:
         type: array
         items:

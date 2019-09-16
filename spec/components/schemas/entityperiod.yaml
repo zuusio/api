@@ -3,7 +3,7 @@ properties:
   object:
     type: string
     enum: ["entityperiod"]
-  id:
+  uuid:
     type: string
     format: uuid
   start:
@@ -15,4 +15,4 @@ properties:
     type: string
     format: date
 required:
-  - id
+  - uuid

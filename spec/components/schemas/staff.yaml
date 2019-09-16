@@ -3,7 +3,7 @@ properties:
     object:
         type: string
         enum: ["staff"]
-    id:
+    uuid:
         type: string
         format: uuid
     first_name:
@@ -16,7 +16,9 @@ properties:
         description: ISO 8601 date
         type: string
         format: date
-    pin:
+    timesheet_pin:
+        type: string
+    gender:
         type: string
     employment:
         type: array
@@ -31,7 +33,7 @@ properties:
         items:
             type: object
             properties:
-                id:
+                uuid:
                     type: string
                     format: uuid
                 effective_from:

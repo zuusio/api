@@ -8,5 +8,7 @@ properties:
         description: ISO 8601 date
         type: string
         format: date
+    reason:
+        type: string
 required:
     - start
