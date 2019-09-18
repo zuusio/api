@@ -1,23 +1,26 @@
 parameters:
-    - $ref: "#/components/parameters/staff"
-put:
-    tags:
-        - Staff
-    summary: Add a job that this staff member can perform. If a date is provided, it will be used as the date that this job becomes active for this staff member, otherwise the current date will be used
-    requestBody:
-        required: true
-        content:
-            application/json:
-                schema:
-                    type: object
-                    properties:
-                        id:
-                            type: string
-                            format: uuid
-                        date:
-                            description: ISO 8601 date
-                            type: string
-                            format: date
-    responses:
-        "200":
-            description: The job has been successfully added to this staff member
+  - $ref: '#/components/parameters/staff'
+# put:
+#   tags:
+#     - Staff
+#   summary: >-
+#     Add a job that this staff member can perform. If a date is provided, it will
+#     be used as the date that this job becomes active for this staff member,
+#     otherwise the current date will be used
+#   requestBody:
+#     required: true
+#     content:
+#       application/json:
+#         schema:
+#           type: object
+#           properties:
+#             id:
+#               type: string
+#               format: uuid
+#             date:
+#               description: ISO 8601 date
+#               type: string
+#               format: date
+#   responses:
+#     '200':
+#       description: The job has been successfully added to this staff member

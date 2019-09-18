@@ -25,29 +25,29 @@ get:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/staff"
-post:
-    tags:
-        - Staff
-    summary: Create staff
-    requestBody:
-        required: true
-        content:
-            application/json:
-                schema:
-                    type: array
-                    items:
-                        $ref: "#/components/schemas/staff"
-    responses:
-        "201":
-            description: Successful creation of supplied staff
-            content:
-                application/json:
-                    schema:
-                        type: object
-                        properties:
-                            results:
-                                type: array
-                                items:
-                                    type: string
-                                    format: uuid
-                                    example: 566166db-6402-4d0f-88ed-259784aaf7dd
+# post:
+#     tags:
+#         - Staff
+#     summary: Create staff
+#     requestBody:
+#         required: true
+#         content:
+#             application/json:
+#                 schema:
+#                     type: array
+#                     items:
+#                         $ref: "#/components/schemas/staff"
+#     responses:
+#         "201":
+#             description: Successful creation of supplied staff
+#             content:
+#                 application/json:
+#                     schema:
+#                         type: object
+#                         properties:
+#                             results:
+#                                 type: array
+#                                 items:
+#                                     type: string
+#                                     format: uuid
+#                                     example: 566166db-6402-4d0f-88ed-259784aaf7dd

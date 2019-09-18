@@ -16,7 +16,7 @@ properties:
         description: ISO 8601 date
         type: string
         format: date
-    timesheet_pin:
+    pin:
         type: string
     gender:
         type: string

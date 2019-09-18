@@ -2,7 +2,8 @@ type: object
 properties:
   object:
     type: string
-    enum: ["approvedHrs"]
+    enum:
+      - approvedHours
   staff:
     type: string
     format: uuid

@@ -2,7 +2,8 @@ type: object
 properties:
   object:
     type: string
-    enum: ["stattype"]
+    enum:
+      - stattype
   id:
     type: string
     format: uuid

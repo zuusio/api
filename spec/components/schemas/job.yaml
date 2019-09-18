@@ -13,6 +13,4 @@ properties:
     type: string
     example: '#8CC63E'
     description: HEX representation of color
-  details:
-    type: string
-    example: null
+

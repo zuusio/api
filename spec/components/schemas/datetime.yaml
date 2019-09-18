@@ -1,4 +1,4 @@
 type: string
 format: datetime
-description: ISO 8601 date time
-example: "2018-08-10 16:45"
+description: ISO 8601 date time with timezone
+example: "2018-08-10 16:45+9:30"

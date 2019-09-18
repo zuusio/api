@@ -1,5 +1,5 @@
 parameters:
-  - $ref: "#/components/parameters/location"
+  - $ref: '#/components/parameters/location'
   - in: path
     name: data_type
     required: true
@@ -23,12 +23,12 @@ get:
     - Stats
   summary: Get actual (or predicted) sales (or units) for a location for the period
   parameters:
-    - $ref: "#/components/parameters/greaterThan"
-    - $ref: "#/components/parameters/greaterThanOrEqual"
-    - $ref: "#/components/parameters/lessThan"
-    - $ref: "#/components/parameters/lessThanOrEqual"
+    - $ref: '#/components/parameters/greaterThan'
+    - $ref: '#/components/parameters/greaterThanOrEqual'
+    - $ref: '#/components/parameters/lessThan'
+    - $ref: '#/components/parameters/lessThanOrEqual'
   responses:
-    "200":
+    '200':
       description: A list of statistics
       content:
         application/json:
@@ -39,14 +39,14 @@ get:
                 type: integer
               next:
                 type: string
-                example: "https://api.zuus.io/location/stats/type/?page=3"
+                example: 'https://api.zuus.io/location/stats/type/?page=3'
               previous:
                 type: string
-                example: "https://api.zuus.io/location/stats/type/?page=1"
+                example: 'https://api.zuus.io/location/stats/type/?page=1'
               results:
                 type: array
                 items:
-                  $ref: "#/components/schemas/stat"
+                  $ref: '#/components/schemas/stat'
 post:
   tags:
     - Stats
@@ -58,7 +58,7 @@ post:
         schema:
           type: array
           items:
-            $ref: "#/components/schemas/stat"
+            $ref: '#/components/schemas/stat'
   responses:
-    "201":
+    '201':
       description: Successful creation of statistic

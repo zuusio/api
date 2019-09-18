@@ -15,37 +15,37 @@ get:
             description: That staff member was not found
         5XX:
             description: Unexpected Error
-put:
-    tags:
-        - Staff
-    summary: Update an individual staff member
-    requestBody:
-        required: true
-        content:
-            application/json:
-                schema:
-                    $ref: "#/components/schemas/staff"
-    responses:
-        "200":
-            description: Successfully updated staff member's details
-        "403":
-            description: Not allowed to update that staff member
-        "409":
-            description: Conflict, unable to update
-patch:
-    tags:
-        - Staff
-    summary: Update particular parts of an individual staff member
-    requestBody:
-        required: true
-        content:
-            application/json:
-                schema:
-                    $ref: "#/components/schemas/staff"
-    responses:
-        "200":
-            description: Successfully updated staff member's details
-        "403":
-            description: Not allowed to update that staff member
-        "409":
-            description: Conflict, unable to update
+# put:
+#     tags:
+#         - Staff
+#     summary: Update an individual staff member
+#     requestBody:
+#         required: true
+#         content:
+#             application/json:
+#                 schema:
+#                     $ref: "#/components/schemas/staff"
+#     responses:
+#         "200":
+#             description: Successfully updated staff member's details
+#         "403":
+#             description: Not allowed to update that staff member
+#         "409":
+#             description: Conflict, unable to update
+# patch:
+#     tags:
+#         - Staff
+#     summary: Update particular parts of an individual staff member
+#     requestBody:
+#         required: true
+#         content:
+#             application/json:
+#                 schema:
+#                     $ref: "#/components/schemas/staff"
+#     responses:
+#         "200":
+#             description: Successfully updated staff member's details
+#         "403":
+#             description: Not allowed to update that staff member
+#         "409":
+#             description: Conflict, unable to update

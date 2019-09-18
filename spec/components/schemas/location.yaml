@@ -16,3 +16,4 @@ properties:
   object:
     type: string
     enum: ["location"]
+  
