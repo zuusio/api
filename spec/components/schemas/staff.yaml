@@ -13,9 +13,7 @@ properties:
     email:
         type: string
     dob:
-        description: ISO 8601 date
-        type: string
-        format: date
+        $ref: "#/components/schemas/date"
     pin:
         type: string
     gender:
@@ -23,7 +21,7 @@ properties:
     employment:
         type: array
         items:
-            $ref: "#/components/schemas/dateperiod"
+            $ref: "#/components/schemas/employmentperiod"
     jobs:
         type: array
         items:
@@ -37,9 +35,8 @@ properties:
                     type: string
                     format: uuid
                 effective_from:
-                    description: ISO 8601 Date
-                    type: string
-                    format: date
+                    $ref: "#/components/schemas/date"
+
     locations:
         type: array
         items:

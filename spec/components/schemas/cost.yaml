@@ -1,19 +1,16 @@
 type: object
 properties:
-  object:
-    type: string
-    enum:
-      - cost
-  type:
-    type: string
-    enum:
-      - condition
-      - penalty
-  name:
-    type: string
-  value:
-    type: number
-required:
-  - type
-  - name
-  - value
+    object:
+        type: string
+        enum:
+            - cost
+    name:
+        type: string
+        description: Wage condition name
+        example: Normal Hours
+    value:
+        type: number
+        example: 136.875
+    duration:
+        type: number
+        example: 7.5

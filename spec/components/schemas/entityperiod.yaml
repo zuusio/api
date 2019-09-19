@@ -1,18 +1,14 @@
 type: object
 properties:
-  object:
-    type: string
-    enum: ["entityperiod"]
-  uuid:
-    type: string
-    format: uuid
-  start:
-    description: ISO 8601 Date
-    type: string
-    format: date
-  finish:
-    description: ISO 8601 Date
-    type: string
-    format: date
+    object:
+        type: string
+        enum: ["entityperiod"]
+    uuid:
+        type: string
+        format: uuid
+    start:
+        $ref: "#/components/schemas/date"
+    finish:
+        $ref: "#/components/schemas/date"
 required:
-  - uuid
+    - uuid
