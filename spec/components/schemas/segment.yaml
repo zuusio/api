@@ -12,9 +12,11 @@ properties:
         type: string
         nullable: true
         format: uuid
-    break:
+    break_type:
         type: string
         nullable: true
+        example: "paid"
         enum:
+            - null
             - paid
             - unpaid
