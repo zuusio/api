@@ -1,15 +1,6 @@
 openapi: 3.0.0
 servers:
-    - url: "https://{region}.api.zuus.io/{accountId}/"
-      variables:
-          region:
-              default: au
-              enum:
-                  - au
-                  - us
-          accountId:
-              default: 01b9e817b6024de2950148bdab6a63c9
-              description: Account Id assigned by ZUUS
+    - url: "https://go.zuusworkforce.com/api/"
 info:
     title: ZUUS (draft)
     description: >
