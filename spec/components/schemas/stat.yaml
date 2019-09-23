@@ -3,6 +3,8 @@ properties:
     object:
         type: string
         enum: ["stat"]
+    stats_type:
+        type: string
     start:
         $ref: "#/components/schemas/datetime"
     finish:
