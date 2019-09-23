@@ -1,0 +1,3 @@
+type: http
+scheme: basic
+description: Authenitcate with the credentials provided by ZUUS Support (support@zuusworkforce.com)

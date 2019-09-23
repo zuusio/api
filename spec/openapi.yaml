@@ -38,6 +38,6 @@ tags:
     - name: Stats
       description: Location statistics to assist with accurate scheduling
 security:
-    - OAuth2:
-          - read
-          - write
+    - Basic:
+            - read
+            - write
