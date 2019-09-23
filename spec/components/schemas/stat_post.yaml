@@ -1,0 +1,18 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["stat"]
+    start:
+        $ref: "#/components/schemas/datetime"
+    finish:
+        type: string
+        format: datetime
+        description: Non inclusive ISO 8601 date time with timezone
+        example: "2018-08-10T17:00:00+09:30"
+    value:
+        type: number
+    manual:
+        type: boolean
+        description: Stat manually entered by a user
+        default: false
