@@ -38,6 +38,4 @@ tags:
     - name: Stats
       description: Location statistics to assist with accurate scheduling
 security:
-    - Basic:
-            - read
-            - write
+    - Basic: []
