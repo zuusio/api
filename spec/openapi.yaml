@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-    - url: "https://go.zuusworkforce.com/api/"
+    - url: "https://go.zuusworkforce.com/"
 info:
     title: ZUUS (draft)
     description: >

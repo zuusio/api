@@ -1,16 +1,24 @@
+parameters:
+    - in: path
+      name: loc_id
+      required: true
+      schema:
+          type: string
+          format: uuid
+      description: The location id
+      example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
 get:
     tags:
-        - Punches
-    summary: List all collected time and attendance shifts
+        - Scheduled Shifts
+    summary: Get scheduled shifts for a location
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
         - $ref: "#/components/parameters/lessThan"
         - $ref: "#/components/parameters/lessThanOrEqual"
-        - $ref: "#/components/parameters/locationgroup"
     responses:
         "200":
-            description: A list of all time and attendance shifts within the filter
+            description: Successfully retrieved a list of all the scheduled shifts for the period
             content:
                 application/json:
                     schema:
@@ -20,11 +28,11 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/punch/?page=3"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/schedule/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/punch/?page=1"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/schedule/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/punch"
+                                    $ref: "#/components/schemas/shift"

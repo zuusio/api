@@ -1,0 +1,53 @@
+get:
+    tags:
+        - Locations
+    summary: Get a list of all locations
+    responses:
+        "200":
+            description: Successfully retrieved a list of all locations
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/locations/?page=3"
+                            previous:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/locations/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/location"
+# post:
+#   tags:
+#     - Locations
+#   summary: Create one or more locations
+#   requestBody:
+#     required: true
+#     content:
+#       application/json:
+#         schema:
+#           type: array
+#           items:
+#             $ref: "#/components/schemas/location"
+#   responses:
+#     "201":
+#       description: Successful creation of locations
+#       content:
+#         application/json:
+#           schema:
+#             type: object
+#             properties:
+#               object:
+#                 type: string
+#                 enum: ["list"]
+#               data:
+#                 type: array
+#                 items:
+#                   type: string
+#                   format: uuid
+#                   example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d

@@ -1,0 +1,64 @@
+parameters:
+    - $ref: "#/components/parameters/location"
+    - in: path
+      name: data_type
+      required: true
+      schema:
+          type: string
+          enum:
+              - predicted
+              - actual
+      description: Is this data predicted or what actually occured?
+    - in: path
+      name: stat_type
+      required: true
+      schema:
+          type: string
+          enum:
+              - sales
+              - units
+      description: Either a monetary amount (sales) or a count of some item
+get:
+    tags:
+        - Stats
+    summary: Get actual (or predicted) sales (or units) for a location for the period
+    parameters:
+        - $ref: "#/components/parameters/greaterThan"
+        - $ref: "#/components/parameters/greaterThanOrEqual"
+        - $ref: "#/components/parameters/lessThan"
+        - $ref: "#/components/parameters/lessThanOrEqual"
+    responses:
+        "200":
+            description: A list of statistics
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=3"
+                            previous:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/stat"
+post:
+    tags:
+        - Stats
+    summary: Create actual (or predicted) sales (or units) for a location
+    requestBody:
+        required: true
+        content:
+            application/json:
+                schema:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/stat_post"
+    responses:
+        "201":
+            description: Successful creation of statistic

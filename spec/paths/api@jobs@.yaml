@@ -1,10 +1,12 @@
 get:
     tags:
-        - Locations
-    summary: Get a list of all locations
+        - Jobs
+    summary: Get a list of all jobs
+    parameters:
+        - $ref: "#/components/parameters/page"
     responses:
         "200":
-            description: Successfully retrieved a list of all locations
+            description: Successfully retrieved a list of all jobs
             content:
                 application/json:
                     schema:
@@ -14,18 +16,18 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/location/?page=3"
+                                example: "https://go.zuusworkforce.com/api/jobs/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/location/?page=1"
+                                example: "https://go.zuusworkforce.com/api/jobs/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/location"
+                                    $ref: "#/components/schemas/job"
 # post:
 #   tags:
-#     - Locations
-#   summary: Create one or more locations
+#     - Jobs
+#   summary: Create one or more jobs
 #   requestBody:
 #     required: true
 #     content:
@@ -33,10 +35,10 @@ get:
 #         schema:
 #           type: array
 #           items:
-#             $ref: "#/components/schemas/location"
+#             $ref: '#/components/schemas/job'
 #   responses:
-#     "201":
-#       description: Successful creation of locations
+#     '201':
+#       description: Successful creation of jobs
 #       content:
 #         application/json:
 #           schema:
@@ -44,10 +46,11 @@ get:
 #             properties:
 #               object:
 #                 type: string
-#                 enum: ["list"]
+#                 enum:
+#                   - list
 #               data:
 #                 type: array
 #                 items:
 #                   type: string
 #                   format: uuid
-#                   example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+#                   example: baf47dc1-ec02-4782-a855-de3c48ff4123
