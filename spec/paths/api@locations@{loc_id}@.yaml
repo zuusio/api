@@ -17,7 +17,9 @@ get:
             content:
                 application/json:
                     schema:
-                        $ref: "#/components/schemas/location"
+                        type: array
+                        items:
+                            $ref: "#/components/schemas/location"
         "404":
             description: That location was not found
         5XX:

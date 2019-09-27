@@ -10,7 +10,9 @@ get:
             content:
                 application/json:
                     schema:
-                        $ref: "#/components/schemas/staff"
+                        type: array
+                        items:
+                            $ref: "#/components/schemas/staff"
         "404":
             description: That staff member was not found
         5XX:

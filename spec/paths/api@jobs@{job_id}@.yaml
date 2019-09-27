@@ -17,7 +17,9 @@ get:
             content:
                 application/json:
                     schema:
-                        $ref: "#/components/schemas/job"
+                        type: array
+                        items:
+                            $ref: "#/components/schemas/job"
         "404":
             description: That job was not found
         5XX:
