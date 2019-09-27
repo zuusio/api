@@ -3,7 +3,9 @@ properties:
     object:
         type: string
         enum: ["punchSource"]
-    timestamp:
+    eventTime:
+        $ref: "#/components/schemas/datetime"
+    serverProcessedTime:
         $ref: "#/components/schemas/datetime"
     source:
         type: string
