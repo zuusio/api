@@ -26,5 +26,11 @@ properties:
         type: array
         items:
             $ref: "#/components/schemas/punchsource"
-
-
+    cost:
+        type: array
+        items:
+            $ref: "#/components/schemas/cost"
+    allowance:
+        type: array
+        items:
+            $ref: "#/components/schemas/allowance"
