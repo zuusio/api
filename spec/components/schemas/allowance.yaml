@@ -5,8 +5,11 @@ properties:
         enum: ["allowance"]
     name:
         type: string
+        description: Allowance condition name
+        example: Daily Uniform Allowance
     value:
         type: number
+        example: 1.25
 required:
     - name
     - value

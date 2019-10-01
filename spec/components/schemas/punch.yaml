@@ -1,30 +1,36 @@
-allOf:
-  - $ref: "#/components/schemas/shift"
-  - type: object
-    properties:
-      object:
+type: object
+properties:
+    object:
         type: string
         enum: ["punch"]
-      segments:
+    uuid:
+        type: string
+        format: uuid
+    staff:
+        type: string
+        format: uuid
+    location:
+        type: string
+        format: uuid
+    start:
+        $ref: "#/components/schemas/datetime"
+    finish:
+        $ref: "#/components/schemas/datetime"
+    segments:
         type: array
         items:
-          $ref: "#/components/schemas/createsegment"
-      source:
+            $ref: "#/components/schemas/segment"
+    notes:
+        type: string
+    source:
         type: array
         items:
-          $ref: "#/components/schemas/punchsource"
-      exceptions:
+            $ref: "#/components/schemas/punchsource"
+    cost:
         type: array
         items:
-          type: object
-          properties:
-            object:
-              type: string
-              enum: ["exception"]
-            manager:
-              type: string
-              format: uuid
-            reason:
-              type: string
-            approvedAt:
-              $ref: "#/components/schemas/datetime"
+            $ref: "#/components/schemas/cost"
+    allowance:
+        type: array
+        items:
+            $ref: "#/components/schemas/allowance"

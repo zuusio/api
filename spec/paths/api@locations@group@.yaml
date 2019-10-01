@@ -14,10 +14,10 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/location/group/?page=3"
+                                example: "https://go.zuusworkforce.com/api/locations/group/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/location/group/?page=1"
+                                example: "https://go.zuusworkforce.com/api/locations/group/?page=1"
                             results:
                                 type: array
                                 items:

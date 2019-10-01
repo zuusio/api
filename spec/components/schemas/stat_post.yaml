@@ -3,8 +3,6 @@ properties:
     object:
         type: string
         enum: ["stat"]
-    stats_type:
-        type: string
     start:
         $ref: "#/components/schemas/datetime"
     finish:
@@ -14,3 +12,7 @@ properties:
         example: "2018-08-10T17:00:00+09:30"
     value:
         type: number
+    manual:
+        type: boolean
+        description: Stat manually entered by a user
+        default: false

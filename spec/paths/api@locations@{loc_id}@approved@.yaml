@@ -28,10 +28,10 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/location/approved/?page=3"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/location/approved/?page=1"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=1"
                             results:
                                 type: array
                                 items:

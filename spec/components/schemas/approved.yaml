@@ -1,16 +1,36 @@
 type: object
 properties:
-  object:
-    type: string
-    enum: ["approvedHrs"]
-  staff:
-    type: string
-    format: uuid
-  condition:
-    type: string
-  rate:
-    type: number
-  amount:
-    type: number
-  hours:
-    type: number
+    object:
+        type: string
+        enum:
+            - approvedHours
+    uuid:
+        type: string
+        format: uuid
+    start:
+        $ref: "#/components/schemas/datetime"
+    finish:
+        $ref: "#/components/schemas/datetime"
+    location:
+        type: string
+        format: uuid
+    staff:
+        type: string
+        format: uuid
+    approver:
+        type: string
+        format: uuid
+    notes:
+        type: string
+    segments:
+        type: array
+        items:
+            $ref: "#/components/schemas/segment"
+    cost:
+        type: array
+        items:
+            $ref: "#/components/schemas/cost"
+    allowance:
+        type: array
+        items:
+            $ref: "#/components/schemas/allowance"

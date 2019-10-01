@@ -2,7 +2,8 @@ type: object
 properties:
     object:
         type: string
-        enum: ["segment"]
+        enum:
+            - segment
     start:
         $ref: "#/components/schemas/datetime"
     finish:
@@ -11,13 +12,11 @@ properties:
         type: string
         nullable: true
         format: uuid
-    break:
+    break_type:
         type: string
         nullable: true
-        enum: ["paid", "unpaid"]
-    cost:
-        type: array
-        items:
-            $ref: "#/components/schemas/cost"
-    notes:
-        type: string
+        example: "paid"
+        enum:
+            - null
+            - paid
+            - unpaid

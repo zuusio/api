@@ -3,7 +3,7 @@ properties:
   object:
     type: string
     enum: ["job"]
-  id:
+  uuid:
     type: string
     format: uuid
   name:
@@ -11,5 +11,6 @@ properties:
     example: Coffee drinker
   color:
     type: string
-    example: null
+    example: '#8CC63E'
     description: HEX representation of color
+

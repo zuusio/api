@@ -4,5 +4,6 @@ properties:
         $ref: "#/components/schemas/date"
     finish:
         $ref: "#/components/schemas/date"
-required:
-    - start
+    reason:
+        type: string
+        description: Termination reason

@@ -1,0 +1,39 @@
+parameters:
+    - $ref: "#/components/parameters/staff"
+# post:
+#     tags:
+#         - Staff
+#     summary: >-
+#         Alter a staff member's employment. Either re-employ or terminate. If a date is provided, it will 
+#         be used as the date of termination otherwise the current date will be 
+#         used
+#     requestBody:
+#         content:
+#             application/json:
+#                 schema:
+#                     type: object
+#                     properties:
+#                         terminate:
+#                             type: boolean
+#                         reason:
+#                             description: When terminating a staff member, record why
+#                             type: string
+#                         date:
+#                             description: ISO 8601 date
+#                             type: string
+#                             format: date
+#     responses:
+#         "201":
+#             description: The staff member has had their employment status created
+#             content:
+#                 application/json:
+#                     schema:
+#                         type: object
+#                         properties:
+#                             object:
+#                                 type: string
+#                                 enum: ["list"]
+#                             data:
+#                                 type: array
+#                                 items:
+#                                     $ref: "#/components/schemas/dateperiod"

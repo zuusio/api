@@ -3,7 +3,7 @@ properties:
   object:
     type: string
     enum: ["locationGrp"]
-  id:
+  uuid:
     type: string
     format: uuid
   category:

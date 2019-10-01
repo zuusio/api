@@ -1,0 +1,4 @@
+type: string
+format: date
+description: ISO 8601 date
+example: "2018-08-10"

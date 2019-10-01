@@ -2,8 +2,9 @@ type: object
 properties:
     object:
         type: string
-        enum: ["shift"]
-    id:
+        enum:
+            - shift
+    uuid:
         type: string
         format: uuid
     staff:
@@ -20,6 +21,10 @@ properties:
         type: array
         items:
             $ref: "#/components/schemas/segment"
+    cost:
+        type: array
+        items:
+            $ref: "#/components/schemas/cost"
     allowance:
         type: array
         items:

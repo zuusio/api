@@ -1,10 +1,4 @@
 type: object
 properties:
-  object:
-    type: string
-    enum: ["stattype"]
-  id:
-    type: string
-    format: uuid
-  name:
-    type: string
+    stats_type:
+        type: string

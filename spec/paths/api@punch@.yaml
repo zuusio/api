@@ -20,10 +20,10 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/punch/?page=3"
+                                example: "https://go.zuusworkforce.com/api/punch/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/punch/?page=1"
+                                example: "https://go.zuusworkforce.com/api/punch/?page=1"
                             results:
                                 type: array
                                 items:

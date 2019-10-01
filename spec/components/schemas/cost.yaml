@@ -2,15 +2,15 @@ type: object
 properties:
     object:
         type: string
-        enum: ["cost"]
-    type:
-        type: string
-        enum: ["condition", "penalty"]
+        enum:
+            - cost
     name:
         type: string
+        description: Wage condition name
+        example: Normal Hours
     value:
         type: number
-required:
-    - type
-    - name
-    - value
+        example: 136.875
+    duration:
+        type: number
+        example: 7.5

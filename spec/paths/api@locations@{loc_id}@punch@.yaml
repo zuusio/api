@@ -28,35 +28,35 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://api.zuus.io/location/punch/?page=3"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/punch/?page=3"
                             previous:
                                 type: string
-                                example: "https://api.zuus.io/location/punch/?page=1"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/punch/?page=1"
                             results:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/punch"
-post:
-    tags:
-        - Punches
-    summary: Create a punch
-    description: >-
-        Once a punch attribute has been added (start, break, segment) it cannot
-        be modified
-    requestBody:
-        required: true
-        content:
-            application/json:
-                schema:
-                    $ref: "#/components/schemas/createpunch"
-    responses:
-        "201":
-            description: Successful creation of a punch
-            content:
-                application/json:
-                    schema:
-                        type: string
-                        format: uuid
-                        example: e4a33c11-31e6-4668-ab31-83551dae7cb7
-        "409":
-            description: Conflict
+# post:
+#     tags:
+#         - Punches
+#     summary: Create a punch
+#     description: >-
+#         Once a punch attribute has been added (start, break, segment) it cannot
+#         be modified
+#     requestBody:
+#         required: true
+#         content:
+#             application/json:
+#                 schema:
+#                     $ref: "#/components/schemas/createpunch"
+#     responses:
+#         "201":
+#             description: Successful creation of a punch
+#             content:
+#                 application/json:
+#                     schema:
+#                         type: string
+#                         format: uuid
+#                         example: e4a33c11-31e6-4668-ab31-83551dae7cb7
+#         "409":
+#             description: Conflict
