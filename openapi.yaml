@@ -1,15 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: 'https://{region}.api.zuus.io/{accountId}/'
-    variables:
-      region:
-        default: au
-        enum:
-          - au
-          - us
-      accountId:
-        default: 01b9e817b6024de2950148bdab6a63c9
-        description: Account Id assigned by ZUUS
+  - url: 'https://go.zuusworkforce.com/'
 info:
   title: ZUUS (draft)
   description: |
@@ -35,11 +26,9 @@ tags:
   - name: Stats
     description: Location statistics to assist with accurate scheduling
 security:
-  - OAuth2:
-      - read
-      - write
+  - Basic: []
 paths:
-  /approved/:
+  /api/approved/:
     get:
       tags:
         - Approved Shifts
@@ -62,15 +51,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/approved/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/approved/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/approved/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/approved/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/approved'
-  /job/:
+  /api/jobs/:
     get:
       tags:
         - Jobs
@@ -89,45 +78,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/job/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/jobs/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/job/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/jobs/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/job'
-    post:
-      tags:
-        - Jobs
-      summary: Create one or more jobs
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/job'
-      responses:
-        '201':
-          description: Successful creation of jobs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    enum:
-                      - list
-                  data:
-                    type: array
-                    items:
-                      type: string
-                      format: uuid
-                      example: baf47dc1-ec02-4782-a855-de3c48ff4123
-  '/job/{job_id}/':
+  '/api/jobs/{job_id}/':
     parameters:
       - in: path
         name: job_id
@@ -147,25 +106,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/job'
+                type: array
+                items:
+                  $ref: '#/components/schemas/job'
         '404':
           description: That job was not found
         5XX:
           description: Unexpected Error
-    put:
-      tags:
-        - Jobs
-      summary: Update a job
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/job'
-      responses:
-        '200':
-          description: Successfully update job details
-  /location/:
+  /api/locations/:
     get:
       tags:
         - Locations
@@ -182,45 +130,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/locations/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/locations/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/location'
-    post:
-      tags:
-        - Locations
-      summary: Create one or more locations
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/location'
-      responses:
-        '201':
-          description: Successful creation of locations
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    enum:
-                      - list
-                  data:
-                    type: array
-                    items:
-                      type: string
-                      format: uuid
-                      example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
-  '/location/{loc_id}/':
+  '/api/locations/{loc_id}/':
     parameters:
       - in: path
         name: loc_id
@@ -240,25 +158,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location'
+                type: array
+                items:
+                  $ref: '#/components/schemas/location'
         '404':
           description: That location was not found
         5XX:
           description: Unexpected Error
-    put:
-      tags:
-        - Locations
-      summary: Update a location
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/location'
-      responses:
-        '200':
-          description: Successfully updated the location
-  '/location/{loc_id}/approved/':
+  '/api/locations/{loc_id}/approved/':
     parameters:
       - in: path
         name: loc_id
@@ -289,15 +196,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/approved/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/approved/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/approved'
-  '/location/{loc_id}/punch/':
+  '/api/locations/{loc_id}/punch/':
     parameters:
       - in: path
         name: loc_id
@@ -328,37 +235,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/punch/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/punch/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/punch/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/punch/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/punch'
-    post:
-      tags:
-        - Punches
-      summary: Create a punch
-      description: 'Once a punch attribute has been added (start, break, segment) it cannot be modified'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/createpunch'
-      responses:
-        '201':
-          description: Successful creation of a punch
-          content:
-            application/json:
-              schema:
-                type: string
-                format: uuid
-                example: e4a33c11-31e6-4668-ab31-83551dae7cb7
-        '409':
-          description: Conflict
-  '/location/{loc_id}/punch/{punch_id}/':
+  '/api/locations/{loc_id}/punch/{punch_id}/':
     parameters:
       - in: path
         name: loc_id
@@ -386,25 +271,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/punch'
+                type: array
+                items:
+                  $ref: '#/components/schemas/punch'
         '404':
           description: That punch was not found
         5XX:
           description: Unexpected Error
-    put:
-      tags:
-        - Punches
-      summary: Update a punch
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/punch'
-      responses:
-        '200':
-          description: Successfully updated the punch
-  '/location/{loc_id}/schedule/':
+  '/api/locations/{loc_id}/schedule/':
     parameters:
       - in: path
         name: loc_id
@@ -435,15 +309,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/schedule/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/schedule/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/schedule/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/schedule/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/shift'
-  '/location/{loc_id}/stats/{data_type}/type/':
+  '/api/locations/{loc_id}/stats/{data_type}/type/':
     parameters:
       - $ref: '#/components/parameters/location'
       - in: path
@@ -471,15 +345,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/stats/type/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/type/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/stats/type/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/type/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/stattype'
-  '/location/{loc_id}/stats/{data_type}/type/{stat_type}/':
+  '/api/locations/{loc_id}/stats/{data_type}/type/{stat_type}/':
     parameters:
       - $ref: '#/components/parameters/location'
       - in: path
@@ -521,10 +395,10 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/stats/type/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/stats/type/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=1'
                   results:
                     type: array
                     items:
@@ -540,11 +414,11 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/stat'
+                $ref: '#/components/schemas/stat_post'
       responses:
         '201':
           description: Successful creation of statistic
-  /location/group/:
+  /api/locations/group/:
     get:
       tags:
         - Locations
@@ -561,15 +435,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/location/group/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/locations/group/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/location/group/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/locations/group/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/locationgroup'
-  /punch/:
+  /api/punch/:
     get:
       tags:
         - Punches
@@ -592,15 +466,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/punch/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/punch/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/punch/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/punch/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/punch'
-  /schedule/:
+  /api/schedule/:
     get:
       tags:
         - Scheduled Shifts
@@ -623,15 +497,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/schedule/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/schedule/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/schedule/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/schedule/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/shift'
-  /staff/:
+  /api/staff/:
     get:
       tags:
         - Staff
@@ -651,41 +525,15 @@ paths:
                     type: integer
                   next:
                     type: string
-                    example: 'https://api.zuus.io/staff/?page=3'
+                    example: 'https://go.zuusworkforce.com/api/staff/?page=3'
                   previous:
                     type: string
-                    example: 'https://api.zuus.io/staff/?page=1'
+                    example: 'https://go.zuusworkforce.com/api/staff/?page=1'
                   results:
                     type: array
                     items:
                       $ref: '#/components/schemas/staff'
-    post:
-      tags:
-        - Staff
-      summary: Create staff
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/staff'
-      responses:
-        '201':
-          description: Successful creation of supplied staff
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  results:
-                    type: array
-                    items:
-                      type: string
-                      format: uuid
-                      example: 566166db-6402-4d0f-88ed-259784aaf7dd
-  '/staff/{staff_id}/':
+  '/api/staff/{staff_id}/':
     parameters:
       - $ref: '#/components/parameters/staff'
     get:
@@ -698,108 +546,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/staff'
+                type: array
+                items:
+                  $ref: '#/components/schemas/staff'
         '404':
           description: That staff member was not found
         5XX:
           description: Unexpected Error
-    put:
-      tags:
-        - Staff
-      summary: Update an individual staff member
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/staff'
-      responses:
-        '200':
-          description: Successfully updated staff member's details
-        '403':
-          description: Not allowed to update that staff member
-        '409':
-          description: 'Conflict, unable to update'
-    patch:
-      tags:
-        - Staff
-      summary: Update particular parts of an individual staff member
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/staff'
-      responses:
-        '200':
-          description: Successfully updated staff member's details
-        '403':
-          description: Not allowed to update that staff member
-        '409':
-          description: 'Conflict, unable to update'
-  '/staff/{staff_id}/employment/':
+  '/api/staff/{staff_id}/employment/':
     parameters:
       - $ref: '#/components/parameters/staff'
-    post:
-      tags:
-        - Staff
-      summary: 'Alter a staff member''s employment. Either re-employ or terminate. If a date is provided, it will  be used as the date of termination otherwise the current date will be  used'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                terminate:
-                  type: boolean
-                reason:
-                  description: 'When terminating a staff member, record why'
-                  type: string
-                date:
-                  description: ISO 8601 date
-                  type: string
-                  format: date
-      responses:
-        '201':
-          description: The staff member has had their employment status created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    enum:
-                      - list
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/dateperiod'
-  '/staff/{staff_id}/job/':
+  '/api/staff/{staff_id}/job/':
     parameters:
       - $ref: '#/components/parameters/staff'
-    put:
-      tags:
-        - Staff
-      summary: 'Add a job that this staff member can perform. If a date is provided, it will be used as the date that this job becomes active for this staff member, otherwise the current date will be used'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                date:
-                  description: ISO 8601 date
-                  type: string
-                  format: date
-      responses:
-        '200':
-          description: The job has been successfully added to this staff member
-  '/staff/{staff_id}/job/{job_id}/':
+  '/api/staff/{staff_id}/job/{job_id}/':
     parameters:
       - $ref: '#/components/parameters/staff'
       - in: path
@@ -816,45 +576,17 @@ paths:
           description: ISO 8601 date
           type: string
           format: date
-    delete:
-      tags:
-        - Staff
-      summary: 'Remove a job that this staff member can perform. If a date is provided,  it will be used as the date that this job becomes inactive for this  staff member, otherwise the current date will be used'
-      responses:
-        '200':
-          description: The job has been marked as inactive
-        '403':
-          description: Not allowed to modify that staff member
-        '409':
-          description: That job is already inactive
-  '/staff/{staff_id}/location/':
+  '/api/staff/{staff_id}/location/{loc_id}':
     parameters:
       - $ref: '#/components/parameters/staff'
-    put:
-      tags:
-        - Staff
-      summary: Add a location that this staff member can work at.
-      requestBody:
+      - in: path
+        name: loc_id
         required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                primary:
-                  type: object
-                  properties:
-                    effective_from:
-                      description: ISO 8601 date
-                      type: string
-                      format: date
-      responses:
-        '200':
-          description: The location has been successfully added to this staff member
-  '/staff/{staff_id}/location/{loc_id}/':
+        schema:
+          type: string
+          format: uuid
+        description: The location id
+  '/api/staff/{staff_id}/location/{loc_id}/':
     parameters:
       - $ref: '#/components/parameters/staff'
       - in: path
@@ -865,17 +597,6 @@ paths:
           format: uuid
         description: The location id
         example: 0a3a4cfa-6e8f-409a-9093-00f28243130a
-    delete:
-      tags:
-        - Staff
-      summary: Remove a location that a staff member can work at
-      responses:
-        '200':
-          description: The location has been removed
-        '403':
-          description: Not allowed to modify that staff member
-        '409':
-          description: That job is already removed
 components:
   schemas:
     allowance:
@@ -887,8 +608,11 @@ components:
             - allowance
         name:
           type: string
+          description: Allowance condition name
+          example: Daily Uniform Allowance
         value:
           type: number
+          example: 1.25
       required:
         - name
         - value
@@ -898,18 +622,37 @@ components:
         object:
           type: string
           enum:
-            - approvedHrs
+            - approvedHours
+        uuid:
+          type: string
+          format: uuid
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        location:
+          type: string
+          format: uuid
         staff:
           type: string
           format: uuid
-        condition:
+        approver:
           type: string
-        rate:
-          type: number
-        amount:
-          type: number
-        hours:
-          type: number
+          format: uuid
+        notes:
+          type: string
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/segment'
+        cost:
+          type: array
+          items:
+            $ref: '#/components/schemas/cost'
+        allowance:
+          type: array
+          items:
+            $ref: '#/components/schemas/allowance'
     break:
       type: object
       properties:
@@ -929,19 +672,16 @@ components:
           type: string
           enum:
             - cost
-        type:
-          type: string
-          enum:
-            - condition
-            - penalty
         name:
           type: string
+          description: Wage condition name
+          example: Normal Hours
         value:
           type: number
-      required:
-        - type
-        - name
-        - value
+          example: 136.875
+        duration:
+          type: number
+          example: 7.5
     createpunch:
       type: object
       properties:
@@ -997,24 +737,35 @@ components:
           type: string
       required:
         - start
+    date:
+      type: string
+      format: date
+      description: ISO 8601 date
+      example: '2018-08-10'
     dateperiod:
       type: object
       properties:
         start:
-          description: ISO 8601 date
-          type: string
-          format: date
+          $ref: '#/components/schemas/date'
         finish:
-          description: ISO 8601 date
-          type: string
-          format: date
+          $ref: '#/components/schemas/date'
       required:
         - start
     datetime:
       type: string
       format: datetime
       description: ISO 8601 date time with timezone
-      example: '2018-08-10 16:45+9:30'
+      example: '2018-08-10T16:45:00+09:30'
+    employmentperiod:
+      type: object
+      properties:
+        start:
+          $ref: '#/components/schemas/date'
+        finish:
+          $ref: '#/components/schemas/date'
+        reason:
+          type: string
+          description: Termination reason
     entityperiod:
       type: object
       properties:
@@ -1022,19 +773,15 @@ components:
           type: string
           enum:
             - entityperiod
-        id:
+        uuid:
           type: string
           format: uuid
         start:
-          description: ISO 8601 Date
-          type: string
-          format: date
+          $ref: '#/components/schemas/date'
         finish:
-          description: ISO 8601 Date
-          type: string
-          format: date
+          $ref: '#/components/schemas/date'
       required:
-        - id
+        - uuid
     job:
       type: object
       properties:
@@ -1042,7 +789,7 @@ components:
           type: string
           enum:
             - job
-        id:
+        uuid:
           type: string
           format: uuid
         name:
@@ -1050,12 +797,12 @@ components:
           example: Coffee drinker
         color:
           type: string
-          example: null
+          example: '#8CC63E'
           description: HEX representation of color
     location:
       type: object
       properties:
-        id:
+        uuid:
           type: string
           format: uuid
         name:
@@ -1067,7 +814,9 @@ components:
         jobs:
           type: array
           items:
-            $ref: '#/components/schemas/entityperiod'
+            description: The UUID of jobs that are available to this location
+            type: string
+            format: uuid
         object:
           type: string
           enum:
@@ -1079,7 +828,7 @@ components:
           type: string
           enum:
             - locationGrp
-        id:
+        uuid:
           type: string
           format: uuid
         category:
@@ -1087,38 +836,43 @@ components:
         name:
           type: string
     punch:
-      allOf:
-        - $ref: '#/components/schemas/shift'
-        - type: object
-          properties:
-            object:
-              type: string
-              enum:
-                - punch
-            segments:
-              type: array
-              items:
-                $ref: '#/components/schemas/createsegment'
-            source:
-              type: array
-              items:
-                $ref: '#/components/schemas/punchsource'
-            exceptions:
-              type: array
-              items:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    enum:
-                      - exception
-                  manager:
-                    type: string
-                    format: uuid
-                  reason:
-                    type: string
-                  approvedAt:
-                    $ref: '#/components/schemas/datetime'
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - punch
+        uuid:
+          type: string
+          format: uuid
+        staff:
+          type: string
+          format: uuid
+        location:
+          type: string
+          format: uuid
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/segment'
+        notes:
+          type: string
+        source:
+          type: array
+          items:
+            $ref: '#/components/schemas/punchsource'
+        cost:
+          type: array
+          items:
+            $ref: '#/components/schemas/cost'
+        allowance:
+          type: array
+          items:
+            $ref: '#/components/schemas/allowance'
     punchsource:
       type: object
       properties:
@@ -1126,9 +880,10 @@ components:
           type: string
           enum:
             - punchSource
-        timestamp:
-          type: string
-          format: date
+        eventTime:
+          $ref: '#/components/schemas/datetime'
+        serverProcessedTime:
+          $ref: '#/components/schemas/datetime'
         source:
           type: string
           enum:
@@ -1136,9 +891,10 @@ components:
             - Mobile server
             - Zuus Time
             - Zuus Web
-            - Asher
+            - IVR
             - myZUUS
             - Advanced manufacturing
+          description: 'Source of the clock event, may contain other strings for external POS systems'
         geo:
           type: boolean
         long:
@@ -1168,18 +924,14 @@ components:
           type: string
           nullable: true
           format: uuid
-        break:
+        break_type:
           type: string
           nullable: true
+          example: paid
           enum:
+            - null
             - paid
             - unpaid
-        cost:
-          type: array
-          items:
-            $ref: '#/components/schemas/cost'
-        notes:
-          type: string
     shift:
       type: object
       properties:
@@ -1187,7 +939,7 @@ components:
           type: string
           enum:
             - shift
-        id:
+        uuid:
           type: string
           format: uuid
         staff:
@@ -1204,6 +956,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/segment'
+        cost:
+          type: array
+          items:
+            $ref: '#/components/schemas/cost'
         allowance:
           type: array
           items:
@@ -1217,27 +973,27 @@ components:
           type: string
           enum:
             - staff
-        id:
+        uuid:
           type: string
           format: uuid
         first_name:
           type: string
         last_name:
           type: string
-        manager:
-          type: boolean
+        preferred_name:
+          type: string
         email:
           type: string
         dob:
-          description: ISO 8601 date
-          type: string
-          format: date
+          $ref: '#/components/schemas/date'
         pin:
+          type: string
+        gender:
           type: string
         employment:
           type: array
           items:
-            $ref: '#/components/schemas/dateperiod'
+            $ref: '#/components/schemas/employmentperiod'
         jobs:
           type: array
           items:
@@ -1247,20 +1003,18 @@ components:
           items:
             type: object
             properties:
-              id:
+              uuid:
                 type: string
                 format: uuid
               effective_from:
-                description: ISO 8601 Date
-                type: string
-                format: date
+                $ref: '#/components/schemas/date'
         locations:
           type: array
           items:
             description: The UUID of locations that this staff member is available to work at
             type: string
             format: uuid
-    stat:
+    stat_post:
       type: object
       properties:
         object:
@@ -1270,20 +1024,38 @@ components:
         start:
           $ref: '#/components/schemas/datetime'
         finish:
-          $ref: '#/components/schemas/datetime'
+          type: string
+          format: datetime
+          description: Non inclusive ISO 8601 date time with timezone
+          example: '2018-08-10T17:00:00+09:30'
         value:
           type: number
-    stattype:
+        manual:
+          type: boolean
+          description: Stat manually entered by a user
+          default: false
+    stat:
       type: object
       properties:
         object:
           type: string
           enum:
-            - stattype
-        id:
+            - stat
+        stats_type:
           type: string
-          format: uuid
-        name:
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          type: string
+          format: datetime
+          description: Non inclusive ISO 8601 date time with timezone
+          example: '2018-08-10T17:00:00+09:30'
+        value:
+          type: number
+    stattype:
+      type: object
+      properties:
+        stats_type:
           type: string
   parameters:
     employment_status:
@@ -1370,12 +1142,7 @@ components:
       description: The staff id
       example: 566166db-6402-4d0f-88ed-259784aaf7dd
   securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: 'https://go.zuusworkforce.com/auth/application'
-          tokenUrl: 'https://go.zuusworkforce.com/auth/token'
-          scopes:
-            read: Grant read access
-            write: Grant write access
+    Basic:
+      type: http
+      scheme: basic
+      description: Authenitcate with the credentials provided by ZUUS Support (api@zuusworkforce.com)
