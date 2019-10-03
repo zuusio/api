@@ -1,4 +1,4 @@
-# ZUUS (draft) OpenAPI Specification
+# ZUUS OpenAPI Specification
 [![Build Status](https://travis-ci.com/zuusio/api.svg?branch=master)](https://travis-ci.com/zuusio/api)
 ## Steps to finish
 
