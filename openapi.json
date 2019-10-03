@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "title": "ZUUS (draft)",
+    "title": "ZUUS",
     "description": "Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, punches and approved hours). Additionally you can send in 'Point of Sales' information.\n",
     "version": "1.0.0",
     "contact": {
@@ -19,11 +19,11 @@
   "tags": [
     {
       "name": "Staff",
-      "description": "Operations about staff"
+      "description": "Retrieve details about staff."
     },
     {
       "name": "Jobs",
-      "description": "Operations on jobs"
+      "description": "Jobs are tasks that staff perform at locations."
     },
     {
       "name": "Locations",
@@ -31,7 +31,7 @@
     },
     {
       "name": "Scheduled Shifts",
-      "description": "These are the times that are planned for staff to be at a location"
+      "description": "These are the times that are planned for staff to be at a location."
     },
     {
       "name": "Punches",
@@ -43,7 +43,7 @@
     },
     {
       "name": "Stats",
-      "description": "Location statistics to assist with accurate scheduling"
+      "description": "Location statistics to assist with accurate scheduling."
     }
   ],
   "security": [
