@@ -1,5 +1,5 @@
 specFileName: /home/jake/Documents/dev/api/swagger.yaml
-apiTitle: ZUUS (draft)
+apiTitle: ZUUS
 splitSpec: true
 codeSamples: true
 swaggerUI: true
