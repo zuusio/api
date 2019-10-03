@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
     - url: "https://go.zuusworkforce.com/"
 info:
-    title: ZUUS (draft)
+    title: ZUUS
     description: >
         Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use
         this API to access information about staff, locations, jobs and shifts
@@ -15,18 +15,18 @@ info:
         url: logo.png
 tags:
     - name: Staff
-      description: Operations about staff
+      description: Retrieve details about staff.
     - name: Jobs
-      description: Operations on jobs
+      description: Jobs are tasks that staff perform at locations.
     - name: Locations
       description: Locations are physical areas that require staff to be stationed.
     - name: Scheduled Shifts
-      description: These are the times that are planned for staff to be at a location
+      description: These are the times that are planned for staff to be at a location.
     - name: Punches
       description: These are the recorded times that staff occupied a location.
     - name: Approved Shifts
       description: These are the times that have been approved and will be used in payroll.
     - name: Stats
-      description: Location statistics to assist with accurate scheduling
+      description: Location statistics to assist with accurate scheduling.
 security:
     - Basic: []
