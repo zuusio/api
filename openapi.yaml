@@ -861,7 +861,7 @@ components:
             $ref: '#/components/schemas/segment'
         notes:
           type: string
-        source:
+        punches:
           type: array
           items:
             $ref: '#/components/schemas/punchsource'

@@ -1378,7 +1378,7 @@
           "notes": {
             "type": "string"
           },
-          "source": {
+          "punches": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/punchsource"
