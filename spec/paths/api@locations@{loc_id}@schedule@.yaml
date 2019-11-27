@@ -16,6 +16,7 @@ get:
         - $ref: "#/components/parameters/greaterThanOrEqual"
         - $ref: "#/components/parameters/lessThan"
         - $ref: "#/components/parameters/lessThanOrEqual"
+        - $ref: "#/components/parameters/publish_status"
     responses:
         "200":
             description: Successfully retrieved a list of all the scheduled shifts for the period

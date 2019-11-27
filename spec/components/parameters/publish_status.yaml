@@ -1,0 +1,7 @@
+in: query
+name: status
+description: Filter shifts by published status. If not provided only published shifts will be returned.
+required: false
+schema:
+    type: string
+    enum: ["published", "unpublished", "all"]
