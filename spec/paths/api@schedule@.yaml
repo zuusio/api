@@ -8,6 +8,7 @@ get:
         - $ref: "#/components/parameters/lessThan"
         - $ref: "#/components/parameters/lessThanOrEqual"
         - $ref: "#/components/parameters/locationgroup"
+        - $ref: "#/components/parameters/publish_status"
     responses:
         "200":
             description: A list of all published scheduled shifts within the filter
