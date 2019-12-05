@@ -491,6 +491,9 @@
           },
           {
             "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/publish_status"
           }
         ],
         "responses": {
@@ -807,6 +810,9 @@
           },
           {
             "$ref": "#/components/parameters/locationgroup"
+          },
+          {
+            "$ref": "#/components/parameters/publish_status"
           }
         ],
         "responses": {
@@ -1685,7 +1691,8 @@
           "type": "string",
           "format": "date"
         },
-        "description": "Return results where the 'start' field is greater than this value."
+        "description": "Return results where the 'start' field is greater than this value.",
+        "example": "2019-11-25"
       },
       "greaterThanOrEqual": {
         "in": "query",
@@ -1695,7 +1702,8 @@
           "type": "string",
           "format": "date"
         },
-        "description": "Return results where the 'start' field is greater than or equal this value."
+        "description": "Return results where the 'start' field is greater than or equal this value.",
+        "example": "2019-11-25"
       },
       "lessThan": {
         "in": "query",
@@ -1705,7 +1713,8 @@
           "type": "string",
           "format": "date"
         },
-        "description": "Return results where the 'start' field is less than this value."
+        "description": "Return results where the 'start' field is less than this value.",
+        "example": "2019-11-25"
       },
       "lessThanOrEqual": {
         "in": "query",
@@ -1715,7 +1724,8 @@
           "type": "string",
           "format": "date"
         },
-        "description": "Return results where the 'start' field is less than or equal this value."
+        "description": "Return results where the 'start' field is less than or equal this value.",
+        "example": "2019-11-25"
       },
       "location": {
         "in": "path",
@@ -1755,6 +1765,20 @@
           "enum": [
             "staff",
             "condition"
+          ]
+        }
+      },
+      "publish_status": {
+        "in": "query",
+        "name": "status",
+        "description": "Filter shifts by published status. If not provided only published shifts will be returned.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "published",
+            "unpublished",
+            "all"
           ]
         }
       },

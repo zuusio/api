@@ -297,6 +297,7 @@ paths:
         - $ref: '#/components/parameters/greaterThanOrEqual'
         - $ref: '#/components/parameters/lessThan'
         - $ref: '#/components/parameters/lessThanOrEqual'
+        - $ref: '#/components/parameters/publish_status'
       responses:
         '200':
           description: Successfully retrieved a list of all the scheduled shifts for the period
@@ -485,6 +486,7 @@ paths:
         - $ref: '#/components/parameters/lessThan'
         - $ref: '#/components/parameters/lessThanOrEqual'
         - $ref: '#/components/parameters/locationgroup'
+        - $ref: '#/components/parameters/publish_status'
       responses:
         '200':
           description: A list of all published scheduled shifts within the filter
@@ -1076,6 +1078,7 @@ components:
         type: string
         format: date
       description: Return results where the 'start' field is greater than this value.
+      example: '2019-11-25'
     greaterThanOrEqual:
       in: query
       name: gte
@@ -1084,6 +1087,7 @@ components:
         type: string
         format: date
       description: Return results where the 'start' field is greater than or equal this value.
+      example: '2019-11-25'
     lessThan:
       in: query
       name: lt
@@ -1092,6 +1096,7 @@ components:
         type: string
         format: date
       description: Return results where the 'start' field is less than this value.
+      example: '2019-11-25'
     lessThanOrEqual:
       in: query
       name: lte
@@ -1100,6 +1105,7 @@ components:
         type: string
         format: date
       description: Return results where the 'start' field is less than or equal this value.
+      example: '2019-11-25'
     location:
       in: path
       name: loc_id
@@ -1132,6 +1138,17 @@ components:
         enum:
           - staff
           - condition
+    publish_status:
+      in: query
+      name: status
+      description: Filter shifts by published status. If not provided only published shifts will be returned.
+      required: false
+      schema:
+        type: string
+        enum:
+          - published
+          - unpublished
+          - all
     staff:
       in: path
       name: staff_id
