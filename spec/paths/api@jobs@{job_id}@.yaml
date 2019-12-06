@@ -20,8 +20,12 @@ get:
                         type: array
                         items:
                             $ref: "#/components/schemas/job"
+        "400":
+            $ref: "#/components/schemas/400"
+        "403":
+            $ref: "#/components/schemas/403"
         "404":
-            description: That job was not found
+            $ref: "#/components/schemas/404"
         5XX:
             description: Unexpected Error
 # put:

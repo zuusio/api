@@ -22,3 +22,9 @@ get:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/locationgroup"
+        "400":
+            $ref: "#/components/schemas/400"
+        "403":
+            $ref: "#/components/schemas/403"
+        5XX:
+            description: Unexpected Error

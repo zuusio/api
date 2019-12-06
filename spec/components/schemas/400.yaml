@@ -1,0 +1,9 @@
+description: Bad request
+content:
+    application/json:
+        schema:
+            type: object
+            properties:
+                detail:
+                    type: string
+                    example: "Foo is an invalid query parameter"
