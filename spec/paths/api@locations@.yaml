@@ -23,9 +23,9 @@ get:
                                 items:
                                     $ref: "#/components/schemas/location"
         "400":
-            $ref: "#/components/schemas/400"
+            $ref: "#/components/responses/400"
         "403":
-            $ref: "#/components/schemas/403"
+            $ref: "#/components/responses/403"
         5XX:
             description: Unexpected Error
 

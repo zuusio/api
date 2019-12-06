@@ -21,11 +21,11 @@ get:
                         items:
                             $ref: "#/components/schemas/job"
         "400":
-            $ref: "#/components/schemas/400"
+            $ref: "#/components/responses/400"
         "403":
-            $ref: "#/components/schemas/403"
+            $ref: "#/components/responses/403"
         "404":
-            $ref: "#/components/schemas/404"
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error
 # put:

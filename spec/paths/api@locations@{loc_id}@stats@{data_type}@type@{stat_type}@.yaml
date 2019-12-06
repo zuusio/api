@@ -48,11 +48,11 @@ get:
                                 items:
                                     $ref: "#/components/schemas/stat"
         "400":
-            $ref: "#/components/schemas/400"
+            $ref: "#/components/responses/400"
         "403":
-            $ref: "#/components/schemas/403"
+            $ref: "#/components/responses/403"
         "404":
-            $ref: "#/components/schemas/404"
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error
 
@@ -72,8 +72,8 @@ post:
         "201":
             description: Successful creation of statistic
         "400":
-            $ref: "#/components/schemas/400"
+            $ref: "#/components/responses/400"
         "403":
-            $ref: "#/components/schemas/403"
+            $ref: "#/components/responses/403"
         5XX:
             description: Unexpected Error
