@@ -7,7 +7,7 @@
   ],
   "info": {
     "title": "ZUUS",
-    "description": "Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, punches and approved hours). Additionally you can send in 'Point of Sales' information.\n",
+    "description": "Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, punches and approved hours). Additionally you can send in 'Point of Sales' information.\n\nIf you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/). Within Insomnia you can import the ZUUS API spec by clicking on the Download Open API specification.\n\nWhen you are asking for a list of staff, shifts, jobs, locations or anything else available via the API, the response will be paginated. The default is 100 items per page, however, you should not rely on this for determining if there is another page. You should use the URL provided in the “next” and “previous” fields in the response.\n",
     "version": "1.0.0",
     "contact": {
       "email": "api@zuusworkforce.com"
@@ -148,6 +148,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -185,8 +194,14 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
           "404": {
-            "description": "That job was not found"
+            "$ref": "#/components/responses/404"
           },
           "5XX": {
             "description": "Unexpected Error"
@@ -229,6 +244,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -266,8 +290,14 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
           "404": {
-            "description": "That location was not found"
+            "$ref": "#/components/responses/404"
           },
           "5XX": {
             "description": "Unexpected Error"
@@ -337,6 +367,18 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -403,6 +445,18 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -451,8 +505,14 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
           "404": {
-            "description": "That punch was not found"
+            "$ref": "#/components/responses/404"
           },
           "5XX": {
             "description": "Unexpected Error"
@@ -525,6 +585,18 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -582,6 +654,18 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -666,6 +750,18 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       },
@@ -690,6 +786,15 @@
         "responses": {
           "201": {
             "description": "Successful creation of statistic"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -729,6 +834,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -785,6 +899,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -844,6 +967,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -891,6 +1023,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
           }
         }
       }
@@ -920,8 +1061,14 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
           "404": {
-            "description": "That staff member was not found"
+            "$ref": "#/components/responses/404"
           },
           "5XX": {
             "description": "Unexpected Error"
@@ -1665,6 +1812,56 @@
         "properties": {
           "stats_type": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Foo is an invalid query parameter"
+                }
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "You do not have permission to perform this action"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Object not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Object not found"
+                }
+              }
+            }
           }
         }
       }

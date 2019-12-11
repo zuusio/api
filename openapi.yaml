@@ -5,6 +5,10 @@ info:
   title: ZUUS
   description: |
     Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, punches and approved hours). Additionally you can send in 'Point of Sales' information.
+
+    If you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/). Within Insomnia you can import the ZUUS API spec by clicking on the Download Open API specification.
+
+    When you are asking for a list of staff, shifts, jobs, locations or anything else available via the API, the response will be paginated. The default is 100 items per page, however, you should not rely on this for determining if there is another page. You should use the URL provided in the “next” and “previous” fields in the response.
   version: 1.0.0
   contact:
     email: api@zuusworkforce.com
@@ -86,6 +90,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/job'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        5XX:
+          description: Unexpected Error
   '/api/jobs/{job_id}/':
     parameters:
       - in: path
@@ -109,8 +119,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/job'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
-          description: That job was not found
+          $ref: '#/components/responses/404'
         5XX:
           description: Unexpected Error
   /api/locations/:
@@ -138,6 +152,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/location'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        5XX:
+          description: Unexpected Error
   '/api/locations/{loc_id}/':
     parameters:
       - in: path
@@ -161,8 +181,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/location'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
-          description: That location was not found
+          $ref: '#/components/responses/404'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/approved/':
@@ -204,6 +228,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/approved'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          description: Unexpected Error
   '/api/locations/{loc_id}/punch/':
     parameters:
       - in: path
@@ -243,6 +275,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/punch'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          description: Unexpected Error
   '/api/locations/{loc_id}/punch/{punch_id}/':
     parameters:
       - in: path
@@ -274,8 +314,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/punch'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
-          description: That punch was not found
+          $ref: '#/components/responses/404'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/schedule/':
@@ -318,6 +362,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/shift'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          description: Unexpected Error
   '/api/locations/{loc_id}/stats/{data_type}/type/':
     parameters:
       - $ref: '#/components/parameters/location'
@@ -354,6 +406,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/stattype'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          description: Unexpected Error
   '/api/locations/{loc_id}/stats/{data_type}/type/{stat_type}/':
     parameters:
       - $ref: '#/components/parameters/location'
@@ -404,6 +464,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/stat'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          description: Unexpected Error
     post:
       tags:
         - Stats
@@ -419,6 +487,12 @@ paths:
       responses:
         '201':
           description: Successful creation of statistic
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        5XX:
+          description: Unexpected Error
   /api/locations/group/:
     get:
       tags:
@@ -444,6 +518,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/locationgroup'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        5XX:
+          description: Unexpected Error
   /api/punch/:
     get:
       tags:
@@ -475,6 +555,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/punch'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        5XX:
+          description: Unexpected Error
   /api/schedule/:
     get:
       tags:
@@ -507,6 +593,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/shift'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        5XX:
+          description: Unexpected Error
   /api/staff/:
     get:
       tags:
@@ -535,6 +627,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/staff'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        5XX:
+          description: Unexpected Error
   '/api/staff/{staff_id}/':
     parameters:
       - $ref: '#/components/parameters/staff'
@@ -551,8 +649,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/staff'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
-          description: That staff member was not found
+          $ref: '#/components/responses/404'
         5XX:
           description: Unexpected Error
   '/api/staff/{staff_id}/employment/':
@@ -1059,6 +1161,37 @@ components:
       properties:
         stats_type:
           type: string
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: Foo is an invalid query parameter
+    '403':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: You do not have permission to perform this action
+    '404':
+      description: Object not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: Object not found
   parameters:
     employment_status:
       in: query
