@@ -13,8 +13,12 @@ get:
                         type: array
                         items:
                             $ref: "#/components/schemas/staff"
+        "400":
+            $ref: "#/components/responses/400"
+        "403":
+            $ref: "#/components/responses/403"
         "404":
-            description: That staff member was not found
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error
 # put:
