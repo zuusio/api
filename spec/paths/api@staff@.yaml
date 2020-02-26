@@ -46,4 +46,4 @@ post:
                         $ref: "#/components/schemas/staff_post"
     responses:
         "302":
-            description: Redirection to background job processor status
+            description: Redirection to batch processor status

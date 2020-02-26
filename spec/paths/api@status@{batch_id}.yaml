@@ -1,7 +1,7 @@
 get:
     tags:
-        - Background Job Processor
-    summary: Get the status/result of a background job
+        - Batch Processor
+    summary: Get the status/result of a batch processor
     responses:
         "202":
             description: Still processing
