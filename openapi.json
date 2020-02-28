@@ -44,6 +44,10 @@
     {
       "name": "Stats",
       "description": "Location statistics to assist with accurate scheduling."
+    },
+    {
+      "name": "Batch Processor",
+      "description": "Check the status of a batch processor task. These will often be when the creation of multiple objects has been triggered. The results will be ordered in the same order you submitted them."
     }
   ],
   "security": [
@@ -1034,6 +1038,30 @@
             "description": "Unexpected Error"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Create staff",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/staff_post"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Redirection to batch processor status"
+          }
+        }
       }
     },
     "/api/staff/{staff_id}/": {
@@ -1151,6 +1179,75 @@
           "example": "0a3a4cfa-6e8f-409a-9093-00f28243130a"
         }
       ]
+    },
+    "/api/status/{batch_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/batch"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Batch Processor"
+        ],
+        "summary": "Get the status/result of a batch processor",
+        "responses": {
+          "200": {
+            "description": "Processing complete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/uuid_string"
+                      },
+                      {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Still processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "completed": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "percentage_complete": {
+                      "type": "number"
+                    },
+                    "status_url": {
+                      "type": "string",
+                      "example": "https://go.zuusworkforce.com/api/status/566166db-6402-4d0f-88ed-259784aaf7dd/"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1419,6 +1516,15 @@
           "uuid"
         ]
       },
+      "error": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "example": "Location 552334aa-88aa-41fa-a54f-4f6fddd3a35d is invalid"
+          }
+        }
+      },
       "job": {
         "type": "object",
         "properties": {
@@ -1682,6 +1788,86 @@
           }
         }
       },
+      "staff_post": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "staff"
+            ],
+            "required": [
+              "true"
+            ]
+          },
+          "first_name": {
+            "type": "string",
+            "required": [
+              "true"
+            ]
+          },
+          "last_name": {
+            "type": "string",
+            "required": [
+              "true"
+            ]
+          },
+          "start_date": {
+            "$ref": "#/components/schemas/date",
+            "required": [
+              "true"
+            ]
+          },
+          "primary_location": {
+            "type": "string",
+            "format": "uuid",
+            "required": [
+              "true"
+            ]
+          },
+          "mobile": {
+            "type": "string",
+            "required": [
+              "true"
+            ]
+          },
+          "locations": {
+            "type": "array",
+            "required": [
+              "true"
+            ],
+            "items": {
+              "description": "The UUID of locations that this staff member is available to work at",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "preferred_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "dob": {
+            "$ref": "#/components/schemas/date"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              ""
+            ]
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
       "staff": {
         "type": "object",
         "properties": {
@@ -1814,6 +2000,11 @@
             "type": "string"
           }
         }
+      },
+      "uuid_string": {
+        "type": "string",
+        "format": "uuid",
+        "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
       }
     },
     "responses": {
@@ -1867,6 +2058,17 @@
       }
     },
     "parameters": {
+      "batch": {
+        "in": "path",
+        "name": "batch_id",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "The id of the batch processor task",
+        "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+      },
       "employment_status": {
         "in": "query",
         "name": "employment_status",
