@@ -1,0 +1,8 @@
+in: path
+name: batch_id
+required: true
+schema:
+    type: string
+    format: uuid
+description: The id of the batch processor task
+example: 566166db-6402-4d0f-88ed-259784aaf7dd

@@ -1,0 +1,5 @@
+type: object
+properties:
+    field:
+        type: string
+        example: "Location 552334aa-88aa-41fa-a54f-4f6fddd3a35d is invalid"

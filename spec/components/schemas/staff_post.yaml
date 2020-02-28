@@ -1,0 +1,43 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["staff"]
+        required: ["true"]
+    first_name:
+        type: string
+        required: ["true"]
+    last_name:
+        type: string
+        required: ["true"]
+    start_date:
+        $ref: "#/components/schemas/date"
+        required: ["true"]
+    primary_location:
+        type: string
+        format: uuid
+        required: ["true"]
+    mobile:
+        type: string
+        required: ["true"]
+    locations:
+        type: array
+        required: ["true"]
+        items:
+            description: The UUID of locations that this staff member is available to work at
+            type: string
+            format: uuid
+    preferred_name:
+        type: string
+    email:
+        type: string
+    dob:
+        $ref: "#/components/schemas/date"
+    gender:
+        type: string
+        enum: ["male", "female", ""]
+    jobs:
+        type: array
+        items:
+            type: string
+            format: uuid

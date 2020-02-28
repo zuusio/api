@@ -38,5 +38,7 @@ tags:
       description: These are the times that have been approved and will be used in payroll.
     - name: Stats
       description: Location statistics to assist with accurate scheduling.
+    - name: Batch Processor
+      description: Check the status of a batch processor task. These will often be when the creation of multiple objects has been triggered. The results will be ordered in the same order you submitted them.
 security:
     - Basic: []
