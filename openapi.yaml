@@ -657,6 +657,9 @@ paths:
       tags:
         - Staff
       summary: Get an individual staff member's details
+      parameters:
+        - $ref: '#/components/parameters/employment_status'
+      description: If an empty list is returned try adjusting the query parameters as by default only active staff are returned
       responses:
         '200':
           description: Successfully got staff details
