@@ -1,6 +1,4 @@
 description: Unauthorized
-headers:
-    WWW-Authenticate:
 content:
     application/json:
         schema:
