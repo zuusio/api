@@ -1,4 +1,6 @@
-description: Not found
+description: Unauthorized
+headers:
+    WWW-Authenticate:
 content:
     application/json:
         schema:
@@ -6,4 +8,4 @@ content:
             properties:
                 detail:
                     type: string
-                    example: "Object not found"
+                    example: "Invalid authentication credentials supplied"
