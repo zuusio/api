@@ -3,9 +3,9 @@ parameters:
 get:
     tags:
         - Staff
-    summary: Get staff
+    summary: Single
     description: >-
-        Retrieve the details of an employed staff member
+        Retrieve the details of a staff member
     responses:
         "200":
             description: Successful
