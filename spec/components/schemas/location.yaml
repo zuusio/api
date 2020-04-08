@@ -1,5 +1,8 @@
 type: object
 properties:
+    object:
+        type: string
+        enum: ["location"]
     uuid:
         type: string
         format: uuid
@@ -15,6 +18,3 @@ properties:
             description: The UUID of jobs that are available to this location
             type: string
             format: uuid
-    object:
-        type: string
-        enum: ["location"]
