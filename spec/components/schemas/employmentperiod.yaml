@@ -1,5 +1,8 @@
 type: object
 properties:
+    object:
+        type: string
+        enum: ["employmentperiod"]
     start:
         $ref: "#/components/schemas/date"
     finish:
