@@ -5,15 +5,14 @@ parameters:
     schema:
         type: string
         format: uuid
-    description: The job id
     example: baf47dc1-ec02-4782-a855-de3c48ff4123
 get:
     tags:
         - Jobs
-    summary: Get an individual job details
+    summary: Single
     responses:
         "200":
-            description: Successfully got the job's details
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -22,6 +21,8 @@ get:
                             $ref: "#/components/schemas/job"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         "404":
