@@ -21,7 +21,10 @@ parameters:
 get:
     tags:
         - Stats
-    summary: Get actual (or predicted) sales (or units) for a location for the period
+    summary: All
+    description: >-
+        Retrieve actual (or predicted) sales (or units) for a location. If a date range is not
+        provided, the current weeks stats are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
@@ -29,7 +32,7 @@ get:
         - $ref: "#/components/parameters/lessThanOrEqual"
     responses:
         "200":
-            description: A list of statistics
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -49,6 +52,8 @@ get:
                                     $ref: "#/components/schemas/stat"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         "404":
@@ -59,7 +64,9 @@ get:
 post:
     tags:
         - Stats
-    summary: Create actual (or predicted) sales (or units) for a location
+    summary: Create
+    description: >-
+        Create actual (or predicted) sales (or units) for a location.
     requestBody:
         required: true
         content:
@@ -70,9 +77,11 @@ post:
                         $ref: "#/components/schemas/stat_post"
     responses:
         "201":
-            description: Successful creation of statistic
+            description: Successful
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:

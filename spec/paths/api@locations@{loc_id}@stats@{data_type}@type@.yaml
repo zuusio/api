@@ -12,10 +12,10 @@ parameters:
 get:
     tags:
         - Stats
-    summary: List the types of stats that are available
+    summary: All types
     responses:
         "200":
-            description: A list of stats types
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -35,6 +35,8 @@ get:
                                     $ref: "#/components/schemas/stattype"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         "404":
