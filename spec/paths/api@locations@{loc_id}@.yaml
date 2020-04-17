@@ -1,19 +1,12 @@
 parameters:
-    - in: path
-      name: loc_id
-      required: true
-      schema:
-          type: string
-          format: uuid
-      description: The location id
-      example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+    - $ref: "#/components/parameters/location"
 get:
     tags:
         - Locations
-    summary: Get an individual location
+    summary: Single
     responses:
         "200":
-            description: Successfully got the location's details
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -22,6 +15,8 @@ get:
                             $ref: "#/components/schemas/location"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         "404":

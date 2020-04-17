@@ -33,10 +33,15 @@ properties:
         items:
             type: object
             properties:
+                object:
+                    type: string
+                    enum: ["primaryperiod"]
                 uuid:
                     type: string
                     format: uuid
-                effective_from:
+                start:
+                    $ref: "#/components/schemas/date"
+                finish:
                     $ref: "#/components/schemas/date"
 
     locations:

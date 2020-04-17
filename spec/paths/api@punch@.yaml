@@ -1,7 +1,10 @@
 get:
     tags:
         - Punches
-    summary: List all collected time and attendance shifts
+    summary: All
+    description: >-
+        Retrieve time and attendance (punch) shifts. Without any parameters all punches from
+        the last 30 days are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
@@ -10,7 +13,7 @@ get:
         - $ref: "#/components/parameters/locationgroup"
     responses:
         "200":
-            description: A list of all time and attendance shifts within the filter
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -30,7 +33,11 @@ get:
                                     $ref: "#/components/schemas/punch"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error

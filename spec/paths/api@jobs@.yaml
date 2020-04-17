@@ -1,12 +1,12 @@
 get:
     tags:
         - Jobs
-    summary: Get a list of all jobs
+    summary: All
     parameters:
         - $ref: "#/components/parameters/page"
     responses:
         "200":
-            description: Successfully retrieved a list of all jobs
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -26,6 +26,8 @@ get:
                                     $ref: "#/components/schemas/job"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:

@@ -1,7 +1,10 @@
 get:
     tags:
         - Scheduled Shifts
-    summary: List all scheduled shifts going back up to 30 days
+    summary: All
+    description: >-
+        Retrieve scheduled shifts. Without any parameters, all published scheduled shifts
+        from the last 30 days are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
@@ -11,7 +14,7 @@ get:
         - $ref: "#/components/parameters/publish_status"
     responses:
         "200":
-            description: A list of all published scheduled shifts within the filter
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -31,7 +34,11 @@ get:
                                     $ref: "#/components/schemas/shift"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error

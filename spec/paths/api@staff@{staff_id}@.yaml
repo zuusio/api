@@ -3,15 +3,12 @@ parameters:
 get:
     tags:
         - Staff
-    summary: Get an individual staff member's details
-    parameters:
-        - $ref: "#/components/parameters/employment_status"
+    summary: Single
     description: >-
-        If an empty list is returned try adjusting the query parameters as by
-        default only active staff are returned
+        Retrieve the details of a staff member
     responses:
         "200":
-            description: Successfully got staff details
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -20,6 +17,8 @@ get:
                             $ref: "#/components/schemas/staff"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         "404":

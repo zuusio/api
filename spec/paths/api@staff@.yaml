@@ -1,13 +1,17 @@
 get:
     tags:
         - Staff
-    summary: Get a list of all employed (active) staff
+    summary: All
+    description: >-
+        Retrieve the details of all staff. Without any parameters, only employed staff are returned. 
+        To retrieve staff that have been terminated, the 'employment_status' parameter must be set to
+        'terminated'
     parameters:
-        - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/employment_status"
+        - $ref: "#/components/parameters/page"
     responses:
         "200":
-            description: Successfully retrieved a list of all staff
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -27,15 +31,19 @@ get:
                                     $ref: "#/components/schemas/staff"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error
 
 post:
     tags:
         - Staff
-    summary: Create staff
+    summary: Create
     requestBody:
         required: true
         content:

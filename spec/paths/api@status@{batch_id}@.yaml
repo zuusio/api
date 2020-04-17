@@ -3,7 +3,7 @@ parameters:
 get:
     tags:
         - Batch Processor
-    summary: Get the status/result of a batch processor
+    summary: Status
     responses:
         "202":
             description: Still processing
@@ -33,7 +33,11 @@ get:
                               - $ref: "#/components/schemas/error"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error

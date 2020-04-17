@@ -18,7 +18,7 @@ info:
         The default is 100 items per page, however, you should not rely on this for determining if there is another page.
         You should use the URL provided in the “next” and “previous” fields in the response.
 
-    version: 1.0.0
+    version: 1.0.1
     contact:
         email: api@zuusworkforce.com
     x-logo:
