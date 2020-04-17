@@ -3,33 +3,28 @@ properties:
     object:
         type: string
         enum: ["staff"]
-        required: ["true"]
     first_name:
         type: string
-        required: ["true"]
     last_name:
         type: string
-        required: ["true"]
     start_date:
         $ref: "#/components/schemas/date"
-        required: ["true"]
     primary_location:
         type: string
         format: uuid
-        required: ["true"]
-    mobile:
-        type: string
-        required: ["true"]
+        example: 566166db-6402-4d0f-88ed-259784aaf7dd
     locations:
         type: array
-        required: ["true"]
         items:
             description: The UUID of locations that this staff member is available to work at
             type: string
             format: uuid
+            example: 566166db-6402-4d0f-88ed-259784aaf7dd
     preferred_name:
         type: string
     email:
+        type: string
+    mobile:
         type: string
     dob:
         $ref: "#/components/schemas/date"
@@ -41,3 +36,23 @@ properties:
         items:
             type: string
             format: uuid
+            example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    integrations:
+        type: array
+        items:
+            type: object
+            properties:
+                integration:
+                    type: string
+                    format: uuid
+                    description: The UUID of the integration
+                    example: 566166db-6402-4d0f-88ed-259784aaf7dd
+                external_id:
+                    type: string
+required:
+  - object
+  - first_name
+  - last_name
+  - start_date
+  - primary_location
+  - locations

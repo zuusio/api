@@ -1,0 +1,24 @@
+get:
+    tags:
+        - Leave
+    summary: All leave types
+    responses:
+        "200":
+            description: A list of all leave types
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/leave-types/?page=3"
+                            previous:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/leave-types/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/leave_type"

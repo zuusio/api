@@ -1,0 +1,40 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["leave"]
+    uuid:
+        type: string
+        format: uuid
+        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+        readOnly: true
+    leave_type:
+        type: string
+        format: uuid
+        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    location:
+        type: string
+        format: uuid
+        description: If not provided the staff member's primary location will be used
+        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    staff:
+        type: string
+        format: uuid
+        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    start:
+        $ref: "#/components/schemas/datetime"
+    finish:
+        $ref: "#/components/schemas/datetime"
+    hours:
+        type: number
+    cost:
+        type: number
+        readOnly: true
+    comments:
+        type: string
+required:
+  - object
+  - leave_type
+  - staff
+  - start
+  - finish

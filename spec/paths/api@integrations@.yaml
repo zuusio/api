@@ -1,0 +1,32 @@
+get:
+    tags:
+        - Integrations
+    summary: Get a list of configured integrations
+    parameters:
+        - $ref: "#/components/parameters/page"
+    responses:
+        "200":
+            description: Successfully retrieved a list of configured integrations
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/integrations/?page=3"
+                            previous:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/integrations/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/integration"
+        "400":
+            $ref: "#/components/responses/400"
+        "403":
+            $ref: "#/components/responses/403"
+        5XX:
+            description: Unexpected Error

@@ -1,0 +1,60 @@
+get:
+    tags:
+        - Leave
+    summary: All leave events
+    description: By default this will return all leave overlapping today
+    parameters:
+        - $ref: "#/components/parameters/location_query"
+        - $ref: "#/components/parameters/staff_query"
+        - $ref: "#/components/parameters/overlapping"
+        - $ref: "#/components/parameters/greaterThan"
+        - $ref: "#/components/parameters/greaterThanOrEqual"
+        - $ref: "#/components/parameters/lessThan"
+        - $ref: "#/components/parameters/lessThanOrEqual"
+        - $ref: "#/components/parameters/page"
+    responses:
+        "200":
+            description: Successfully retrieved a list of all leave
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/leave/?page=3"
+                            previous:
+                                type: string
+                                example: "https://go.zuusworkforce.com/api/leave/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/leave"
+        "400":
+            $ref: "#/components/responses/400"
+        "403":
+            $ref: "#/components/responses/403"
+        5XX:
+            description: Unexpected Error
+
+post:
+    tags:
+        - Leave
+    summary: Create leave events
+    description:
+      If you are creating leave spanning multiple days send the start as midnight of the starting day and finish as midnight at the end of the last day.
+      For example, if you are on leave for both the 7th and 8th of April 2020 send the start as "2020-04-07T00:00:00+09:30" and the finish as "2020-04-09T00:00:00+09:30"
+      If you are creating a multi-day leave event not starting or finishing at midnight, divide this into multiple full and part day events.
+    requestBody:
+        required: true
+        content:
+            application/json:
+                schema:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/leave"
+    responses:
+        "302":
+            description: Redirection to batch processor status

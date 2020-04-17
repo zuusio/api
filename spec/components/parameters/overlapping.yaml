@@ -1,0 +1,6 @@
+in: query
+description: Return results overlapping the period `gt` to `lt`
+required: false
+schema:
+    type: boolean
+name: overlapping

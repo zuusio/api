@@ -1,0 +1,27 @@
+parameters:
+    - in: path
+      name: leave_type_id
+      required: true
+      schema:
+          type: string
+          format: uuid
+      example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+
+get:
+    tags:
+        - Leave
+    summary: Leave type
+    responses:
+        "200":
+            description: Success
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/leave_type"
+        "400":
+            $ref: "#/components/responses/400"
+        "403":
+            $ref: "#/components/responses/403"
+        5XX:
+            description: Unexpected Error
+
