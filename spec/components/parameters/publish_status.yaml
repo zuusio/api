@@ -4,4 +4,4 @@ description: Filter shifts by published status. If not provided only published s
 required: false
 schema:
     type: string
-    enum: ["published", "unpublished", "all"]
+    enum: ["published", "unpublished"]
