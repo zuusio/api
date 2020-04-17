@@ -11,18 +11,18 @@ parameters:
 get:
     tags:
         - Leave
-    summary: Get a leave event
+    summary: Single
     responses:
         "200":
-            description: Successfully retrieved a leave
+            description: Successful
             content:
                 application/json:
                     schema:
                         $ref: "#/components/schemas/leave"
-                        required:
-                          - object
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:
@@ -31,7 +31,7 @@ get:
 patch:
     tags:
         - Leave
-    summary: Update a leave event
+    summary: Update
     requestBody:
         required: true
         content:
@@ -72,13 +72,15 @@ patch:
                     - object
     responses:
         "200":
-            description: Successfully updated a leave
+            description: Successful
             content:
                 application/json:
                     schema:
                         $ref: "#/components/schemas/leave"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:
@@ -87,12 +89,14 @@ patch:
 delete:
     tags:
         - Leave
-    summary: Delete a leave event
+    summary: Delete
     responses:
         "204":
-            description: Successfully deleted a leave
+            description: Successful
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:

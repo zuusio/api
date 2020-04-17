@@ -36,6 +36,8 @@ tags:
       description: These are the recorded times that staff occupied a location.
     - name: Approved Shifts
       description: These are the times that have been approved and will be used in payroll.
+    - name: Leave
+      description: Approved leave requests
     - name: Stats
       description: Location statistics to assist with accurate scheduling.
     - name: Batch Processor

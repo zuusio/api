@@ -10,18 +10,19 @@ parameters:
 get:
     tags:
         - Leave
-    summary: Leave type
+    summary: Single type
     responses:
         "200":
-            description: Success
+            description: Successful
             content:
                 application/json:
                     schema:
                         $ref: "#/components/schemas/leave_type"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:
             description: Unexpected Error
-
