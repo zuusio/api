@@ -1,7 +1,8 @@
 get:
     tags:
         - Integrations
-    summary: Get a list of configured integrations
+    summary: All
+    description: Get a list of configured integrations
     parameters:
         - $ref: "#/components/parameters/page"
     responses:
@@ -26,6 +27,8 @@ get:
                                     $ref: "#/components/schemas/integration"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:

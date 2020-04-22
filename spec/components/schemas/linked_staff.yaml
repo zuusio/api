@@ -1,5 +1,8 @@
 type: object
 properties:
+    object:
+        type: string
+        enum: ["linkedstaff"]
     staff:
         type: string
         format: uuid

@@ -10,7 +10,8 @@ parameters:
 get:
     tags:
         - Integrations
-    summary: Get a list of linked staff for the integration
+    summary: Staff
+    description: Get a list of linked staff for the integration
     parameters:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/employment_status"
@@ -36,6 +37,8 @@ get:
                                     $ref: "#/components/schemas/linked_staff"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:

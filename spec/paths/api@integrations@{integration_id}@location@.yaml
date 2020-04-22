@@ -10,7 +10,8 @@ parameters:
 get:
     tags:
         - Integrations
-    summary: Get a list of linked locations for the integration
+    summary: Locations
+    description: Get a list of linked locations for the integration
     parameters:
         - $ref: "#/components/parameters/page"
     responses:
@@ -35,6 +36,8 @@ get:
                                     $ref: "#/components/schemas/linked_location"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:

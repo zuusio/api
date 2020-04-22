@@ -2,7 +2,7 @@ type: object
 properties:
     object:
         type: string
-        example: integration
+        enum: ["integration"]
     name:
         type: string
         description: Integration name
