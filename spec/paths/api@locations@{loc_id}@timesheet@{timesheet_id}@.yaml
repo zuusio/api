@@ -1,7 +1,7 @@
 parameters:
     - $ref: "#/components/parameters/location"
     - in: path
-      name: punch_id
+      name: timesheet_id
       required: true
       schema:
           type: string
@@ -9,10 +9,10 @@ parameters:
       example: e4a33c11-31e6-4668-ab31-83551dae7cb7
 get:
     tags:
-        - Punches
+        - Timesheets
     summary: Single at location
     description: >-
-        Retrieve the details of a punch
+        Retrieve the details of a timesheet
     responses:
         "200":
             description: Successful
@@ -21,7 +21,7 @@ get:
                     schema:
                         type: array
                         items:
-                            $ref: "#/components/schemas/punch"
+                            $ref: "#/components/schemas/timesheet"
         "400":
             $ref: "#/components/responses/400"
         "401":

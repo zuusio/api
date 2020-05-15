@@ -32,7 +32,7 @@ tags:
       description: Locations are physical areas that require staff to be stationed.
     - name: Scheduled Shifts
       description: These are the times that are planned for staff to be at a location.
-    - name: Punches
+    - name: Timesheets
       description: These are the recorded times that staff occupied a location.
     - name: Approved Shifts
       description: These are the times that have been approved and will be used in payroll.

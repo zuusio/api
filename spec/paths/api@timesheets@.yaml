@@ -1,9 +1,9 @@
 get:
     tags:
-        - Punches
+        - Timesheets
     summary: All
     description: >-
-        Retrieve time and attendance (punch) shifts. Without any parameters all punches from
+        Retrieve timesheet shifts. Without any parameters all timesheets from
         the last 30 days are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
@@ -23,14 +23,14 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/punch/?page=3"
+                                example: "https://go.zuusworkforce.com/api/timesheets/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/punch/?page=1"
+                                example: "https://go.zuusworkforce.com/api/timesheets/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/punch"
+                                    $ref: "#/components/schemas/timesheet"
         "400":
             $ref: "#/components/responses/400"
         "401":

@@ -2,7 +2,7 @@ type: object
 properties:
     object:
         type: string
-        enum: ["punch"]
+        enum: ["timesheet"]
     uuid:
         type: string
         format: uuid

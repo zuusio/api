@@ -2,7 +2,7 @@ parameters:
     - $ref: "#/components/parameters/location"
 get:
     tags:
-        - Punches
+        - Timesheets
     summary: All at location
     parameters:
         - $ref: "#/components/parameters/greaterThan"
@@ -21,14 +21,14 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/punch/?page=3"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/timesheets/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/punch/?page=1"
+                                example: "https://go.zuusworkforce.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/timesheets/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/punch"
+                                    $ref: "#/components/schemas/timesheet"
         "400":
             $ref: "#/components/responses/400"
         "401":
