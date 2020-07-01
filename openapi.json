@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "title": "Adi Insigths",
+    "title": "Adi Insights",
     "description": "Welcome to the Adi API. Once you have an Adi authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, timesheets and approved hours). Additionally you can send in 'Point of Sales' information.\n\nIf you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/). Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.\n\nWhen you are asking for a list of staff, shifts, jobs, locations or anything else available via the API, the response will be paginated. The default is 100 items per page, however, you should not rely on this for determining if there is another page. You should use the URL provided in the “next” and “previous” fields in the response.\n",
     "version": "1.1.0",
     "contact": {

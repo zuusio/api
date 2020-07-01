@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: 'https://see.adiinsights.com/'
 info:
-  title: Adi Insigths
+  title: Adi Insights
   description: |
     Welcome to the Adi API. Once you have an Adi authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, timesheets and approved hours). Additionally you can send in 'Point of Sales' information.
 
