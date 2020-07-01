@@ -24,10 +24,10 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/leave/?page=3"
+                                example: "https://see.adiinsights.com/api/leave/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/leave/?page=1"
+                                example: "https://see.adiinsights.com/api/leave/?page=1"
                             results:
                                 type: array
                                 items:

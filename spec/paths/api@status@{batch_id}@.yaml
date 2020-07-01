@@ -20,7 +20,7 @@ get:
                                 type: number
                             status_url:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/status/566166db-6402-4d0f-88ed-259784aaf7dd/"
+                                example: "https://see.adiinsights.com/api/status/566166db-6402-4d0f-88ed-259784aaf7dd/"
         "200":
             description: Processing complete
             content:

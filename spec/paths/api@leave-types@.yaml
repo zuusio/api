@@ -14,10 +14,10 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/leave-types/?page=3"
+                                example: "https://see.adiinsights.com/api/leave-types/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/leave-types/?page=1"
+                                example: "https://see.adiinsights.com/api/leave-types/?page=1"
                             results:
                                 type: array
                                 items:

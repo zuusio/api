@@ -17,10 +17,10 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/integrations/?page=3"
+                                example: "https://see.adiinsights.com/api/integrations/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/integrations/?page=1"
+                                example: "https://see.adiinsights.com/api/integrations/?page=1"
                             results:
                                 type: array
                                 items:

@@ -1,26 +1,26 @@
 openapi: 3.0.0
 servers:
-    - url: "https://go.zuusworkforce.com/"
+    - url: "https://see.adiinsights.com/"
 info:
-    title: ZUUS
+    title: Adi Insigths
     description: >
-        Welcome to the ZUUS API. Once you have a ZUUS authorization key, you can use
+        Welcome to the Adi API. Once you have an Adi authorization key, you can use
         this API to access information about staff, locations, jobs and shifts
-        (scheduled, punches and approved hours). Additionally you can send in 'Point of
+        (scheduled, timesheets and approved hours). Additionally you can send in 'Point of
         Sales' information.
 
 
         If you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/).
-        Within Insomnia you can import the ZUUS API spec by clicking on the Download Open API specification.
+        Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.
 
 
         When you are asking for a list of staff, shifts, jobs, locations or anything else available via the API, the response will be paginated.
         The default is 100 items per page, however, you should not rely on this for determining if there is another page.
         You should use the URL provided in the “next” and “previous” fields in the response.
 
-    version: 1.0.1
+    version: 1.1.0
     contact:
-        email: api@zuusworkforce.com
+        email: api@adiinsights.com
     x-logo:
         url: logo.png
 tags:

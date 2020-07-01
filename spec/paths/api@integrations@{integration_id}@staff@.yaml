@@ -27,10 +27,10 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=3"
+                                example: "https://see.adiinsights.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=1"
+                                example: "https://see.adiinsights.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=1"
                             results:
                                 type: array
                                 items:
