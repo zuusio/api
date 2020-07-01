@@ -1,10 +1,10 @@
 get:
     tags:
-        - Approved Shifts
+        - Timesheets
     summary: All
     description: >-
-        Retrieve shifts that have been approved by a manager. Without any parameters, all approved
-        shifts from the last 30 days are returned. Filters can be applied to refine the search
+        Retrieve timesheet shifts. Without any parameters all timesheets from
+        the last 30 days are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
@@ -23,14 +23,14 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://see.adiinsights.com/api/approved/?page=3"
+                                example: "https://see.adiinsights.com/api/timesheets/?page=3"
                             previous:
                                 type: string
-                                example: "https://see.adiinsights.com/api/approved/?page=1"
+                                example: "https://see.adiinsights.com/api/timesheets/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/approved"
+                                    $ref: "#/components/schemas/timesheet"
         "400":
             $ref: "#/components/responses/400"
         "401":

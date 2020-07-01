@@ -1,35 +1,31 @@
 parameters:
+    - $ref: "#/components/parameters/location"
     - in: path
-      name: loc_id
+      name: timesheet_id
       required: true
       schema:
           type: string
           format: uuid
-      description: The location id
-      example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
-    - in: path
-      name: punch_id
-      required: true
-      schema:
-          type: string
-          format: uuid
-      description: The punch id
       example: e4a33c11-31e6-4668-ab31-83551dae7cb7
 get:
     tags:
-        - Punches
-    summary: Get a punch
+        - Timesheets
+    summary: Single at location
+    description: >-
+        Retrieve the details of a timesheet
     responses:
         "200":
-            description: Successfully got the punch details
+            description: Successful
             content:
                 application/json:
                     schema:
                         type: array
                         items:
-                            $ref: "#/components/schemas/punch"
+                            $ref: "#/components/schemas/timesheet"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         "404":

@@ -1,0 +1,18 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["leave_type"]
+    uuid:
+        type: string
+        format: uuid
+        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+        readOnly: true
+    name:
+        type: string
+    loading:
+        type: number
+    include_weekends:
+        type: boolean
+    default_hours:
+        type: number

@@ -1,35 +1,17 @@
-parameters:
-    - $ref: "#/components/parameters/location"
-    - in: path
-      name: data_type
-      required: true
-      schema:
-          type: string
-          enum:
-              - predicted
-              - actual
-      description: Is this data predicted or what actually occured?
-    - in: path
-      name: stat_type
-      required: true
-      schema:
-          type: string
-          enum:
-              - sales
-              - units
-      description: Either a monetary amount (sales) or a count of some item
 get:
     tags:
-        - Stats
+        - Leave
     summary: All
-    description: >-
-        Retrieve actual (or predicted) sales (or units) for a location. If a date range is not
-        provided, the current weeks stats are returned. Filters can be applied to refine the search
+    description: By default this will return all leave overlapping today
     parameters:
+        - $ref: "#/components/parameters/location_query"
+        - $ref: "#/components/parameters/staff_query"
+        - $ref: "#/components/parameters/overlapping"
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
         - $ref: "#/components/parameters/lessThan"
         - $ref: "#/components/parameters/lessThanOrEqual"
+        - $ref: "#/components/parameters/page"
     responses:
         "200":
             description: Successful
@@ -42,31 +24,30 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=3"
+                                example: "https://see.adiinsights.com/api/leave/?page=3"
                             previous:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=1"
+                                example: "https://see.adiinsights.com/api/leave/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/stat"
+                                    $ref: "#/components/schemas/leave"
         "400":
             $ref: "#/components/responses/400"
         "401":
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
-        "404":
-            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error
-
 post:
     tags:
-        - Stats
+        - Leave
     summary: Create
-    description: >-
-        Create actual (or predicted) sales (or units) for a location.
+    description:
+      If you are creating leave spanning multiple days send the start as midnight of the starting day and finish as midnight at the end of the last day.
+      For example, if you are on leave for both the 7th and 8th of April 2020 send the start as "2020-04-07T00:00:00+09:30" and the finish as "2020-04-09T00:00:00+09:30"
+      If you are creating a multi-day leave event not starting or finishing at midnight, divide this into multiple full and part day events.
     requestBody:
         required: true
         content:
@@ -74,10 +55,10 @@ post:
                 schema:
                     type: array
                     items:
-                        $ref: "#/components/schemas/stat_post"
+                        $ref: "#/components/schemas/leave"
     responses:
-        "201":
-            description: Successful
+        "302":
+            description: Redirection to batch processor status
         "400":
             $ref: "#/components/responses/400"
         "401":

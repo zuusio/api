@@ -1,6 +1,6 @@
-in: path
-name: loc_id
-required: true
+in: query
+name: location
+required: false
 schema:
     type: string
     format: uuid

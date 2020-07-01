@@ -1,10 +1,12 @@
 get:
     tags:
         - Locations
-    summary: Get a list of all locations
+    summary: All
+    parameters:
+        - $ref: "#/components/parameters/page"
     responses:
         "200":
-            description: Successfully retrieved a list of all locations
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -14,16 +16,18 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/locations/?page=3"
+                                example: "https://see.adiinsights.com/api/locations/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/locations/?page=1"
+                                example: "https://see.adiinsights.com/api/locations/?page=1"
                             results:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/location"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
         5XX:

@@ -1,4 +1,4 @@
-description: Unauthorized
+description: Forbidden
 content:
     application/json:
         schema:

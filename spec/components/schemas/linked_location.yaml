@@ -1,0 +1,13 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["linkedlocation"]
+    location:
+        type: string
+        format: uuid
+        description: UUID of the Adi Location
+        example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    external_id:
+        type: string
+        description: Recorded external ID in Adi

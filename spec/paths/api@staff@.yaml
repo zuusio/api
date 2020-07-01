@@ -1,13 +1,17 @@
 get:
     tags:
         - Staff
-    summary: Get a list of all employed (active) staff
+    summary: All
+    description: >-
+        Retrieve the details of all staff. Without any parameters, only employed staff are returned. 
+        To retrieve staff that have been terminated, the 'employment_status' parameter must be set to
+        'terminated'
     parameters:
-        - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/employment_status"
+        - $ref: "#/components/parameters/page"
     responses:
         "200":
-            description: Successfully retrieved a list of all staff
+            description: Successful
             content:
                 application/json:
                     schema:
@@ -17,25 +21,29 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/staff/?page=3"
+                                example: "https://see.adiinsights.com/api/staff/?page=3"
                             previous:
                                 type: string
-                                example: "https://go.zuusworkforce.com/api/staff/?page=1"
+                                example: "https://see.adiinsights.com/api/staff/?page=1"
                             results:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/staff"
         "400":
             $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
         5XX:
             description: Unexpected Error
 
 post:
     tags:
         - Staff
-    summary: Create staff
+    summary: Create
     requestBody:
         required: true
         content:
