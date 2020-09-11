@@ -1,0 +1,3037 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://see.adiinsights.com/"
+    }
+  ],
+  "info": {
+    "title": "Adi Insights",
+    "description": "Welcome to the Adi API. Once you have an Adi authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, timesheets and approved hours). Additionally you can send in 'Point of Sales' information.\n\nIf you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/). Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.\n\nWhen you are asking for a list of staff, shifts, jobs, locations or anything else available via the API, the response will be paginated. The default is 100 items per page, however, you should not rely on this for determining if there is another page. You should use the URL provided in the “next” and “previous” fields in the response.\n",
+    "version": "1.1.0",
+    "contact": {
+      "email": "api@adiinsights.com"
+    },
+    "x-logo": {
+      "url": "logo.png"
+    }
+  },
+  "tags": [
+    {
+      "name": "Staff",
+      "description": "Retrieve details about staff."
+    },
+    {
+      "name": "Jobs",
+      "description": "Jobs are tasks that staff perform at locations."
+    },
+    {
+      "name": "Locations",
+      "description": "Locations are physical areas that require staff to be stationed."
+    },
+    {
+      "name": "Scheduled Shifts",
+      "description": "These are the times that are planned for staff to be at a location."
+    },
+    {
+      "name": "Timesheets",
+      "description": "These are the recorded times that staff occupied a location."
+    },
+    {
+      "name": "Approved Shifts",
+      "description": "These are the times that have been approved and will be used in payroll."
+    },
+    {
+      "name": "Leave",
+      "description": "Approved leave requests"
+    },
+    {
+      "name": "Stats",
+      "description": "Location statistics to assist with accurate scheduling."
+    },
+    {
+      "name": "Integrations",
+      "description": "Configured integrations with external systems"
+    },
+    {
+      "name": "Batch Processor",
+      "description": "Check the status of a batch processor task. These will often be when the creation of multiple objects has been triggered. The results will be ordered in the same order you submitted them."
+    }
+  ],
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/api/approved/": {
+      "get": {
+        "tags": [
+          "Approved Shifts"
+        ],
+        "summary": "All",
+        "description": "Retrieve shifts that have been approved by a manager. Without any parameters, all approved shifts from the last 30 days are returned. Filters can be applied to refine the search",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/locationgroup"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/approved/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/approved/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/approved"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/integrations/": {
+      "get": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "All",
+        "description": "Get a list of configured integrations",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of configured integrations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/integrations/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/integrations/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/integration"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/integrations/{integration_id}/location/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "integration_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The integraton id",
+          "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Locations",
+        "description": "Get a list of linked locations for the integration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of linked locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/linked_location"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/integrations/{integration_id}/staff/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "integration_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The integraton id",
+          "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Staff",
+        "description": "Get a list of linked staff for the integration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/employment_status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a list of linked staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/integrations/566166db-6402-4d0f-88ed-259784aaf7dd/staff/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/linked_staff"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/jobs/": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "All",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/jobs/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/jobs/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/job"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/jobs/{job_id}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "job_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "example": "baf47dc1-ec02-4782-a855-de3c48ff4123"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Single",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/job"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/leave-types/": {
+      "get": {
+        "tags": [
+          "Leave"
+        ],
+        "summary": "All types",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/leave-types/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/leave-types/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/leave_type"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/leave-types/{leave_type_id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "leave_type_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Leave"
+        ],
+        "summary": "Single type",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/leave_type"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/leave/": {
+      "get": {
+        "tags": [
+          "Leave"
+        ],
+        "summary": "All",
+        "description": "By default this will return all leave overlapping today",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/location_query"
+          },
+          {
+            "$ref": "#/components/parameters/staff_query"
+          },
+          {
+            "$ref": "#/components/parameters/overlapping"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/leave/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/leave/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/leave"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Leave"
+        ],
+        "summary": "Create",
+        "description": "If you are creating leave spanning multiple days send the start as midnight of the starting day and finish as midnight at the end of the last day. For example, if you are on leave for both the 7th and 8th of April 2020 send the start as \"2020-04-07T00:00:00+09:30\" and the finish as \"2020-04-09T00:00:00+09:30\" If you are creating a multi-day leave event not starting or finishing at midnight, divide this into multiple full and part day events.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/leave"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Redirection to batch processor status"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/leave/{leave_id}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "leave_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The leave id",
+          "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Leave"
+        ],
+        "summary": "Single",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/leave"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Leave"
+        ],
+        "summary": "Update",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "object": {
+                    "type": "string",
+                    "enum": [
+                      "leave"
+                    ]
+                  },
+                  "uuid": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "566166db-6402-4d0f-88ed-259784aaf7dd",
+                    "readOnly": true
+                  },
+                  "leave_type": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+                  },
+                  "location": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "If not provided the staff member's primary location will be used",
+                    "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+                  },
+                  "staff": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+                  },
+                  "start": {
+                    "$ref": "#/components/schemas/datetime"
+                  },
+                  "finish": {
+                    "$ref": "#/components/schemas/datetime"
+                  },
+                  "hours": {
+                    "type": "number"
+                  },
+                  "comments": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "object"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/leave"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Leave"
+        ],
+        "summary": "Delete",
+        "responses": {
+          "204": {
+            "description": "Successful"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "All",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/location"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/{loc_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/location"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "Single",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/location"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/{loc_id}/approved/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/location"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Approved Shifts"
+        ],
+        "summary": "All at location",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/approved"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/{loc_id}/schedule/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/location"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Scheduled Shifts"
+        ],
+        "summary": "All at location",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/publish_status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/schedule/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/schedule/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/shift"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/{loc_id}/stats/{data_type}/type/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/location"
+        },
+        {
+          "in": "path",
+          "name": "data_type",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "predicted",
+              "actual"
+            ]
+          },
+          "description": "Is this data predicted or what actually occured?"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "All types",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/type/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/type/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/stattype"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/{loc_id}/stats/{data_type}/type/{stat_type}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/location"
+        },
+        {
+          "in": "path",
+          "name": "data_type",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "predicted",
+              "actual"
+            ]
+          },
+          "description": "Is this data predicted or what actually occured?"
+        },
+        {
+          "in": "path",
+          "name": "stat_type",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "sales",
+              "units"
+            ]
+          },
+          "description": "Either a monetary amount (sales) or a count of some item"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "All",
+        "description": "Retrieve actual (or predicted) sales (or units) for a location. If a date range is not provided, the current weeks stats are returned. Filters can be applied to refine the search",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/stats/actual/type/units/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/stat"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Create",
+        "description": "Create actual (or predicted) sales (or units) for a location.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/stat_post"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/{loc_id}/timesheet/{timesheet_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/location"
+        },
+        {
+          "in": "path",
+          "name": "timesheet_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "example": "e4a33c11-31e6-4668-ab31-83551dae7cb7"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Timesheets"
+        ],
+        "summary": "Single at location",
+        "description": "Retrieve the details of a timesheet",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/timesheet"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/{loc_id}/timesheets/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/location"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Timesheets"
+        ],
+        "summary": "All at location",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/timesheets/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/timesheets/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/timesheet"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/locations/group/": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": "All groups",
+        "description": "Locations can be grouped together. Retrieve all such groups.",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/group/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/locations/group/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/locationgroup"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/schedule/": {
+      "get": {
+        "tags": [
+          "Scheduled Shifts"
+        ],
+        "summary": "All",
+        "description": "Retrieve scheduled shifts. Without any parameters, all published scheduled shifts from the last 30 days are returned. Filters can be applied to refine the search",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/locationgroup"
+          },
+          {
+            "$ref": "#/components/parameters/publish_status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/schedule/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/schedule/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/shift"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/staff/": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "All",
+        "description": "Retrieve the details of all staff. Without any parameters, only employed staff are returned.  To retrieve staff that have been terminated, the 'employment_status' parameter must be set to 'terminated'",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/employment_status"
+          },
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/staff/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/staff/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/staff"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Create",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/staff_post"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Redirection to batch processor status"
+          }
+        }
+      }
+    },
+    "/api/staff/{staff_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Single",
+        "description": "Retrieve the details of a staff member",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/staff"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/staff/{staff_id}/employment/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        }
+      ]
+    },
+    "/api/staff/{staff_id}/job/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        }
+      ]
+    },
+    "/api/staff/{staff_id}/job/{job_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        },
+        {
+          "in": "path",
+          "name": "job_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The job id",
+          "example": "0a3a4cfa-6e8f-409a-9093-00f28243130a"
+        },
+        {
+          "in": "query",
+          "name": "date",
+          "schema": {
+            "description": "ISO 8601 date",
+            "type": "string",
+            "format": "date"
+          }
+        }
+      ]
+    },
+    "/api/staff/{staff_id}/location/{loc_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        },
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id"
+        }
+      ]
+    },
+    "/api/staff/{staff_id}/location/{loc_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/staff"
+        },
+        {
+          "in": "path",
+          "name": "loc_id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The location id",
+          "example": "0a3a4cfa-6e8f-409a-9093-00f28243130a"
+        }
+      ]
+    },
+    "/api/status/{batch_id}/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/batch"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Batch Processor"
+        ],
+        "summary": "Status",
+        "responses": {
+          "200": {
+            "description": "Processing complete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/uuid_string"
+                      },
+                      {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Still processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "completed": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "percentage_complete": {
+                      "type": "number"
+                    },
+                    "status_url": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/status/566166db-6402-4d0f-88ed-259784aaf7dd/"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/api/timesheets/": {
+      "get": {
+        "tags": [
+          "Timesheets"
+        ],
+        "summary": "All",
+        "description": "Retrieve timesheet shifts. Without any parameters all timesheets from the last 30 days are returned. Filters can be applied to refine the search",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/greaterThan"
+          },
+          {
+            "$ref": "#/components/parameters/greaterThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/lessThan"
+          },
+          {
+            "$ref": "#/components/parameters/lessThanOrEqual"
+          },
+          {
+            "$ref": "#/components/parameters/locationgroup"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "next": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/timesheets/?page=3"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "example": "https://see.adiinsights.com/api/timesheets/?page=1"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/timesheet"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "5XX": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "allowance": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "allowance"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Allowance condition name",
+            "example": "Daily Uniform Allowance"
+          },
+          "value": {
+            "type": "number",
+            "example": 1.25
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      },
+      "approved": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "approvedHours"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "location": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "approver": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/segment"
+            }
+          },
+          "cost": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/cost"
+            }
+          },
+          "allowance": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/allowance"
+            }
+          }
+        }
+      },
+      "break": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "paid": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "start"
+        ]
+      },
+      "cost": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "cost"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Wage condition name",
+            "example": "Normal Hours"
+          },
+          "value": {
+            "type": "number",
+            "example": 136.875
+          },
+          "duration": {
+            "type": "number",
+            "example": 7.5
+          }
+        }
+      },
+      "createpunch": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "shift"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "location": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/createsegment"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "staff",
+          "location",
+          "start"
+        ]
+      },
+      "createsegment": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "segment"
+            ]
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "job": {
+            "type": "string",
+            "nullable": true,
+            "format": "uuid"
+          },
+          "break": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "paid",
+              "unpaid"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "start"
+        ]
+      },
+      "date": {
+        "type": "string",
+        "format": "date",
+        "description": "ISO 8601 date",
+        "example": "2018-08-10"
+      },
+      "dateperiod": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "$ref": "#/components/schemas/date"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/date"
+          }
+        },
+        "required": [
+          "start"
+        ]
+      },
+      "datetime": {
+        "type": "string",
+        "format": "datetime",
+        "description": "ISO 8601 date time with timezone",
+        "example": "2018-08-10T16:45:00+09:30"
+      },
+      "employmentperiod": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "employmentperiod"
+            ]
+          },
+          "start": {
+            "$ref": "#/components/schemas/date"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/date"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Termination reason"
+          }
+        }
+      },
+      "entityperiod": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "entityperiod"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "start": {
+            "$ref": "#/components/schemas/date"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/date"
+          }
+        },
+        "required": [
+          "uuid"
+        ]
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "example": "Location 552334aa-88aa-41fa-a54f-4f6fddd3a35d is invalid"
+          }
+        }
+      },
+      "integration": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "integration"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Integration name"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+          }
+        }
+      },
+      "job": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "job"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "Coffee drinker"
+          },
+          "color": {
+            "type": "string",
+            "example": "#8CC63E",
+            "description": "HEX representation of color"
+          }
+        }
+      },
+      "leave_type": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "leave_type"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "loading": {
+            "type": "number"
+          },
+          "include_weekends": {
+            "type": "boolean"
+          },
+          "default_hours": {
+            "type": "number"
+          }
+        }
+      },
+      "leave": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "leave"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd",
+            "readOnly": true
+          },
+          "leave_type": {
+            "type": "string",
+            "format": "uuid",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+          },
+          "location": {
+            "type": "string",
+            "format": "uuid",
+            "description": "If not provided the staff member's primary location will be used",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "hours": {
+            "type": "number"
+          },
+          "cost": {
+            "type": "number",
+            "readOnly": true
+          },
+          "comments": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "object",
+          "leave_type",
+          "staff",
+          "start",
+          "finish"
+        ]
+      },
+      "linked_location": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "linkedlocation"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUID of the Adi Location",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+          },
+          "external_id": {
+            "type": "string",
+            "description": "Recorded external ID in Adi"
+          }
+        }
+      },
+      "linked_staff": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "linkedstaff"
+            ]
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUID of the staff member",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+          },
+          "external_id": {
+            "type": "string",
+            "description": "Recorded external ID"
+          }
+        }
+      },
+      "location": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "location"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "The coffee bar"
+          },
+          "timezone": {
+            "type": "string",
+            "example": "America/New_York"
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "description": "The UUID of jobs that are available to this location",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "locationgroup": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "locationGrp"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "category": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "punchsource": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "punchSource"
+            ]
+          },
+          "eventTime": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "serverProcessedTime": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "Server",
+              "Mobile server",
+              "AdiClock",
+              "Adi",
+              "Zuus Time",
+              "Zuus Web",
+              "IVR",
+              "myZUUS",
+              "Advanced manufacturing"
+            ],
+            "description": "Source of the clock event, may contain other strings for external POS systems"
+          },
+          "geo": {
+            "type": "boolean"
+          },
+          "long": {
+            "type": "number"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "event": {
+            "type": "string",
+            "enum": [
+              "Shift start",
+              "Shift finish",
+              "Break start",
+              "Break finish",
+              "Job change"
+            ]
+          }
+        }
+      },
+      "segment": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "segment"
+            ]
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "job": {
+            "type": "string",
+            "nullable": true,
+            "format": "uuid"
+          },
+          "break_type": {
+            "type": "string",
+            "nullable": true,
+            "example": "paid",
+            "enum": [
+              null,
+              "paid",
+              "unpaid"
+            ]
+          }
+        }
+      },
+      "shift": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "shift"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "location": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/segment"
+            }
+          },
+          "cost": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/cost"
+            }
+          },
+          "allowance": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/allowance"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "staff_post": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "staff"
+            ]
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "start_date": {
+            "$ref": "#/components/schemas/date"
+          },
+          "primary_location": {
+            "type": "string",
+            "format": "uuid",
+            "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "description": "The UUID of locations that this staff member is available to work at",
+              "type": "string",
+              "format": "uuid",
+              "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+            }
+          },
+          "preferred_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "mobile": {
+            "type": "string"
+          },
+          "dob": {
+            "$ref": "#/components/schemas/date"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              ""
+            ]
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+            }
+          },
+          "integrations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "integration": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "The UUID of the integration",
+                  "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+                },
+                "external_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "object",
+          "first_name",
+          "last_name",
+          "start_date",
+          "primary_location",
+          "locations"
+        ]
+      },
+      "staff": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "staff"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "preferred_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "dob": {
+            "$ref": "#/components/schemas/date"
+          },
+          "pin": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "employment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/employmentperiod"
+            }
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/entityperiod"
+            }
+          },
+          "primary_location": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object": {
+                  "type": "string",
+                  "enum": [
+                    "primaryperiod"
+                  ]
+                },
+                "uuid": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "start": {
+                  "$ref": "#/components/schemas/date"
+                },
+                "finish": {
+                  "$ref": "#/components/schemas/date"
+                }
+              }
+            }
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "description": "The UUID of locations that this staff member is available to work at",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "stat_post": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "stat"
+            ]
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Non inclusive ISO 8601 date time with timezone",
+            "example": "2018-08-10T17:00:00+09:30"
+          },
+          "value": {
+            "type": "number"
+          },
+          "manual": {
+            "type": "boolean",
+            "description": "Stat manually entered by a user",
+            "default": false
+          }
+        }
+      },
+      "stat": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "stat"
+            ]
+          },
+          "stats_type": {
+            "type": "string"
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Non inclusive ISO 8601 date time with timezone",
+            "example": "2018-08-10T17:00:00+09:30"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      },
+      "stattype": {
+        "type": "object",
+        "properties": {
+          "stats_type": {
+            "type": "string"
+          }
+        }
+      },
+      "timesheet": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "timesheet"
+            ]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "staff": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "location": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "start": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/datetime"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/segment"
+            }
+          },
+          "notes": {
+            "type": "string"
+          },
+          "punches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/punchsource"
+            }
+          },
+          "cost": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/cost"
+            }
+          },
+          "allowance": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/allowance"
+            }
+          }
+        }
+      },
+      "uuid_string": {
+        "type": "string",
+        "format": "uuid",
+        "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Foo is an invalid query parameter"
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Invalid authentication credentials supplied"
+                }
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "You do not have permission to perform this action"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Object not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "batch": {
+        "in": "path",
+        "name": "batch_id",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "The id of the batch processor task",
+        "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+      },
+      "employment_status": {
+        "in": "query",
+        "name": "employment_status",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "terminated",
+            "all"
+          ]
+        }
+      },
+      "greaterThan": {
+        "in": "query",
+        "name": "gt",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is greater than this value.",
+        "example": "2019-11-25"
+      },
+      "greaterThanOrEqual": {
+        "in": "query",
+        "name": "gte",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is greater than or equal this value.",
+        "example": "2019-11-25"
+      },
+      "lessThan": {
+        "in": "query",
+        "name": "lt",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is less than this value.",
+        "example": "2019-11-25"
+      },
+      "lessThanOrEqual": {
+        "in": "query",
+        "name": "lte",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Return results where the 'start' field is less than or equal this value.",
+        "example": "2019-11-25"
+      },
+      "location_query": {
+        "in": "query",
+        "name": "location",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+      },
+      "location": {
+        "in": "path",
+        "name": "loc_id",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+      },
+      "locationgroup": {
+        "in": "query",
+        "name": "loc_group",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "Return results that belong to this location group"
+      },
+      "overlapping": {
+        "in": "query",
+        "description": "Return results overlapping the period `gt` to `lt`",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "name": "overlapping"
+      },
+      "page": {
+        "in": "query",
+        "name": "page",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "payrollgroup": {
+        "in": "query",
+        "name": "group_by",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "staff",
+            "condition"
+          ]
+        }
+      },
+      "publish_status": {
+        "in": "query",
+        "name": "status",
+        "description": "Filter shifts by published status. If not provided only published shifts will be returned.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "published",
+            "unpublished"
+          ]
+        }
+      },
+      "staff_query": {
+        "in": "query",
+        "name": "staff",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "example": "552334aa-88aa-41fa-a54f-4f6fddd3a35d"
+      },
+      "staff": {
+        "in": "path",
+        "name": "staff_id",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "example": "566166db-6402-4d0f-88ed-259784aaf7dd"
+      }
+    },
+    "securitySchemes": {
+      "Basic": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Authenitcate with the credentials provided by Adi Support (api@adiinsights.com)"
+      }
+    }
+  }
+}
