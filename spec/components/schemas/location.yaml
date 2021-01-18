@@ -12,6 +12,9 @@ properties:
     timezone:
         type: string
         example: America/New_York
+    address:
+        type: string
+        example: 1 Test Street, New York, NY, United States
     jobs:
         type: array
         items:

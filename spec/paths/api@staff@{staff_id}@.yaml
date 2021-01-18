@@ -1,11 +1,13 @@
 parameters:
     - $ref: "#/components/parameters/staff"
+    - $ref: "#/components/parameters/staff_include"
 get:
     tags:
         - Staff
     summary: Single
     description: >-
-        Retrieve the details of a staff member
+        Retrieve the details of a staff member.<br>
+        Australian financial detail fields (Bank Account, Supperanuation Fund and Tax File Number Declaration) will only be included if specifically requested.
     responses:
         "200":
             description: Successful
