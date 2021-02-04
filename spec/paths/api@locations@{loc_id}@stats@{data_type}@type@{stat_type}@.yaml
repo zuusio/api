@@ -76,8 +76,24 @@ post:
                     items:
                         $ref: "#/components/schemas/stat_post"
     responses:
+        "200":
+            description: Successful
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                            example: "Stat created"
         "201":
             description: Successful
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                            example: "Stat created"
         "400":
             $ref: "#/components/responses/400"
         "401":
