@@ -108,8 +108,6 @@ properties:
             employment_basis:
                 type: string
                 enum: ["FT", "PT", "Hire", "Super", "Casual"]
-            australian_resident:
-                type: boolean
             residency_status:
                 type: string
                 enum: ["australian", "foreign", "working-holiday"]
