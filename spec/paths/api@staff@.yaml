@@ -3,11 +3,12 @@ get:
         - Staff
     summary: All
     description: >-
-        Retrieve the details of all staff. Without any parameters, only employed staff are returned. 
-        To retrieve staff that have been terminated, the 'employment_status' parameter must be set to
-        'terminated'
+        Retrieve the details of all staff. Without any parameters, only employed staff are returned. <br>
+        To retrieve staff that have been terminated, the 'employment_status' parameter must be set to 'terminated'. <br>
+        Australian financial detail fields (Bank Account, Supperanuation Fund and Tax File Number Declaration) will only be included if specifically requested.
     parameters:
         - $ref: "#/components/parameters/employment_status"
+        - $ref: "#/components/parameters/staff_include"
         - $ref: "#/components/parameters/page"
     responses:
         "200":

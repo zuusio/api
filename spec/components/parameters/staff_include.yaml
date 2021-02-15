@@ -1,0 +1,6 @@
+in: query
+name: include
+required: false
+schema:
+    type: string
+    enum: ["financial"]

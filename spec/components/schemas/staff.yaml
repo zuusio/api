@@ -50,3 +50,76 @@ properties:
             description: The UUID of locations that this staff member is available to work at
             type: string
             format: uuid
+
+    bank_account:
+        type: object
+        properties:
+            account_name:
+                type: string
+            account_number:
+                type: string
+            BSB:
+                type: string
+                example: "123-456"
+
+    superannuation_fund:
+        type: object
+        properties:
+            fund_name:
+                type: string
+            account_number:
+                type: string
+            spin:
+                type: string
+            usi:
+                type: string
+
+    tax_file_number:
+        type: object
+        properties:
+            tax_file_number:
+                type: string
+            exemption_code:
+                type: string
+                enum: ["application-pending", "under-18", "pension", "declined"]
+            title:
+                type: string
+                enum: ["Mr", "Mrs", "Miss", " Ms"]
+            surname:
+                type: string
+            first_name:
+                type: string
+            other_names:
+                type: string
+            previous_family_name:
+                type: string
+            date_of_birth:
+                $ref: "#/components/schemas/date"
+            address:
+                type: string
+            address_2:
+                type: string
+            suburb:
+                type: string
+            state:
+                type: string
+            postcode:
+                type: string
+            employment_basis:
+                type: string
+                enum: ["FT", "PT", "Hire", "Super", "Casual"]
+            residency_status:
+                type: string
+                enum: ["australian", "foreign", "working-holiday"]
+            tax_free_threshold_claimed:
+                type: boolean
+            senior_tax_offset_claimed:
+                type: boolean
+            special_tax_offset_claimed:
+                type: boolean
+            hecs_or_help_debt:
+                type: boolean
+            sfss_debt:
+                type: boolean
+            last_updated_at:
+                $ref: "#/components/schemas/datetime"
