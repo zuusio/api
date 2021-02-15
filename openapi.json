@@ -1244,8 +1244,33 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Stat created"
+                  }
+                }
+              }
+            }
+          },
           "201": {
-            "description": "Successful"
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Stat created"
+                  }
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -1522,10 +1547,13 @@
           "Staff"
         ],
         "summary": "All",
-        "description": "Retrieve the details of all staff. Without any parameters, only employed staff are returned.  To retrieve staff that have been terminated, the 'employment_status' parameter must be set to 'terminated'",
+        "description": "Retrieve the details of all staff. Without any parameters, only employed staff are returned. <br> To retrieve staff that have been terminated, the 'employment_status' parameter must be set to 'terminated'. <br> Australian financial detail fields (Bank Account, Supperanuation Fund and Tax File Number Declaration) will only be included if specifically requested.",
         "parameters": [
           {
             "$ref": "#/components/parameters/employment_status"
+          },
+          {
+            "$ref": "#/components/parameters/staff_include"
           },
           {
             "$ref": "#/components/parameters/page"
@@ -1607,6 +1635,9 @@
       "parameters": [
         {
           "$ref": "#/components/parameters/staff"
+        },
+        {
+          "$ref": "#/components/parameters/staff_include"
         }
       ],
       "get": {
@@ -1614,7 +1645,7 @@
           "Staff"
         ],
         "summary": "Single",
-        "description": "Retrieve the details of a staff member",
+        "description": "Retrieve the details of a staff member.<br> Australian financial detail fields (Bank Account, Supperanuation Fund and Tax File Number Declaration) will only be included if specifically requested.",
         "responses": {
           "200": {
             "description": "Successful",
@@ -2344,6 +2375,10 @@
             "type": "string",
             "example": "America/New_York"
           },
+          "address": {
+            "type": "string",
+            "example": "1 Test Street, New York, NY, United States"
+          },
           "jobs": {
             "type": "array",
             "items": {
@@ -2671,6 +2706,130 @@
               "description": "The UUID of locations that this staff member is available to work at",
               "type": "string",
               "format": "uuid"
+            }
+          },
+          "bank_account": {
+            "type": "object",
+            "properties": {
+              "account_name": {
+                "type": "string"
+              },
+              "account_number": {
+                "type": "string"
+              },
+              "BSB": {
+                "type": "string",
+                "example": "123-456"
+              }
+            }
+          },
+          "superannuation_fund": {
+            "type": "object",
+            "properties": {
+              "fund_name": {
+                "type": "string"
+              },
+              "account_number": {
+                "type": "string"
+              },
+              "spin": {
+                "type": "string"
+              },
+              "usi": {
+                "type": "string"
+              }
+            }
+          },
+          "tax_file_number": {
+            "type": "object",
+            "properties": {
+              "tax_file_number": {
+                "type": "string"
+              },
+              "exemption_code": {
+                "type": "string",
+                "enum": [
+                  "application-pending",
+                  "under-18",
+                  "pension",
+                  "declined"
+                ]
+              },
+              "title": {
+                "type": "string",
+                "enum": [
+                  "Mr",
+                  "Mrs",
+                  "Miss",
+                  " Ms"
+                ]
+              },
+              "surname": {
+                "type": "string"
+              },
+              "first_name": {
+                "type": "string"
+              },
+              "other_names": {
+                "type": "string"
+              },
+              "previous_family_name": {
+                "type": "string"
+              },
+              "date_of_birth": {
+                "$ref": "#/components/schemas/date"
+              },
+              "address": {
+                "type": "string"
+              },
+              "address_2": {
+                "type": "string"
+              },
+              "suburb": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "postcode": {
+                "type": "string"
+              },
+              "employment_basis": {
+                "type": "string",
+                "enum": [
+                  "FT",
+                  "PT",
+                  "Hire",
+                  "Super",
+                  "Casual"
+                ]
+              },
+              "residency_status": {
+                "type": "string",
+                "enum": [
+                  "australian",
+                  "foreign",
+                  "working-holiday"
+                ]
+              },
+              "tax_free_threshold_claimed": {
+                "type": "boolean"
+              },
+              "senior_tax_offset_claimed": {
+                "type": "boolean"
+              },
+              "special_tax_offset_claimed": {
+                "type": "boolean"
+              },
+              "hecs_or_help_debt": {
+                "type": "boolean"
+              },
+              "sfss_debt": {
+                "type": "boolean"
+              },
+              "last_updated_at": {
+                "$ref": "#/components/schemas/datetime"
+              }
             }
           }
         }
@@ -3002,6 +3161,17 @@
           "enum": [
             "published",
             "unpublished"
+          ]
+        }
+      },
+      "staff_include": {
+        "in": "query",
+        "name": "include",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "financial"
           ]
         }
       },
