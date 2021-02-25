@@ -762,6 +762,13 @@ paths:
         - Stats
       summary: Create
       description: Create actual (or predicted) sales (or units) for a location.
+      parameters:
+        - name: force
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Delete any stats that do not match the same period resolution that overlap with the data uploaded.
       requestBody:
         required: true
         content:
