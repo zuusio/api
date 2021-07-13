@@ -6,6 +6,7 @@ parameters:
           type: string
           format: uuid
       example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+    - $ref: "#/components/parameters/account"
 
 get:
     tags:

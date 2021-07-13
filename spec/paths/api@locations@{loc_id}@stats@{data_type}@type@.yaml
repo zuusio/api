@@ -9,6 +9,7 @@ parameters:
               - predicted
               - actual
       description: Is this data predicted or what actually occured?
+    - $ref: "#/components/parameters/account"
 get:
     tags:
         - Stats

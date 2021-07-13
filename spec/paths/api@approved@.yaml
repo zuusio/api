@@ -1,3 +1,5 @@
+parameters:
+    - $ref: "#/components/parameters/account"
 get:
     tags:
         - Approved Shifts

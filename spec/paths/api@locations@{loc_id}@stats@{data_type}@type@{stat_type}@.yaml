@@ -18,6 +18,7 @@ parameters:
               - sales
               - units
       description: Either a monetary amount (sales) or a count of some item
+    - $ref: "#/components/parameters/account"
 get:
     tags:
         - Stats

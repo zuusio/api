@@ -1,5 +1,7 @@
 parameters:
     - $ref: "#/components/parameters/batch"
+    - $ref: "#/components/parameters/account"
+
 get:
     tags:
         - Batch Processor

@@ -1,12 +1,13 @@
 parameters:
-  - in: path
-    name: integration_id
-    required: true
-    schema:
-        type: string
-        format: uuid
-    description: The integraton id
-    example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    - $ref: "#/components/parameters/account"
+    - in: path
+      name: integration_id
+      required: true
+      schema:
+          type: string
+          format: uuid
+      description: The integraton id
+      example: 566166db-6402-4d0f-88ed-259784aaf7dd
 get:
     tags:
         - Integrations

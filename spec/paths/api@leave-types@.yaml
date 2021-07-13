@@ -1,3 +1,6 @@
+parameters:
+    - $ref: "#/components/parameters/account"
+    - $ref: "#/components/parameters/page"
 get:
     tags:
         - Leave

@@ -1,0 +1,24 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["account"]
+    name:
+        type: string
+        description: Adi Account name
+        example: Adi Insights
+    uuid:
+        type: string
+        format: uuid
+    locations:
+        type: array
+        items:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: Adi Location name
+                    example: "Blacktown #1234"
+                uuid:
+                    type: string
+                    format: uuid

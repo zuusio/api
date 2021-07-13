@@ -1,5 +1,6 @@
 parameters:
     - $ref: "#/components/parameters/location"
+    - $ref: "#/components/parameters/account"
 get:
     tags:
         - Locations

@@ -1,6 +1,8 @@
 parameters:
     - $ref: "#/components/parameters/staff"
     - $ref: "#/components/parameters/staff_include"
+    - $ref: "#/components/parameters/account"
+
 get:
     tags:
         - Staff

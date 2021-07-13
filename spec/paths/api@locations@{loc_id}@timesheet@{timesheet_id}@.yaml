@@ -7,6 +7,7 @@ parameters:
           type: string
           format: uuid
       example: e4a33c11-31e6-4668-ab31-83551dae7cb7
+    - $ref: "#/components/parameters/account"
 get:
     tags:
         - Timesheets
