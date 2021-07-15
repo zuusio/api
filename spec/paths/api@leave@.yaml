@@ -40,6 +40,8 @@ get:
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
 post:
@@ -65,6 +67,8 @@ post:
             $ref: "#/components/responses/400"
         "401":
             $ref: "#/components/responses/401"
+        "429":
+            $ref: "#/components/responses/429"
         "403":
             $ref: "#/components/responses/403"
         5XX:

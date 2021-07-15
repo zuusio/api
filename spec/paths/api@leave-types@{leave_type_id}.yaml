@@ -25,5 +25,7 @@ get:
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
