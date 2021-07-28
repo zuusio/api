@@ -1,0 +1,32 @@
+parameters:
+    - $ref: "#/components/parameters/account"
+    - in: path
+      name: group_id
+      required: true
+      schema:
+          type: string
+          format: uuid
+
+get:
+    tags:
+        - Groups
+    summary: Single
+    responses:
+        "200":
+            description: Successful
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/group"
+        "400":
+            $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
+        "403":
+            $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
+        5XX:
+            description: Unexpected Error

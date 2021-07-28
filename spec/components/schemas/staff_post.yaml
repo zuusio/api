@@ -37,6 +37,22 @@ properties:
             type: string
             format: uuid
             example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    street:
+        type: string
+    suburb:
+        type: string
+    state:
+        type: string
+        description: Short code based on ISO 3166-2 Standard (Excluding the country code)
+    postcode:
+        type: string
+    country:
+        type: string
+        description: Two character country code following the ISO 3166-1 Standard <br />If not provided the primary location's country will be used
+    group:
+        type: string
+        format: uuid
+        description: If not provided the default group will be used
     integrations:
         type: array
         items:
@@ -49,6 +65,7 @@ properties:
                     example: 566166db-6402-4d0f-88ed-259784aaf7dd
                 external_id:
                     type: string
+
 required:
   - object
   - first_name

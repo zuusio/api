@@ -36,6 +36,8 @@ tags:
       description: A list of Adi accounts you have access to.
     - name: Staff
       description: Retrieve details about staff.
+    - name: Groups
+      description: Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in Adi.
     - name: Jobs
       description: Jobs are tasks that staff perform at locations.
     - name: Locations

@@ -20,6 +20,23 @@ properties:
         type: string
     gender:
         type: string
+    mobile:
+        type: string
+    street:
+        type: string
+    suburb:
+        type: string
+    state:
+        type: string
+        description: Short code based on ISO 3166-2 Standard (Excluding the country code)
+    postcode:
+        type: string
+    country:
+        type: string
+        description: Two character country code following the ISO 3166-1 Standard
+    group:
+        type: string
+        format: uuid
     employment:
         type: array
         items:
