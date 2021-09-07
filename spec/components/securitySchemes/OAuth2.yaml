@@ -2,6 +2,6 @@ type: oauth2
 description: Adi Insights uses OAuth2 for API access. Authenitcate with the credentials provided by Adi Support (api@adiinsights.com).
 flows:
   password:
-    tokenUrl: /oauth/token
+    tokenUrl: /oauth/token/
     scopes:
       api: Access to the API.

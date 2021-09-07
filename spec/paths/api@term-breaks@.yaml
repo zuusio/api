@@ -1,0 +1,42 @@
+parameters:
+    - $ref: "#/components/parameters/account"
+get:
+    tags:
+        - Term breaks
+    summary: All
+    parameters:
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/term_breaks_status"
+        - $ref: "#/components/parameters/term_breaks_containing"
+    responses:
+        "200":
+            description: Successful
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://see.adiinsights.com/api/term-breaks/?page=3"
+                            previous:
+                                type: string
+                                example: "https://see.adiinsights.com/api/term-breaks/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/term-break"
+        "400":
+            $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
+        "403":
+            $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
+        5XX:
+            description: Unexpected Error

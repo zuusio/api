@@ -21,3 +21,83 @@ properties:
             description: The UUID of jobs that are available to this location
             type: string
             format: uuid
+    opening_hours:
+        type: object
+        properties:
+            Monday:
+                type: object
+                properties:
+                    start:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                    finish:
+                        type: string
+                        format: time
+                        example: "17:00:00"
+            Tuesday:
+                type: object
+                properties:
+                    start:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                    finish:
+                        type: string
+                        format: time
+                        example: "17:00:00"
+            Wednesday:
+                type: object
+                properties:
+                    start:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                    finish:
+                        type: string
+                        format: time
+                        example: "17:00:00"
+            Thursday:
+                type: object
+                properties:
+                    start:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                    finish:
+                        type: string
+                        format: time
+                        example: "17:00:00"
+            Friday:
+                type: object
+                properties:
+                    start:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                    finish:
+                        type: string
+                        format: time
+                        example: "17:00:00"
+            Saturday:
+                type: object
+                properties:
+                    start:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                    finish:
+                        type: string
+                        format: time
+                        example: "17:00:00"
+            Sunday:
+                type: object
+                properties:
+                    start:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                    finish:
+                        type: string
+                        format: time
+                        example: "17:00:00"

@@ -140,3 +140,24 @@ properties:
                 type: boolean
             last_updated_at:
                 $ref: "#/components/schemas/datetime"
+
+    visa_details:
+        type: array
+        items:
+            type: object
+            properties:
+                passport_number:
+                    type: string
+                country_of_issue:
+                    type: string
+                nationality:
+                    type: string
+                visa_class:
+                    type: string
+                work_entitlement:
+                    type: string
+                expiry_date:
+                    type: string
+                    format: date
+                notes:
+                    type: string

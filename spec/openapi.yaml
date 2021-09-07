@@ -10,7 +10,7 @@ info:
         Sales' information.
 
 
-        If you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/).
+        If you are looking for some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/).
         Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.
 
 
@@ -38,6 +38,7 @@ tags:
       description: Retrieve details about staff.
     - name: Groups
       description: Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in Adi.
+    - name: Term breaks
     - name: Jobs
       description: Jobs are tasks that staff perform at locations.
     - name: Locations
