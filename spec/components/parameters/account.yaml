@@ -1,0 +1,7 @@
+in: header
+name: X-ADI-ACCOUNT-UUID
+required: true
+schema:
+    type: string
+    format: uuid
+    description: This can be retrived via the Accounts API endpoint

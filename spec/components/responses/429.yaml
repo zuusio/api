@@ -1,0 +1,9 @@
+description: Too Many Requests
+content:
+    application/json:
+        schema:
+            type: object
+            properties:
+                detail:
+                    type: string
+                    example: "Request was throttled. Expected available in 40 seconds."

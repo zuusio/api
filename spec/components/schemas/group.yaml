@@ -1,0 +1,16 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["group"]
+    uuid:
+        type: string
+        format: uuid
+    name:
+        type: string
+    rank:
+        type: integer
+        default: 5
+    default:
+        type: boolean
+        description: Default group for staff if not assigned

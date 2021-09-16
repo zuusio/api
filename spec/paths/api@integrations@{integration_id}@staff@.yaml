@@ -7,12 +7,14 @@ parameters:
         format: uuid
     description: The integraton id
     example: 566166db-6402-4d0f-88ed-259784aaf7dd
+  - $ref: "#/components/parameters/account"
 get:
     tags:
         - Integrations
     summary: Staff
     description: Get a list of linked staff for the integration
     parameters:
+        - $ref: "#/components/parameters/account"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/employment_status"
     responses:
@@ -41,5 +43,7 @@ get:
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error

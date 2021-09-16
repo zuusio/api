@@ -1,6 +1,8 @@
 parameters:
     - $ref: "#/components/parameters/staff"
     - $ref: "#/components/parameters/staff_include"
+    - $ref: "#/components/parameters/account"
+
 get:
     tags:
         - Staff
@@ -25,6 +27,8 @@ get:
             $ref: "#/components/responses/403"
         "404":
             $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
 # put:

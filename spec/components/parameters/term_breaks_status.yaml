@@ -1,0 +1,6 @@
+in: query
+name: status
+required: false
+schema:
+    type: string
+    enum: ["pending", "approved", "denied", "not_denied", "processed"]

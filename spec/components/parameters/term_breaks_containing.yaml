@@ -1,0 +1,6 @@
+in: query
+name: containing
+required: false
+schema:
+    type: string
+    format: date

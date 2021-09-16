@@ -1,15 +1,13 @@
 parameters:
-    - $ref: "#/components/parameters/location"
     - $ref: "#/components/parameters/account"
 get:
     tags:
-        - Approved Shifts
-    summary: All at location
+        - Term breaks
+    summary: All
     parameters:
-        - $ref: "#/components/parameters/greaterThan"
-        - $ref: "#/components/parameters/greaterThanOrEqual"
-        - $ref: "#/components/parameters/lessThan"
-        - $ref: "#/components/parameters/lessThanOrEqual"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/term_breaks_status"
+        - $ref: "#/components/parameters/term_breaks_containing"
     responses:
         "200":
             description: Successful
@@ -22,14 +20,14 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=3"
+                                example: "https://see.adiinsights.com/api/term-breaks/?page=3"
                             previous:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=1"
+                                example: "https://see.adiinsights.com/api/term-breaks/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/approved"
+                                    $ref: "#/components/schemas/term-break"
         "400":
             $ref: "#/components/responses/400"
         "401":

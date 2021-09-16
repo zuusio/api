@@ -1,15 +1,12 @@
 parameters:
-    - $ref: "#/components/parameters/location"
-    - $ref: "#/components/parameters/account"
+    - $ref: "#/components/parameters/page"
 get:
     tags:
-        - Approved Shifts
-    summary: All at location
-    parameters:
-        - $ref: "#/components/parameters/greaterThan"
-        - $ref: "#/components/parameters/greaterThanOrEqual"
-        - $ref: "#/components/parameters/lessThan"
-        - $ref: "#/components/parameters/lessThanOrEqual"
+        - Accounts
+    summary: All
+    description: >-
+      Retrieve a list of Adi Accounts you have access to. The UUID of the account will need to be provided in the request's header record.
+      A list of active locations and their UUID is included to allow easy mapping if you have access to multiple Adi Accounts.
     responses:
         "200":
             description: Successful
@@ -22,14 +19,14 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=3"
+                                example: "https://see.adiinsights.com/api/accounts/?page=3"
                             previous:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=1"
+                                example: "https://see.adiinsights.com/api/accounts/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/approved"
+                                    $ref: "#/components/schemas/account"
         "400":
             $ref: "#/components/responses/400"
         "401":

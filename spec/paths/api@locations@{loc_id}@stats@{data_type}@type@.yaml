@@ -9,6 +9,7 @@ parameters:
               - predicted
               - actual
       description: Is this data predicted or what actually occured?
+    - $ref: "#/components/parameters/account"
 get:
     tags:
         - Stats
@@ -41,5 +42,7 @@ get:
             $ref: "#/components/responses/403"
         "404":
             $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error

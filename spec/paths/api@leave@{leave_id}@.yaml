@@ -7,6 +7,7 @@ parameters:
           format: uuid
       description: The leave id
       example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+    - $ref: "#/components/parameters/account"
 
 get:
     tags:
@@ -25,6 +26,8 @@ get:
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
 
@@ -83,6 +86,8 @@ patch:
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
 
@@ -99,5 +104,7 @@ delete:
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error

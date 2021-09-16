@@ -6,6 +6,7 @@ parameters:
         type: string
         format: uuid
     example: baf47dc1-ec02-4782-a855-de3c48ff4123
+  - $ref: "#/components/parameters/account"
 get:
     tags:
         - Jobs
@@ -27,6 +28,8 @@ get:
             $ref: "#/components/responses/403"
         "404":
             $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
 # put:

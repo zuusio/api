@@ -1,3 +1,5 @@
+parameters:
+    - $ref: "#/components/parameters/account"
 get:
     tags:
         - Staff
@@ -38,6 +40,8 @@ get:
             $ref: "#/components/responses/403"
         "404":
             $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
 
@@ -56,3 +60,11 @@ post:
     responses:
         "302":
             description: Redirection to batch processor status
+        "401":
+            $ref: "#/components/responses/401"
+        "403":
+            $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
+        5XX:
+            description: Unexpected Error

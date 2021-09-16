@@ -1,0 +1,34 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["termbreakrequest"]
+    uuid:
+        type: string
+        format: uuid
+    periods:
+        type: array
+        items:
+            type: object
+            properties:
+                start:
+                    type: string
+                    format: date
+                finish:
+                    type: string
+                    format: date
+    processed_at:
+        $ref: "#/components/schemas/datetime"
+    processed_by:
+        type: string
+        format: uuid
+    reason_for_denial:
+        type: string
+    requested_at:
+        $ref: "#/components/schemas/datetime"
+    staff:
+        type: string
+        format: uuid
+    status:
+        type: string
+        enum: ["pending", "approved", "denied"]

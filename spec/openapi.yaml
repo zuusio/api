@@ -10,7 +10,7 @@ info:
         Sales' information.
 
 
-        If you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/).
+        If you are looking for some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/).
         Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.
 
 
@@ -18,14 +18,27 @@ info:
         The default is 100 items per page, however, you should not rely on this for determining if there is another page.
         You should use the URL provided in the “next” and “previous” fields in the response.
 
-    version: 1.1.0
+        ## Rate limits
+
+        Adi has implemented two separate API rate limits. These are calculated per API Partner and Account.
+        <ul>
+          <li>60 requests per minute</li>
+          <li>10000 requests per day</li>
+        </ul>
+
+    version: 2.0.0
     contact:
         email: api@adiinsights.com
     x-logo:
         url: logo.png
 tags:
+    - name: Accounts
+      description: A list of Adi accounts you have access to.
     - name: Staff
       description: Retrieve details about staff.
+    - name: Groups
+      description: Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in Adi.
+    - name: Term breaks
     - name: Jobs
       description: Jobs are tasks that staff perform at locations.
     - name: Locations
@@ -44,5 +57,3 @@ tags:
       description: Configured integrations with external systems
     - name: Batch Processor
       description: Check the status of a batch processor task. These will often be when the creation of multiple objects has been triggered. The results will be ordered in the same order you submitted them.
-security:
-    - Basic: []
