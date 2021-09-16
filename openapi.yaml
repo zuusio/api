@@ -6,17 +6,27 @@ info:
   description: |
     Welcome to the Adi API. Once you have an Adi authorization key, you can use this API to access information about staff, locations, jobs and shifts (scheduled, timesheets and approved hours). Additionally you can send in 'Point of Sales' information.
 
-    If you are looking from some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/). Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.
+    If you are looking for some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/). Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.
 
     When you are asking for a list of staff, shifts, jobs, locations or anything else available via the API, the response will be paginated. The default is 100 items per page, however, you should not rely on this for determining if there is another page. You should use the URL provided in the “next” and “previous” fields in the response.
-  version: 1.1.0
+    ## Rate limits
+    Adi has implemented two separate API rate limits. These are calculated per API Partner and Account. <ul>
+      <li>60 requests per minute</li>
+      <li>10000 requests per day</li>
+    </ul>
+  version: 2.0.0
   contact:
     email: api@adiinsights.com
   x-logo:
     url: logo.png
 tags:
+  - name: Accounts
+    description: A list of Adi accounts you have access to.
   - name: Staff
     description: Retrieve details about staff.
+  - name: Groups
+    description: 'Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in Adi.'
+  - name: Term breaks
   - name: Jobs
     description: Jobs are tasks that staff perform at locations.
   - name: Locations
@@ -35,10 +45,50 @@ tags:
     description: Configured integrations with external systems
   - name: Batch Processor
     description: Check the status of a batch processor task. These will often be when the creation of multiple objects has been triggered. The results will be ordered in the same order you submitted them.
-security:
-  - Basic: []
 paths:
+  /api/accounts/:
+    parameters:
+      - $ref: '#/components/parameters/page'
+    get:
+      tags:
+        - Accounts
+      summary: All
+      description: Retrieve a list of Adi Accounts you have access to. The UUID of the account will need to be provided in the request's header record. A list of active locations and their UUID is included to allow easy mapping if you have access to multiple Adi Accounts.
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/accounts/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/accounts/?page=1'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/account'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
   /api/approved/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Approved Shifts
@@ -78,9 +128,86 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
+  /api/groups/:
+    parameters:
+      - $ref: '#/components/parameters/account'
+    get:
+      tags:
+        - Groups
+      summary: All
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/groups/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/groups/?page=1'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/group'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
+  '/api/groups/{group_id}/':
+    parameters:
+      - $ref: '#/components/parameters/account'
+      - in: path
+        name: group_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Groups
+      summary: Single
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/group'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/integrations/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Integrations
@@ -114,10 +241,13 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/integrations/{integration_id}/location/':
     parameters:
+      - $ref: '#/components/parameters/account'
       - in: path
         name: integration_id
         required: true
@@ -159,6 +289,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/integrations/{integration_id}/staff/':
@@ -171,12 +303,14 @@ paths:
           format: uuid
         description: The integraton id
         example: 566166db-6402-4d0f-88ed-259784aaf7dd
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Integrations
       summary: Staff
       description: Get a list of linked staff for the integration
       parameters:
+        - $ref: '#/components/parameters/account'
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/employment_status'
       responses:
@@ -205,9 +339,13 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/jobs/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Jobs
@@ -240,6 +378,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/jobs/{job_id}/':
@@ -251,6 +391,7 @@ paths:
           type: string
           format: uuid
         example: baf47dc1-ec02-4782-a855-de3c48ff4123
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Jobs
@@ -272,9 +413,14 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/leave-types/:
+    parameters:
+      - $ref: '#/components/parameters/account'
+      - $ref: '#/components/parameters/page'
     get:
       tags:
         - Leave
@@ -305,6 +451,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/leave-types/{leave_type_id}':
@@ -316,6 +464,7 @@ paths:
           type: string
           format: uuid
         example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Leave
@@ -333,9 +482,13 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/leave/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Leave
@@ -376,6 +529,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
     post:
@@ -400,6 +555,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/leave/{leave_id}/':
@@ -412,6 +569,7 @@ paths:
           format: uuid
         description: The leave id
         example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Leave
@@ -429,6 +587,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
     patch:
@@ -487,6 +647,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
     delete:
@@ -502,9 +664,13 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/locations/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Locations
@@ -537,11 +703,14 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/':
     parameters:
       - $ref: '#/components/parameters/location'
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Locations
@@ -563,11 +732,14 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/approved/':
     parameters:
       - $ref: '#/components/parameters/location'
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Approved Shifts
@@ -605,11 +777,14 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/schedule/':
     parameters:
       - $ref: '#/components/parameters/location'
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Scheduled Shifts
@@ -648,6 +823,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/stats/{data_type}/type/':
@@ -662,6 +839,7 @@ paths:
             - predicted
             - actual
         description: Is this data predicted or what actually occured?
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Stats
@@ -694,6 +872,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/stats/{data_type}/type/{stat_type}/':
@@ -717,6 +897,7 @@ paths:
             - sales
             - units
         description: Either a monetary amount (sales) or a count of some item
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Stats
@@ -755,6 +936,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
     post:
@@ -802,6 +985,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/timesheet/{timesheet_id}/':
@@ -814,6 +999,7 @@ paths:
           type: string
           format: uuid
         example: e4a33c11-31e6-4668-ab31-83551dae7cb7
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Timesheets
@@ -836,11 +1022,14 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   '/api/locations/{loc_id}/timesheets/':
     parameters:
       - $ref: '#/components/parameters/location'
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Timesheets
@@ -878,9 +1067,13 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/locations/group/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Locations
@@ -912,9 +1105,13 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/schedule/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Scheduled Shifts
@@ -955,9 +1152,13 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/staff/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Staff
@@ -995,6 +1196,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
     post:
@@ -1012,10 +1215,19 @@ paths:
       responses:
         '302':
           description: Redirection to batch processor status
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
   '/api/staff/{staff_id}/':
     parameters:
       - $ref: '#/components/parameters/staff'
       - $ref: '#/components/parameters/staff_include'
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Staff
@@ -1038,55 +1250,14 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
-  '/api/staff/{staff_id}/employment/':
-    parameters:
-      - $ref: '#/components/parameters/staff'
-  '/api/staff/{staff_id}/job/':
-    parameters:
-      - $ref: '#/components/parameters/staff'
-  '/api/staff/{staff_id}/job/{job_id}/':
-    parameters:
-      - $ref: '#/components/parameters/staff'
-      - in: path
-        name: job_id
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The job id
-        example: 0a3a4cfa-6e8f-409a-9093-00f28243130a
-      - in: query
-        name: date
-        schema:
-          description: ISO 8601 date
-          type: string
-          format: date
-  '/api/staff/{staff_id}/location/{loc_id}':
-    parameters:
-      - $ref: '#/components/parameters/staff'
-      - in: path
-        name: loc_id
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The location id
-  '/api/staff/{staff_id}/location/{loc_id}/':
-    parameters:
-      - $ref: '#/components/parameters/staff'
-      - in: path
-        name: loc_id
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The location id
-        example: 0a3a4cfa-6e8f-409a-9093-00f28243130a
   '/api/status/{batch_id}/':
     parameters:
       - $ref: '#/components/parameters/batch'
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Batch Processor
@@ -1126,9 +1297,88 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
+  /api/term-breaks/:
+    parameters:
+      - $ref: '#/components/parameters/account'
+    get:
+      tags:
+        - Term breaks
+      summary: All
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/term_breaks_status'
+        - $ref: '#/components/parameters/term_breaks_containing'
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/term-breaks/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/term-breaks/?page=1'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/term-break'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
+  '/api/term-breaks/{term_break_id}/':
+    parameters:
+      - $ref: '#/components/parameters/account'
+      - in: path
+        name: term_break_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Term breaks
+      summary: Single
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/term-break'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
   /api/timesheets/:
+    parameters:
+      - $ref: '#/components/parameters/account'
     get:
       tags:
         - Timesheets
@@ -1168,10 +1418,38 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
 components:
   schemas:
+    account:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - account
+        name:
+          type: string
+          description: Adi Account name
+          example: Adi Insights
+        uuid:
+          type: string
+          format: uuid
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Adi Location name
+                example: 'Blacktown #1234'
+              uuid:
+                type: string
+                format: uuid
     allowance:
       type: object
       properties:
@@ -1365,6 +1643,24 @@ components:
         field:
           type: string
           example: Location 552334aa-88aa-41fa-a54f-4f6fddd3a35d is invalid
+    group:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - group
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        rank:
+          type: integer
+          default: 5
+        default:
+          type: boolean
+          description: Default group for staff if not assigned
     integration:
       type: object
       properties:
@@ -1513,6 +1809,86 @@ components:
             description: The UUID of jobs that are available to this location
             type: string
             format: uuid
+        opening_hours:
+          type: object
+          properties:
+            Monday:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: time
+                  example: '09:00:00'
+                finish:
+                  type: string
+                  format: time
+                  example: '17:00:00'
+            Tuesday:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: time
+                  example: '09:00:00'
+                finish:
+                  type: string
+                  format: time
+                  example: '17:00:00'
+            Wednesday:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: time
+                  example: '09:00:00'
+                finish:
+                  type: string
+                  format: time
+                  example: '17:00:00'
+            Thursday:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: time
+                  example: '09:00:00'
+                finish:
+                  type: string
+                  format: time
+                  example: '17:00:00'
+            Friday:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: time
+                  example: '09:00:00'
+                finish:
+                  type: string
+                  format: time
+                  example: '17:00:00'
+            Saturday:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: time
+                  example: '09:00:00'
+                finish:
+                  type: string
+                  format: time
+                  example: '17:00:00'
+            Sunday:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: time
+                  example: '09:00:00'
+                finish:
+                  type: string
+                  format: time
+                  example: '17:00:00'
     locationgroup:
       type: object
       properties:
@@ -1666,6 +2042,22 @@ components:
             type: string
             format: uuid
             example: 566166db-6402-4d0f-88ed-259784aaf7dd
+        street:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+          description: Short code based on ISO 3166-2 Standard (Excluding the country code)
+        postcode:
+          type: string
+        country:
+          type: string
+          description: Two character country code following the ISO 3166-1 Standard <br />If not provided the primary location's country will be used
+        group:
+          type: string
+          format: uuid
+          description: If not provided the default group will be used
         integrations:
           type: array
           items:
@@ -1709,6 +2101,23 @@ components:
           type: string
         gender:
           type: string
+        mobile:
+          type: string
+        street:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+          description: Short code based on ISO 3166-2 Standard (Excluding the country code)
+        postcode:
+          type: string
+        country:
+          type: string
+          description: Two character country code following the ISO 3166-1 Standard
+        group:
+          type: string
+          format: uuid
         employment:
           type: array
           items:
@@ -1825,6 +2234,26 @@ components:
               type: boolean
             last_updated_at:
               $ref: '#/components/schemas/datetime'
+        visa_details:
+          type: array
+          items:
+            type: object
+            properties:
+              passport_number:
+                type: string
+              country_of_issue:
+                type: string
+              nationality:
+                type: string
+              visa_class:
+                type: string
+              work_entitlement:
+                type: string
+              expiry_date:
+                type: string
+                format: date
+              notes:
+                type: string
     stat_post:
       type: object
       properties:
@@ -1868,6 +2297,45 @@ components:
       properties:
         stats_type:
           type: string
+    term-break:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - termbreakrequest
+        uuid:
+          type: string
+          format: uuid
+        periods:
+          type: array
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+                format: date
+              finish:
+                type: string
+                format: date
+        processed_at:
+          $ref: '#/components/schemas/datetime'
+        processed_by:
+          type: string
+          format: uuid
+        reason_for_denial:
+          type: string
+        requested_at:
+          $ref: '#/components/schemas/datetime'
+        staff:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - denied
     timesheet:
       type: object
       properties:
@@ -1951,7 +2419,25 @@ components:
               detail:
                 type: string
                 example: Object not found
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: Request was throttled. Expected available in 40 seconds.
   parameters:
+    account:
+      in: header
+      name: X-ADI-ACCOUNT-UUID
+      required: true
+      schema:
+        type: string
+        format: uuid
+        description: This can be retrived via the Accounts API endpoint
     batch:
       in: path
       name: batch_id
@@ -2067,9 +2553,12 @@ components:
       name: include
       required: false
       schema:
-        type: string
-        enum:
-          - financial
+        type: array
+        items:
+          type: string
+          enum:
+            - financial
+            - visa
     staff_query:
       in: query
       name: staff
@@ -2086,8 +2575,31 @@ components:
         type: string
         format: uuid
       example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    term_breaks_containing:
+      in: query
+      name: containing
+      required: false
+      schema:
+        type: string
+        format: date
+    term_breaks_status:
+      in: query
+      name: status
+      required: false
+      schema:
+        type: string
+        enum:
+          - pending
+          - approved
+          - denied
+          - not_denied
+          - processed
   securitySchemes:
-    Basic:
-      type: http
-      scheme: basic
-      description: Authenitcate with the credentials provided by Adi Support (api@adiinsights.com)
+    OAuth2:
+      type: oauth2
+      description: Adi Insights uses OAuth2 for API access. Authenitcate with the credentials provided by Adi Support (api@adiinsights.com).
+      flows:
+        password:
+          tokenUrl: /oauth/token/
+          scopes:
+            api: Access to the API.
