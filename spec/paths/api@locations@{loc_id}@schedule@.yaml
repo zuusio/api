@@ -5,6 +5,9 @@ get:
     tags:
         - Scheduled Shifts
     summary: All at location
+    description: >-
+        Retrieve scheduled shifts. Without any parameters, all published scheduled shifts from the location for
+        the last 30 days are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"

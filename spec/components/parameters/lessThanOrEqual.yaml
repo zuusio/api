@@ -4,5 +4,5 @@ required: false
 schema:
   type: string
   format: date
-description: Return results where the 'start' field is less than or equal this value.
+description: Return results where the objects date is less than or equal this value.
 example: "2019-11-25"

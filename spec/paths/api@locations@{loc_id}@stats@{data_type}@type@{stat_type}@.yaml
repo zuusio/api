@@ -25,7 +25,7 @@ get:
     summary: All
     description: >-
         Retrieve actual (or predicted) sales (or units) for a location. If a date range is not
-        provided, the current weeks stats are returned. Filters can be applied to refine the search
+        provided, the current day's stats are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"

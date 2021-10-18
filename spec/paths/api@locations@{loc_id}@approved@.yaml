@@ -5,6 +5,9 @@ get:
     tags:
         - Approved Shifts
     summary: All at location
+    description: >-
+        Retrieve shifts that have been approved by a manager. Without any parameters, all approved
+        shifts from the location for the last 30 days are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"
