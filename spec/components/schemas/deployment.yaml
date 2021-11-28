@@ -1,0 +1,18 @@
+type: object
+properties:
+    start:
+        $ref: "#/components/schemas/datetime"
+    finish:
+        $ref: "#/components/schemas/datetime"
+    team:
+        type: object
+        properties:
+            uuid:
+                type: string
+                format: uuid
+            name:
+                type: string
+                example: Back of House
+    required_hours:
+        type: number
+        example: 2.5

@@ -1,0 +1,38 @@
+parameters:
+    - $ref: "#/components/parameters/account"
+get:
+    tags:
+        - Teams
+    summary: All
+    parameters:
+        - $ref: "#/components/parameters/page"
+    responses:
+        "200":
+            description: Successful
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            count:
+                                type: integer
+                            next:
+                                type: string
+                                example: "https://see.adiinsights.com/api/teams/?page=3"
+                            previous:
+                                type: string
+                                example: "https://see.adiinsights.com/api/teams/?page=1"
+                            results:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/team"
+        "400":
+            $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
+        "403":
+            $ref: "#/components/responses/403"
+        "429":
+            $ref: "#/components/responses/429"
+        5XX:
+            description: Unexpected Error

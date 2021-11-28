@@ -1,0 +1,7 @@
+in: path
+name: team_id
+required: true
+schema:
+    type: string
+    format: uuid
+

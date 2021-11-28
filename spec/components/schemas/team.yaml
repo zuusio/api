@@ -1,0 +1,32 @@
+type: object
+properties:
+    object:
+        type: string
+        enum: ["team"]
+    name:
+        type: string
+        description: Brand Name
+        example: Front of House
+    uuid:
+        type: string
+        format: uuid
+    brand:
+        type: object
+        properties:
+            uuid:
+                type: string
+                format: uuid
+            name:
+                type: string
+                example: Adi Insights
+    jobs:
+        type: array
+        items:
+            type: object
+            properties:
+                name:
+                    type: string
+                    example: Server
+                uuid:
+                    type: string
+                    format: uuid
