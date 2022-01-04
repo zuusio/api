@@ -26,7 +26,7 @@ info:
           <li>10000 requests per day</li>
         </ul>
 
-    version: 2.0.0
+    version: 2.1.0
     contact:
         email: api@adiinsights.com
     x-logo:
@@ -38,17 +38,22 @@ tags:
       description: Retrieve details about staff.
     - name: Groups
       description: Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in Adi.
-    - name: Term breaks
+    - name: Term Breaks
     - name: Jobs
       description: Jobs are tasks that staff perform at locations.
     - name: Locations
       description: Locations are physical areas that require staff to be stationed.
+    - name: Brands
+      description: Locations are assigned to a brand for standardisation of settings
+    - name: Teams
+      description: A group of jobs used for deployment
     - name: Scheduled Shifts
       description: These are the times that are planned for staff to be at a location.
     - name: Timesheets
       description: These are the recorded times that staff occupied a location.
     - name: Approved Shifts
       description: These are the times that have been approved and will be used in payroll.
+    - name: Labour Deployment
     - name: Leave
       description: Approved leave requests
     - name: Stats

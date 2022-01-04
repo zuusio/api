@@ -1,18 +1,11 @@
 parameters:
-    - $ref: "#/components/parameters/location"
     - $ref: "#/components/parameters/account"
 get:
     tags:
-        - Approved Shifts
-    summary: All at location
-    description: >-
-        Retrieve shifts that have been approved by a manager. Without any parameters, all approved
-        shifts from the location for the last 30 days are returned. Filters can be applied to refine the search
+        - Teams
+    summary: All
     parameters:
-        - $ref: "#/components/parameters/greaterThan"
-        - $ref: "#/components/parameters/greaterThanOrEqual"
-        - $ref: "#/components/parameters/lessThan"
-        - $ref: "#/components/parameters/lessThanOrEqual"
+        - $ref: "#/components/parameters/page"
     responses:
         "200":
             description: Successful
@@ -25,22 +18,20 @@ get:
                                 type: integer
                             next:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=3"
+                                example: "https://see.adiinsights.com/api/teams/?page=3"
                             previous:
                                 type: string
-                                example: "https://see.adiinsights.com/api/locations/552334aa-88aa-41fa-a54f-4f6fddd3a35d/approved/?page=1"
+                                example: "https://see.adiinsights.com/api/teams/?page=1"
                             results:
                                 type: array
                                 items:
-                                    $ref: "#/components/schemas/approved"
+                                    $ref: "#/components/schemas/team"
         "400":
             $ref: "#/components/responses/400"
         "401":
             $ref: "#/components/responses/401"
         "403":
             $ref: "#/components/responses/403"
-        "404":
-            $ref: "#/components/responses/404"
         "429":
             $ref: "#/components/responses/429"
         5XX:

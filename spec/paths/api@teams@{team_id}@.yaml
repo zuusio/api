@@ -1,0 +1,28 @@
+parameters:
+    - $ref: "#/components/parameters/team"
+    - $ref: "#/components/parameters/account"
+get:
+    tags:
+        - Teams
+    summary: Single
+    responses:
+        "200":
+            description: Successful
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/components/schemas/team"
+        "400":
+            $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
+        "403":
+            $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
+        5XX:
+            description: Unexpected Error

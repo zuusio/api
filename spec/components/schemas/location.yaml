@@ -9,6 +9,9 @@ properties:
     name:
         type: string
         example: The coffee bar
+    brand:
+        type: string
+        format: uuid
     timezone:
         type: string
         example: America/New_York

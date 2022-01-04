@@ -5,6 +5,9 @@ get:
     tags:
         - Timesheets
     summary: All at location
+    description: >-
+        Retrieve timesheet shifts. Without any parameters all timesheets from the location for
+        the last 30 days are returned. Filters can be applied to refine the search
     parameters:
         - $ref: "#/components/parameters/greaterThan"
         - $ref: "#/components/parameters/greaterThanOrEqual"

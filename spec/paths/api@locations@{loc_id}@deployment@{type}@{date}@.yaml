@@ -1,0 +1,45 @@
+parameters:
+    - $ref: "#/components/parameters/location"
+    - $ref: "#/components/parameters/account"
+    - in: path
+      name: type
+      required: true
+      schema:
+        type: string
+        enum: [ideal, predicted]
+    - in: path
+      name: date
+      required: true
+      schema:
+        type: string
+        format: date
+        example: "2021-11-21"
+        description: ISO8601 Date (YYYY-MM-DD)
+
+get:
+    tags:
+        - Labour Deployment
+    summary: Labour Deployment
+    description: >-
+        Retrieve predicted or ideal labour deployment for a day.
+    responses:
+        "200":
+            description: Successful
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/components/schemas/deployment"
+        "400":
+            $ref: "#/components/responses/400"
+        "401":
+            $ref: "#/components/responses/401"
+        "403":
+            $ref: "#/components/responses/403"
+        "404":
+            $ref: "#/components/responses/404"
+        "429":
+            $ref: "#/components/responses/429"
+        5XX:
+            description: Unexpected Error
