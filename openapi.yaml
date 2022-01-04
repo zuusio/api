@@ -14,7 +14,7 @@ info:
       <li>60 requests per minute</li>
       <li>10000 requests per day</li>
     </ul>
-  version: 2.0.0
+  version: 2.1.0
   contact:
     email: api@adiinsights.com
   x-logo:
@@ -26,17 +26,22 @@ tags:
     description: Retrieve details about staff.
   - name: Groups
     description: 'Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in Adi.'
-  - name: Term breaks
+  - name: Term Breaks
   - name: Jobs
     description: Jobs are tasks that staff perform at locations.
   - name: Locations
     description: Locations are physical areas that require staff to be stationed.
+  - name: Brands
+    description: Locations are assigned to a brand for standardisation of settings
+  - name: Teams
+    description: A group of jobs used for deployment
   - name: Scheduled Shifts
     description: These are the times that are planned for staff to be at a location.
   - name: Timesheets
     description: These are the recorded times that staff occupied a location.
   - name: Approved Shifts
     description: These are the times that have been approved and will be used in payroll.
+  - name: Labour Deployment
   - name: Leave
     description: Approved leave requests
   - name: Stats
@@ -120,6 +125,74 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/approved'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
+  /api/brands/:
+    parameters:
+      - $ref: '#/components/parameters/account'
+    get:
+      tags:
+        - Brands
+      summary: All
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/brands/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/brands/?page=1'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/brand'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
+  '/api/brands/{brand_id}/':
+    parameters:
+      - $ref: '#/components/parameters/brand'
+      - $ref: '#/components/parameters/account'
+    get:
+      tags:
+        - Brands
+      summary: Single
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/brand'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -497,7 +570,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/location_query'
         - $ref: '#/components/parameters/staff_query'
-        - $ref: '#/components/parameters/overlapping'
         - $ref: '#/components/parameters/greaterThan'
         - $ref: '#/components/parameters/greaterThanOrEqual'
         - $ref: '#/components/parameters/lessThan'
@@ -744,6 +816,7 @@ paths:
       tags:
         - Approved Shifts
       summary: All at location
+      description: 'Retrieve shifts that have been approved by a manager. Without any parameters, all approved shifts from the location for the last 30 days are returned. Filters can be applied to refine the search'
       parameters:
         - $ref: '#/components/parameters/greaterThan'
         - $ref: '#/components/parameters/greaterThanOrEqual'
@@ -781,6 +854,52 @@ paths:
           $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
+  '/api/locations/{loc_id}/deployment/{type}/{date}/':
+    parameters:
+      - $ref: '#/components/parameters/location'
+      - $ref: '#/components/parameters/account'
+      - in: path
+        name: type
+        required: true
+        schema:
+          type: string
+          enum:
+            - ideal
+            - predicted
+      - in: path
+        name: date
+        required: true
+        schema:
+          type: string
+          format: date
+          example: '2021-11-21'
+          description: ISO8601 Date (YYYY-MM-DD)
+    get:
+      tags:
+        - Labour Deployment
+      summary: Labour Deployment
+      description: Retrieve predicted or ideal labour deployment for a day.
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/deployment'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
   '/api/locations/{loc_id}/schedule/':
     parameters:
       - $ref: '#/components/parameters/location'
@@ -789,6 +908,7 @@ paths:
       tags:
         - Scheduled Shifts
       summary: All at location
+      description: 'Retrieve scheduled shifts. Without any parameters, all published scheduled shifts from the location for the last 30 days are returned. Filters can be applied to refine the search'
       parameters:
         - $ref: '#/components/parameters/greaterThan'
         - $ref: '#/components/parameters/greaterThanOrEqual'
@@ -902,7 +1022,7 @@ paths:
       tags:
         - Stats
       summary: All
-      description: 'Retrieve actual (or predicted) sales (or units) for a location. If a date range is not provided, the current weeks stats are returned. Filters can be applied to refine the search'
+      description: 'Retrieve actual (or predicted) sales (or units) for a location. If a date range is not provided, the current day''s stats are returned. Filters can be applied to refine the search'
       parameters:
         - $ref: '#/components/parameters/greaterThan'
         - $ref: '#/components/parameters/greaterThanOrEqual'
@@ -1034,6 +1154,7 @@ paths:
       tags:
         - Timesheets
       summary: All at location
+      description: Retrieve timesheet shifts. Without any parameters all timesheets from the location for the last 30 days are returned. Filters can be applied to refine the search
       parameters:
         - $ref: '#/components/parameters/greaterThan'
         - $ref: '#/components/parameters/greaterThanOrEqual'
@@ -1301,6 +1422,74 @@ paths:
           $ref: '#/components/responses/429'
         5XX:
           description: Unexpected Error
+  /api/teams/:
+    parameters:
+      - $ref: '#/components/parameters/account'
+    get:
+      tags:
+        - Teams
+      summary: All
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/teams/?page=3'
+                  previous:
+                    type: string
+                    example: 'https://see.adiinsights.com/api/teams/?page=1'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/team'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
+  '/api/teams/{team_id}/':
+    parameters:
+      - $ref: '#/components/parameters/team'
+      - $ref: '#/components/parameters/account'
+    get:
+      tags:
+        - Teams
+      summary: Single
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/team'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        5XX:
+          description: Unexpected Error
   /api/term-breaks/:
     parameters:
       - $ref: '#/components/parameters/account'
@@ -1504,6 +1693,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/allowance'
+    brand:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - brand
+        name:
+          type: string
+          description: Brand Name
+          example: Adi Insights
+        uuid:
+          type: string
+          format: uuid
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Adi Location name
+                example: 'Blacktown #1234'
+              uuid:
+                type: string
+                format: uuid
+        teams:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Front of House
+              uuid:
+                type: string
+                format: uuid
     break:
       type: object
       properties:
@@ -1607,6 +1833,25 @@ components:
       format: datetime
       description: ISO 8601 date time with timezone
       example: '2018-08-10T16:45:00+09:30'
+    deployment:
+      type: object
+      properties:
+        start:
+          $ref: '#/components/schemas/datetime'
+        finish:
+          $ref: '#/components/schemas/datetime'
+        team:
+          type: object
+          properties:
+            uuid:
+              type: string
+              format: uuid
+            name:
+              type: string
+              example: Back of House
+        required_hours:
+          type: number
+          example: 2.5
     employmentperiod:
       type: object
       properties:
@@ -1797,6 +2042,9 @@ components:
         name:
           type: string
           example: The coffee bar
+        brand:
+          type: string
+          format: uuid
         timezone:
           type: string
           example: America/New_York
@@ -2297,6 +2545,40 @@ components:
       properties:
         stats_type:
           type: string
+    team:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+            - team
+        name:
+          type: string
+          description: Brand Name
+          example: Front of House
+        uuid:
+          type: string
+          format: uuid
+        brand:
+          type: object
+          properties:
+            uuid:
+              type: string
+              format: uuid
+            name:
+              type: string
+              example: Adi Insights
+        jobs:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Server
+              uuid:
+                type: string
+                format: uuid
     term-break:
       type: object
       properties:
@@ -2447,6 +2729,14 @@ components:
         format: uuid
       description: The id of the batch processor task
       example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    brand:
+      in: path
+      name: brand_id
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 552334aa-88aa-41fa-a54f-4f6fddd3a35d
     employment_status:
       in: query
       name: employment_status
@@ -2463,7 +2753,7 @@ components:
       schema:
         type: string
         format: date
-      description: Return results where the 'start' field is greater than this value.
+      description: Return results where the objects date is greater than this value.
       example: '2019-11-25'
     greaterThanOrEqual:
       in: query
@@ -2472,7 +2762,7 @@ components:
       schema:
         type: string
         format: date
-      description: Return results where the 'start' field is greater than or equal this value.
+      description: Return results where the objects date is greater than or equal this value.
       example: '2019-11-25'
     lessThan:
       in: query
@@ -2481,7 +2771,7 @@ components:
       schema:
         type: string
         format: date
-      description: Return results where the 'start' field is less than this value.
+      description: Return results where the objects date is less than this value.
       example: '2019-11-25'
     lessThanOrEqual:
       in: query
@@ -2490,7 +2780,7 @@ components:
       schema:
         type: string
         format: date
-      description: Return results where the 'start' field is less than or equal this value.
+      description: Return results where the objects date is less than or equal this value.
       example: '2019-11-25'
     location_query:
       in: query
@@ -2575,6 +2865,13 @@ components:
         type: string
         format: uuid
       example: 566166db-6402-4d0f-88ed-259784aaf7dd
+    team:
+      in: path
+      name: team_id
+      required: true
+      schema:
+        type: string
+        format: uuid
     term_breaks_containing:
       in: query
       name: containing
