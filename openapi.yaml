@@ -1495,7 +1495,7 @@ paths:
       - $ref: '#/components/parameters/account'
     get:
       tags:
-        - Term breaks
+        - Term Breaks
       summary: All
       parameters:
         - $ref: '#/components/parameters/page'
@@ -1544,7 +1544,7 @@ paths:
           format: uuid
     get:
       tags:
-        - Term breaks
+        - Term Breaks
       summary: Single
       responses:
         '200':
