@@ -9,7 +9,7 @@ parameters:
 
 get:
     tags:
-        - Term breaks
+        - Term Breaks
     summary: Single
     responses:
         "200":
