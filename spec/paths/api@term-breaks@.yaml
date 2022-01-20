@@ -2,7 +2,7 @@ parameters:
     - $ref: "#/components/parameters/account"
 get:
     tags:
-        - Term breaks
+        - Term Breaks
     summary: All
     parameters:
         - $ref: "#/components/parameters/page"
