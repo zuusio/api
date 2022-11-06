@@ -50,6 +50,8 @@ tags:
     description: Configured integrations with external systems
   - name: Batch Processor
     description: Check the status of a batch processor task. These will often be when the creation of multiple objects has been triggered. The results will be ordered in the same order you submitted them.
+security:
+  - OAuth2: []
 paths:
   /api/accounts/:
     parameters:
