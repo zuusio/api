@@ -1,15 +1,12 @@
 parameters:
     - $ref: "#/components/parameters/staff"
-    - $ref: "#/components/parameters/staff_include"
     - $ref: "#/components/parameters/account"
 
 get:
     tags:
         - Staff
     summary: Single
-    description: >-
-        Retrieve the details of a staff member.<br>
-        Australian financial detail fields (Bank Account, Supperanuation Fund and Tax File Number Declaration) will only be included if specifically requested.
+    description: Retrieve the details of a staff member.
     responses:
         "200":
             description: Successful
@@ -31,37 +28,3 @@ get:
             $ref: "#/components/responses/429"
         5XX:
             description: Unexpected Error
-# put:
-#     tags:
-#         - Staff
-#     summary: Update an individual staff member
-#     requestBody:
-#         required: true
-#         content:
-#             application/json:
-#                 schema:
-#                     $ref: "#/components/schemas/staff"
-#     responses:
-#         "200":
-#             description: Successfully updated staff member's details
-#         "403":
-#             description: Not allowed to update that staff member
-#         "409":
-#             description: Conflict, unable to update
-# patch:
-#     tags:
-#         - Staff
-#     summary: Update particular parts of an individual staff member
-#     requestBody:
-#         required: true
-#         content:
-#             application/json:
-#                 schema:
-#                     $ref: "#/components/schemas/staff"
-#     responses:
-#         "200":
-#             description: Successfully updated staff member's details
-#         "403":
-#             description: Not allowed to update that staff member
-#         "409":
-#             description: Conflict, unable to update
