@@ -1,5 +1,5 @@
 type: oauth2
-description: Adi Insights uses OAuth2 for API access. Authenitcate with the credentials provided by Adi Support (api@adiinsights.com).
+description: SuitePeople WFM uses OAuth2 for API access. Authenticate with the credentials provided by NetSuite Support.
 flows:
   password:
     tokenUrl: /oauth/token/
