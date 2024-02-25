@@ -2,16 +2,16 @@ openapi: 3.0.0
 servers:
     - url: "https://see.adiinsights.com/"
 info:
-    title: Adi Insights
+    title: SuitePeople WFM
     description: >
-        Welcome to the Adi API. Once you have an Adi authorization key, you can use
+        Welcome to the SuitePeople WFM API. Once you have a WFM authorization key, you can use
         this API to access information about staff, locations, jobs and shifts
         (scheduled, timesheets and approved hours). Additionally you can send in 'Point of
         Sales' information.
 
 
         If you are looking for some hands-on access to the API we recommend using Insomnia (https://insomnia.rest/).
-        Within Insomnia you can import the Adi API spec by clicking on the Download Open API specification.
+        Within Insomnia you can import the WFM API spec by clicking on the Download Open API specification.
 
 
         When you are asking for a list of staff, shifts, jobs, locations or anything else available via the API, the response will be paginated.
@@ -20,24 +20,22 @@ info:
 
         ## Rate limits
 
-        Adi has implemented two separate API rate limits. These are calculated per API Partner and Account.
+        WFM has implemented two separate API rate limits. These are calculated per API Partner and Account.
         <ul>
           <li>60 requests per minute</li>
           <li>10000 requests per day</li>
         </ul>
 
     version: 2.1.0
-    contact:
-        email: api@adiinsights.com
     x-logo:
         url: logo.png
 tags:
     - name: Accounts
-      description: A list of Adi accounts you have access to.
+      description: A list of WFM accounts you have access to.
     - name: Staff
       description: Retrieve details about staff.
     - name: Groups
-      description: Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in Adi.
+      description: Staff access groups. <br /> The group marked as default is the group to be applied to all new staff, unless they need higher access in WFM.
     - name: Term Breaks
     - name: Jobs
       description: Jobs are tasks that staff perform at locations.

@@ -5,7 +5,7 @@ properties:
         enum: ["team"]
     name:
         type: string
-        description: Brand Name
+        description: Team Name
         example: Front of House
     uuid:
         type: string
@@ -18,7 +18,7 @@ properties:
                 format: uuid
             name:
                 type: string
-                example: Adi Insights
+                example: SuitePeople WFM Brand
     jobs:
         type: array
         items:

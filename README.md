@@ -1,4 +1,4 @@
-# Adi OpenAPI Specification
+# SuitePeople WFM OpenAPI Specification
 [![Build Status](https://travis-ci.com/zuusio/api.svg?branch=master)](https://travis-ci.com/zuusio/api)
 
 ## Links

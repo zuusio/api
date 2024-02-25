@@ -5,8 +5,8 @@ get:
         - Accounts
     summary: All
     description: >-
-      Retrieve a list of Adi Accounts you have access to. The UUID of the account will need to be provided in the request's header record.
-      A list of active locations and their UUID is included to allow easy mapping if you have access to multiple Adi Accounts.
+      Retrieve a list of WFM Accounts you have access to. The UUID of the account will need to be provided in the request's header record.
+      A list of active locations and their UUID is included to allow easy mapping if you have access to multiple WFM Accounts.
     responses:
         "200":
             description: Successful

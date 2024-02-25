@@ -5,8 +5,8 @@ properties:
         enum: ["account"]
     name:
         type: string
-        description: Adi Account name
-        example: Adi Insights
+        description: WFM Account name
+        example: SuitePeople WFM
     uuid:
         type: string
         format: uuid
@@ -17,7 +17,7 @@ properties:
             properties:
                 name:
                     type: string
-                    description: Adi Location name
+                    description: WFM Location name
                     example: "Blacktown #1234"
                 uuid:
                     type: string
